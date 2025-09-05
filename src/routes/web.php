@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", [MangaController::class, "index"]);
+//
+Route::get('/', [MangaController::class, 'index'])->name('top.index');
