@@ -9,11 +9,11 @@
         <h2 class="section-title">漫画一覧</h2>
         <div class="manga-grid">
             {{-- 新着・おすすめ以外の漫画のデータを表示するループ --}}
-            @if(isset($otherManga))
-                @forelse($otherManga as $manga)
+            @if(isset($contents_all))
+                @forelse($contents_all as $manga_all)
                     <div class="manga-card">
-                        <a href="{{ $manga->affiliateURL }}" target="_blank" rel="noopener noreferrer">
-                            <img src="{{ $manga->imageURL->large }}" alt="{{ $manga->title }}">
+                        <a href="{{ $manga_all->content_url }}" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ $manga->image_url }}" alt="{{ $manga->title }}">
                             <h3>{{ $manga->title }}</h3>
                         </a>
                     </div>

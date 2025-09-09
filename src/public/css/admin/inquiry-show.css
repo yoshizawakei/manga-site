@@ -1,0 +1,79 @@
+.card {
+    background-color: var(--card-background);
+    padding: 3rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 4rem auto;
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.card-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+.detail-group {
+    margin-bottom: 1.5rem;
+}
+
+.detail-label {
+    display: block;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.detail-value {
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: block;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.detail-message {
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    white-space: pre-wrap;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+    }
+
+    .detail-label,
+    .detail-value,
+    .detail-message {
+        font-size: 0.9rem;
+    }
+}

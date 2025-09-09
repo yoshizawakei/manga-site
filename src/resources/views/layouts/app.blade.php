@@ -4,22 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset("css/sanitize.css") }}">
-    <link rel="stylesheet" href="{{ asset("css/common.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/layouts/sanitize.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/layouts/common.css") }}">
     @yield("css")
-    <title>漫画manga</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <title>ドキドキ漫画</title>
 </head>
 
 <body>
     <header>
-        <h1>漫画manga</h1>
-        <nav>
-            <ul>
-                <li><a href="#">ホーム</a></li>
-                <li><a href="#">漫画一覧</a></li>
-                <li><a href="#">漫画を追加</a></li>
-            </ul>
-        </nav>
+        <div class="header-inner">
+            <h1>ドキドキ漫画</h1>
+            <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <nav id="main-nav" class="main-nav">
+                <ul>
+                    <li><a href="#">ホーム</a></li>
+                    <li><a href="#">タグ一覧</a></li>
+                    <li><a href="#">お問合せ</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <div class="main-wrapper">
@@ -36,14 +49,46 @@
 
         <section class="ad-section top-ad-section">
             <div class="ad-grid">
-                <div class="ad-item">広告コード1</div>
-                <div class="ad-item">広告コード2</div>
-                <div class="ad-item">広告コード3</div>
-                <div class="ad-item">広告コード4</div>
-                <div class="ad-item">広告コード1</div>
-                <div class="ad-item">広告コード2</div>
-                <div class="ad-item">広告コード3</div>
-                <div class="ad-item">広告コード4</div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </div>
         </section>
 
@@ -52,12 +97,12 @@
                 <section class="new-releases">
                     <h2 class="section-title">新着・おすすめ作品</h2>
                     <div class="manga-grid">
-                        {{-- 新着・おすすめの漫画のデータを表示するループ --}}
-                        @if(isset($newReleases))
-                            @forelse($newReleases as $manga)
+                        {{-- 新着・おすすめ作品のデータを表示するループ --}}
+                        @if(isset($contents_latest))
+                            @forelse($contents_latest as $manga)
                                 <div class="manga-card">
-                                    <a href="{{ $manga->affiliateURL }}" target="_blank" rel="noopener noreferrer">
-                                        <img src="{{ $manga->imageURL->large }}" alt="{{ $manga->title }}">
+                                    <a href="{{ $manga->content_url }}" target="_blank" rel="noopener noreferrer">
+                                        <img src="{{ $manga->image_url }}" alt="{{ $manga->title }}">
                                         <h3>{{ $manga->title }}</h3>
                                     </a>
                                 </div>
@@ -85,25 +130,92 @@
             <!-- <aside>
                 <div class="ad-section sidebar-ad-section">
                     <div class="ad-grid">
-                        <div class="ad-item">広告コード1</div>
-                        <div class="ad-item">広告コード2</div>
-                        <div class="ad-item">広告コード3</div>
-                        <div class="ad-item">広告コード4</div>
+                        <div class="ad-item">
+                            <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                                crossorigin="anonymous"></script>
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <div class="ad-item">
+                            <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                                crossorigin="anonymous"></script>
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <div class="ad-item">
+                            <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                                crossorigin="anonymous"></script>
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                        <div class="ad-item">
+                            <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                                crossorigin="anonymous"></script>
+                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
                     </div>
                 </div>
             </aside> -->
         </div>
-
         <section class="ad-section bottom-ad-section">
             <div class="ad-grid">
-                <div class="ad-item">広告コード1</div>
-                <div class="ad-item">広告コード2</div>
-                <div class="ad-item">広告コード3</div>
-                <div class="ad-item">広告コード4</div>
-                <div class="ad-item">広告コード1</div>
-                <div class="ad-item">広告コード2</div>
-                <div class="ad-item">広告コード3</div>
-                <div class="ad-item">広告コード4</div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="ad-item">
+                    <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
+                        crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </div>
         </section>
     </div>
@@ -112,6 +224,18 @@
         <p>&copy; {{ date('Y') }} 漫画manga</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+
+            menuToggle.addEventListener('click', () => {
+                // .is-active クラスをトグルする
+                menuToggle.classList.toggle('is-active');
+                mainNav.classList.toggle('is-active');
+            });
+        });
+    </script>
     @yield('scripts')
 
 </body>
