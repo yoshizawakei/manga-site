@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Content;
-
+use App\Models\Tag;
 
 class MangaController extends Controller
 {
     public function index()
     {
-        $contents_latest = Content::orderBy('created_at', 'desc')->take(9)->get();
-
-        $contents_all = Content::orderBy('views', 'desc')->get();
+        $contents_latest = Content::with("tags")->orderBy('created_at', 'desc')->take(12)->get();
+        $contents_all = Content::with("tags")->orderBy('views', 'desc')->paginate(12);
 
         return view("index", compact('contents_latest', 'contents_all'));
     }
-
 }

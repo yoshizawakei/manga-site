@@ -1,8 +1,6 @@
 .other-manga-section {
     padding: 3rem 1rem;
-    /* 左右にパディングを追加して、コンテンツが画面端にくっつくのを防ぎます */
     max-width: 1200px;
-    /* 固定幅を最大幅に変更 */
     margin: 0 auto;
-    /* 左右の余白を自動で調整し、中央に配置します */
 }
+

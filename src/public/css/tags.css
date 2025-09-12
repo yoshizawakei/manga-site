@@ -1,0 +1,35 @@
+.main-content-container {
+    padding: 3rem;
+    background-color: var(--card-background);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+}
+
+.tag-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.tag-list li {
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tag-list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tag-link {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}

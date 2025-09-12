@@ -21,15 +21,15 @@
 <body>
     <header>
         <div class="header-inner">
-            <h1>ドキドキ漫画</h1>
+            <a class="header-h1" href="{{ route("top.index") }}">ドキドキ漫画</a>
             <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
                 <span class="hamburger-icon"></span>
             </button>
             <nav id="main-nav" class="main-nav">
                 <ul>
-                    <li><a href="#">ホーム</a></li>
-                    <li><a href="#">タグ一覧</a></li>
-                    <li><a href="#">お問合せ</a></li>
+                    <li><a href="{{ route("top.index") }}">ホーム</a></li>
+                    <li><a href="{{ route("tags.index") }}">タグ一覧</a></li>
+                    <li><a href="{{ route("top.contact") }}">お問合せ</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,9 +38,10 @@
     <div class="main-wrapper">
         <section class="hero-section">
             <div class="hero-content">
-                <h2>話題の漫画から懐かしの名作まで</h2>
+                <h2>無料で読めるエロ漫画を毎日更新しています！</h2>
                 <p>あなたにぴったりの一冊を見つけよう</p>
-                <form action="#" method="GET" class="search-form-inline">
+                {{-- 検索フォームのactionを修正 --}}
+                <form action="{{ route('search.results') }}" method="GET" class="search-form-inline">
                     <input type="text" name="keyword" placeholder="キーワードを入力して検索" value="{{ request('keyword') }}">
                     <button type="submit">検索</button>
                 </form>
@@ -49,45 +50,34 @@
 
         <section class="ad-section top-ad-section">
             <div class="ad-grid">
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+            </div>
+        </section>
+
+        <section class="ad-section top-ad-section">
+            <div class="ad-grid">
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                </div>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                </div>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
             </div>
         </section>
@@ -95,133 +85,75 @@
         <div class="content-container">
             <main>
                 <section class="new-releases">
+                @if(isset($contents_latest))
                     <h2 class="section-title">新着・おすすめ作品</h2>
                     <div class="manga-grid">
-                        {{-- 新着・おすすめ作品のデータを表示するループ --}}
-                        @if(isset($contents_latest))
-                            @forelse($contents_latest as $manga)
-                                <div class="manga-card">
-                                    <a href="{{ $manga->content_url }}" target="_blank" rel="noopener noreferrer">
-                                        <img src="{{ $manga->image_url }}" alt="{{ $manga->title }}">
-                                        <h3>{{ $manga->title }}</h3>
-                                    </a>
-                                </div>
-                            @empty
-                                <p class="no-results">新着・おすすめ作品が見つかりませんでした。</p>
-                            @endforelse
-                        @else
-                            {{-- APIテストができない場合のダミーデータ --}}
-                            @for ($i = 0; $i < 12; $i++)
-                                <div class="manga-card">
-                                    <a href="#" target="_blank" rel="noopener noreferrer">
-                                        <img src="https://via.placeholder.com/180x250.png?text=Manga+Cover+{{ $i + 1 }}"
-                                            alt="ダミー漫画タイトル{{ $i + 1 }}">
-                                        <h3>ダミー漫画タイトル{{ $i + 1 }}</h3>
-                                    </a>
-                                </div>
-                            @endfor
-                        @endif
+                        @forelse($contents_latest as $manga)
+                            <div class="manga-card">
+                                <a href="{{ $manga->content_url }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{{ $manga->image_url }}" alt="{{ $manga->title }}">
+                                    <!-- <h3>{{ $manga->title }}</h3> -->
+                                    <div class="manga-description">{{ $manga->description }}</div>
+                                    <!-- <div class="manga-tag">
+                                        @foreach ($manga->tags as $tag)
+                                            <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}">#{{ $tag->name }}</a>
+                                        @endforeach
+                                    </div> -->
+                                </a>
+                            </div>
+                        @empty
+                            <p class="no-results">新着作品がありません。</p>
+                        @endforelse
                     </div>
+                @endif
                 </section>
-
                 @yield('content')
             </main>
-
-            <!-- <aside>
-                <div class="ad-section sidebar-ad-section">
-                    <div class="ad-grid">
-                        <div class="ad-item">
-                            <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                                crossorigin="anonymous"></script>
-                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                        <div class="ad-item">
-                            <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                                crossorigin="anonymous"></script>
-                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                        <div class="ad-item">
-                            <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                                crossorigin="anonymous"></script>
-                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                        <div class="ad-item">
-                            <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                                crossorigin="anonymous"></script>
-                            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                                data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                    </div>
-                </div>
-            </aside> -->
         </div>
         <section class="ad-section bottom-ad-section">
             <div class="ad-grid">
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
-                <div class="ad-item">
-                    <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-                        crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                        data-ad-slot="yyyyy" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+            </div>
+        </section>
+
+        <section class="ad-section bottom-ad-section">
+            <div class="ad-grid">
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                </div>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                </div>
+                <div class="ad-item ad-placeholder">
+                    <p>広告準備中</p>
+                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
                 </div>
             </div>
         </section>
     </div>
 
     <footer>
-        <p>&copy; {{ date('Y') }} 漫画manga</p>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="{{ route('top.sitePolicy') }}">サイトポリシー・利用規約</a></li>
+                <li><a href="{{ route("top.disclaimer") }}">免責事項</a></li>
+                <li><a href="{{ route("top.privacyPolicy") }}">個人情報保護方針</a></li>
+            </ul>
+        </nav>
+        <p>&copy; {{ date('Y') }} ドキドキ漫画</p>
     </footer>
 
     <script>
@@ -230,7 +162,6 @@
             const mainNav = document.getElementById('main-nav');
 
             menuToggle.addEventListener('click', () => {
-                // .is-active クラスをトグルする
                 menuToggle.classList.toggle('is-active');
                 mainNav.classList.toggle('is-active');
             });

@@ -3,11 +3,8 @@
 /* ---------------------------------- */
 :root {
     --primary-color: #e53935;
-    /* 大胆な赤色 */
     --secondary-color: #2c3e50;
-    /* 落ち着いた黒に近い色 */
     --accent-color: #ffb300;
-    /* 鮮やかなオレンジ */
     --text-color: #333;
     --light-text-color: #fce4ec;
     --background-color: #f8f8f8;
@@ -43,12 +40,13 @@ header {
     background: linear-gradient(90deg, var(--primary-color) 0%, #d81b60 100%);
     color: var(--light-text-color);
     box-shadow: var(--shadow-light);
-    padding: 1.5rem 0;
     z-index: 100;
+    position: relative;
 }
 
-header h1 {
+.header-h1 {
     margin: 0;
+    color: #fff;
     font-size: 2rem;
     font-weight: 900;
     letter-spacing: 2px;
@@ -104,6 +102,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1.5rem 2rem;
 }
 
 .main-wrapper {
@@ -116,7 +115,40 @@ footer {
     display: flex;
     gap: 3rem;
     flex-wrap: wrap;
-    /* overflow: hidden; や overflow: auto; があれば削除 */
+}
+
+.main-content-container {
+    padding: 3rem;
+    background-color: var(--card-background);
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    line-height: 1.8;
+}
+
+.main-content-container h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 4px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.main-content-container h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.main-content-container ul {
+    margin: 0.7rem 0;
+    padding-left: 2rem;
+}
+
+.main-content-container li {
+    margin-bottom: 0.5rem;
+    list-style-type: '👉 ';
 }
 
 main {
@@ -124,7 +156,6 @@ main {
     min-width: 0;
 }
 
-/* **修正箇所: sticky サイドバー** */
 aside {
     flex: 0 0 300px;
     background-color: var(--card-background);
@@ -132,13 +163,9 @@ aside {
     box-shadow: var(--shadow-light);
     padding: 2.5rem;
     align-self: flex-start;
-    /* flexbox内の要素の上端を揃える */
     position: sticky;
-    /* スクロールに追従させる */
     top: 2rem;
-    /* 画面上部から2remの位置で固定される */
     height: fit-content;
-    /* コンテンツに合わせて高さを調整 */
 }
 
 /* ---------------------------------- */
@@ -229,9 +256,9 @@ aside {
 }
 
 .section-title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
     text-align: center;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
     color: var(--secondary-color);
     font-weight: 800;
     text-transform: uppercase;
@@ -253,7 +280,7 @@ aside {
 .ad-section {
     background-color: var(--card-background);
     padding: 4rem 2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
     border-radius: 16px;
     box-shadow: var(--shadow-light);
     text-align: center;
@@ -286,6 +313,12 @@ aside {
 }
 
 .new-releases {
+    padding: 1rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.other-manga-section {
     padding-top: 4rem;
     padding-bottom: 4rem;
 }
@@ -302,6 +335,8 @@ aside {
     overflow: hidden;
     box-shadow: var(--shadow-light);
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+    display: flex;
+    flex-direction: column;
 }
 
 .manga-card:hover {
@@ -317,16 +352,18 @@ aside {
 
 .manga-card img {
     width: 100%;
-    height: 280px;
-    object-fit: cover;
+    /* height: 280px; */
+    /* object-fit: cover; */
+    height: auto;
+    object-fit: contain;
     display: block;
     border-bottom: 4px solid var(--accent-color);
 }
 
 .manga-card h3 {
     font-size: 1.2rem;
-    margin: 1.5rem 1rem;
-    height: 2.8em;
+    margin: 1rem 1rem 0;
+    height: 2em;
     font-weight: 700;
     overflow: hidden;
     display: -webkit-box;
@@ -335,11 +372,148 @@ aside {
     text-align: center;
 }
 
+.manga-description {
+    font-size: 0.9rem;
+    margin: 0.5rem 1rem 0.5rem;
+    color: #555;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+}
+
+.manga-tag {
+    font-size: 0.8rem;
+    margin: 0.5rem 1rem 1.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
 .no-results {
     text-align: center;
     font-size: 1.4rem;
     color: #888;
     padding: 5rem 0;
+}
+
+/* ---------------------------------- */
+/* ページネーションのスタイル */
+/* ---------------------------------- */
+.pagination-links {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.pagination-links nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-links nav ul li {
+    margin: 0;
+}
+
+.pagination-links nav ul li a,
+.pagination-links nav ul li span {
+    display: block;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 矢印アイコンのサイズ調整 */
+.pagination-links svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    vertical-align: middle;
+    fill: var(--secondary-color);
+}
+
+.pagination-links nav ul li:last-child a,
+.pagination-links nav ul li:last-child span {
+    border-right: 1px solid var(--border-color);
+}
+
+.pagination-links nav ul li.active span {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+    cursor: default;
+}
+
+.pagination-links nav ul li a:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+}
+
+.pagination-links nav ul li:first-child a,
+.pagination-links nav ul li:first-child span {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.pagination-links nav ul li:last-child a,
+.pagination-links nav ul li:last-child span {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.pagination-links nav ul li.disabled span {
+    color: #ccc;
+    background-color: #f4f4f4;
+    cursor: not-allowed;
+}
+
+/* ページネーションの余計な文字列を非表示にする */
+.pagination-links .flex-1.hidden.sm\:flex {
+    display: none;
+}
+
+/* ---------------------------------- */
+/* 広告のプレースホルダーのスタイル */
+/* ---------------------------------- */
+.ad-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.ad-placeholder p {
+    display: block;
+}
+
+.ad-placeholder>iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.ad-placeholder:not(:empty) p {
+    display: none;
 }
 
 /* ---------------------------------- */
@@ -363,7 +537,7 @@ aside {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: var(--primary-color);
+    background-color: var(--light-text-color);
     position: absolute;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
@@ -398,6 +572,155 @@ aside {
     top: 0;
 }
 
+
+/* ---------------------------------- */
+/* フッターのスタイル */
+/* ---------------------------------- */
+footer {
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 2.5rem 0;
+    margin-top: auto;
+}
+
+.footer-nav {
+    margin-bottom: 1.5rem;
+}
+
+.footer-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2rem;
+    /* リンク間のスペース */
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
+    color: var(--light-text-color);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+    color: var(--accent-color);
+}
+
+/* お問い合わせフォームのスタイル */
+.contact-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.2);
+}
+
+.required {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #d81b60;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #388e3c;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.manga-tag {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    justify-content: flex-start;
+    /* これにより、要素が左端に揃えられます */
+    align-items: center;
+
+    font-size: 0.9rem;
+    margin: 0.5rem 1rem 1.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.manga-tag a {
+    /* タグのリンクにスタイルを適用 */
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.manga-tag a:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
 /* ---------------------------------- */
 /* メディアクエリによる詳細な調整 */
 /* ---------------------------------- */
@@ -413,14 +736,38 @@ aside {
         padding: 0 1rem;
     }
 
+    /* ヒーローセクションのモバイル対応 */
     .hero-section {
         padding: 4rem 1.5rem;
         margin: 1rem 0;
         transform: none;
+        border-radius: 0;
     }
 
     .hero-section::before {
         display: none;
+    }
+
+    .hero-content h2 {
+        font-size: 2rem;
+        word-break: keep-all;
+        hyphens: auto;
+    }
+
+    .search-form-inline {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-form-inline input[type="text"] {
+        padding: 1rem 1.2rem;
+        font-size: 1rem;
+    }
+
+    .search-form-inline button {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+        width: 100%;
     }
 
     .section-title {
@@ -433,9 +780,11 @@ aside {
         gap: 2rem;
     }
 
+    /* ヘッダーのモバイル対応 */
     .header-inner {
         flex-direction: row;
         justify-content: space-between;
+        padding: 1rem;
     }
 
     .menu-toggle {
@@ -443,7 +792,7 @@ aside {
     }
 
     .main-nav {
-        display: none !important;
+        display: none;
         position: absolute;
         top: 100%;
         left: 0;
@@ -451,51 +800,91 @@ aside {
         background-color: var(--secondary-color);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 1rem 0;
+        z-index: 15;
     }
 
     .main-nav.is-active {
-        display: block !important;
+        display: block;
     }
 
-    .main-nav.is-active ul {
+    .main-nav ul {
         flex-direction: column;
         gap: 0;
     }
 
-    .main-nav.is-active li {
+    .main-nav li {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .main-nav.is-active a {
+    .main-nav a {
         display: block;
         padding: 1rem 2rem;
         color: var(--light-text-color);
     }
 
-    .main-nav.is-active a::after {
+    .main-nav a::after {
         content: none;
     }
 
+    /* 主要コンテンツのレイアウトを修正 */
     .content-container {
         flex-direction: column;
         gap: 2rem;
+    }
+
+    main {
+        flex: auto;
+        /* mainを自動で調整 */
     }
 
     aside {
         width: 100%;
         flex: auto;
         position: static;
-        /* モバイルでは固定を解除 */
+        /* positionをstaticに戻す */
     }
 
     .ad-section,
-    .new-releases {
+    .new-releases,
+    .other-manga-section {
         padding: 3rem 1rem;
         margin-bottom: 3rem;
     }
+
+    /* メインコンテンツコンテナのモバイル対応 */
+    .main-content-container {
+        padding: 2rem 1rem;
+        border-radius: 8px;
+    }
+
+    /* モバイルでのページネーション調整 */
+    .pagination-links nav ul {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        box-shadow: none;
+    }
+
+    .pagination-links nav ul li {
+        margin: 0 0.2rem;
+    }
+
+    .pagination-links nav ul li a,
+    .pagination-links nav ul li span {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        border-radius: 4px;
+    }
+
+    .pagination-links nav ul li:first-child a,
+    .pagination-links nav ul li:last-child a,
+    .pagination-links nav ul li:first-child span,
+    .pagination-links nav ul li:last-child span {
+        border-radius: 4px;
+    }
 }
 
-/* PC画面 (769px以上) */
 @media (min-width: 769px) {
     .main-nav {
         display: block !important;

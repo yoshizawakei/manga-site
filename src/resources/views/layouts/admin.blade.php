@@ -13,15 +13,15 @@
 <body>
     <header>
         <div class="header-inner">
-            <h1>ドキドキ漫画</h1>
+            <a class="header-h1" href="{{ route("top.index") }}">ドキドキ漫画</a>
             <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false">
                 <span class="hamburger-icon"></span>
             </button>
             <nav id="main-nav" class="main-nav">
                 <ul>
-                    <li><a href="#">ホーム</a></li>
-                    <li><a href="#">タグ一覧</a></li>
-                    <li><a href="#">お問合せ</a></li>
+                    <li><a href="{{ route("top.index") }}">ホーム</a></li>
+                    <li><a href="{{ route("tags.index") }}">タグ一覧</a></li>
+                    <li><a href="{{ route("top.contact") }}">お問合せ</a></li>
                 </ul>
             </nav>
         </div>
@@ -32,7 +32,14 @@
     </main>
 
     <footer>
-        <p>&copy; {{ date('Y') }} 漫画manga</p>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="{{ route('top.sitePolicy') }}">サイトポリシー・利用規約</a></li>
+                <li><a href="{{ route("top.disclaimer") }}">免責事項</a></li>
+                <li><a href="{{ route("top.privacyPolicy") }}">個人情報保護方針</a></li>
+            </ul>
+        </nav>
+        <p>&copy; {{ date('Y') }} ドキドキ漫画</p>
     </footer>
 
     <script>

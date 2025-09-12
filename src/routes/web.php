@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +18,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//MangaController関連のルート設定
+//  トップページ
 Route::get('/', [MangaController::class, 'index'])->name('top.index');
+
+// お問い合わせ関連
+Route::get("/contact", [ContactController::class, "showForm"])->name("top.contact");
+Route::post("/contact", [ContactController::class, "submitForm"])->name("top.submitContact");
+
+// 静的ページ関連
+Route::get("/site-policy", [PageController::class, "sitePolicy"])->name("top.sitePolicy");
+Route::get("/disclaimer", [PageController::class, "disclaimer"])->name("top.disclaimer");
+Route::get("/privacy-policy", [PageController::class, "privacyPolicy"])->name("top.privacyPolicy");
+
+// タグ関連
+Route::get("/tags", [TagController::class, "index"])->name("tags.index");
+// タグ詳細ページ (タグ名で表示)
+Route::get("/tags/{tagName}", [TagController::class, "show"])->name("tags.show");
+// 検索結果ページ (検索クエリで表示)
+Route::get('/search', [TagController::class, 'show'])->name('search.results');
+
 
 
 
@@ -43,4 +63,4 @@ Route::put('/admin/index/{content}', [AdminController::class, 'update'])->name('
 Route::delete('/admin/index/{content}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 // お問い合わせ詳細画面を表示するルート
-Route::get('/admin/inquiries/{inquiry}', [AdminController::class, 'showInquiry'])->name('admin.inquiries.show');
+Route::get('/admin/inquiries/{inquiry}', [ContactController::class, 'showInquiry'])->name('admin.inquiries.show');

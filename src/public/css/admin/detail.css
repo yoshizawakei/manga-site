@@ -1,0 +1,98 @@
+/*=====================================
+  お問い合わせ詳細ページのスタイル
+=====================================*/
+.inquiry-show-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 16px;
+    /* 他のページと統一 */
+    box-shadow: var(--shadow-light);
+    padding: 2.5rem;
+    /* 他のページと統一 */
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.card-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+.detail-group {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    /* 変数を使用 */
+}
+
+.detail-label {
+    font-weight: bold;
+    color: var(--text-color);
+    min-width: 150px;
+    font-size: 1.1rem;
+}
+
+.detail-value {
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.full-width-group {
+    display: block;
+}
+
+.detail-message {
+    background-color: var(--background-color);
+    /* 変数を使用 */
+    border: 1px solid var(--border-color);
+    /* 変数を使用 */
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    /* 変数を使用 */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.back-button-container {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.btn-secondary {
+    background-color: #bdc3c7;
+    color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
