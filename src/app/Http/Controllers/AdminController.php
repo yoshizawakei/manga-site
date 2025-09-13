@@ -11,7 +11,53 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    // ... 既存のメソッド (login, logout, authenticate) はそのまま
+    /**
+     * 管理者ログインフォームを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function login()
+    {
+        return view('admin.login');
+    }
+
+    /**
+     * 管理者認証を処理
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        throw ValidationException::withMessages([
+            'email' => ['提供された資格情報は記録と一致しません。'],
+        ]);
+    }
+
+    /**
+     * 管理者をログアウトさせる
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login');
+    }
 
     /**
      * コンテンツ登録フォームを表示
