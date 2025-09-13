@@ -51,33 +51,38 @@
         <section class="ad-section top-ad-section">
             <div class="ad-grid">
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
-                </div>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
             </div>
         </section>
 
         <section class="ad-section top-ad-section">
             <div class="ad-grid">
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
             </div>
         </section>
@@ -136,16 +141,19 @@
         <section class="ad-section bottom-ad-section">
             <div class="ad-grid">
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
             </div>
         </section>
@@ -153,16 +161,19 @@
         <section class="ad-section bottom-ad-section">
             <div class="ad-grid">
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <p>広告準備中</p>
-                    <script type="text/javascript" src="https://adm.shinobi.jp/s/xxxxxxxxxxxxxx" async></script>
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <!-- admax -->
                 </div>
             </div>
         </section>
