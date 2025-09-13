@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
-@section("css")
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-@endsection
-
 @section('content')
     <section class="other-manga-section">
         <h2 class="section-title">漫画一覧</h2>
         <div class="manga-grid">
             @if(isset($contents_all))
-                @foreach($contents_all as $manga_all)
+                @forelse($contents_all as $manga_all)
                     <div class="manga-card">
                         <a href="{{ $manga_all->content_url }}" target="_blank" rel="noopener noreferrer">
                             <img src="{{ $manga_all->image_url }}" alt="{{ $manga_all->title }}">
@@ -22,7 +18,32 @@
                             </div> -->
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="manga-card">
+                        <a href="#">
+                            <img src="#" alt="ここに画像が入ります">
+                            <div class="manga-description">ここに商品紹介が入ります。</div>
+                        </a>
+                    </div>
+                    <div class="manga-card">
+                        <a href="#">
+                            <img src="#" alt="ここに画像が入ります">
+                            <div class="manga-description">ここに商品紹介が入ります。</div>
+                        </a>
+                    </div>
+                    <div class="manga-card">
+                        <a href="#">
+                            <img src="#" alt="ここに画像が入ります">
+                            <div class="manga-description">ここに商品紹介が入ります。</div>
+                        </a>
+                    </div>
+                    <div class="manga-card">
+                        <a href="#">
+                            <img src="#" alt="ここに画像が入ります">
+                            <div class="manga-description">ここに商品紹介が入ります。</div>
+                        </a>
+                    </div>
+                @endforelse
             @endif
         </div>
 

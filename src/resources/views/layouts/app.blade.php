@@ -102,7 +102,30 @@
                                 </a>
                             </div>
                         @empty
-                            <p class="no-results">新着作品がありません。</p>
+                            <div class="manga-card">
+                                <a href="#">
+                                    <img src="#" alt="ここに画像が入ります">
+                                    <div class="manga-description">ここに商品紹介が入ります。</div>
+                                </a>
+                            </div>
+                            <div class="manga-card">
+                                <a href="#">
+                                    <img src="#" alt="ここに画像が入ります">
+                                    <div class="manga-description">ここに商品紹介が入ります。</div>
+                                </a>
+                            </div>
+                            <div class="manga-card">
+                                <a href="#">
+                                    <img src="#" alt="ここに画像が入ります">
+                                    <div class="manga-description">ここに商品紹介が入ります。</div>
+                                </a>
+                            </div>
+                            <div class="manga-card">
+                                <a href="#">
+                                    <img src="#" alt="ここに画像が入ります">
+                                    <div class="manga-description">ここに商品紹介が入ります。</div>
+                                </a>
+                            </div>
                         @endforelse
                     </div>
                 @endif

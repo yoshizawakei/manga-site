@@ -17,7 +17,7 @@
 
 .tag-list li {
     background-color: var(--secondary-color);
-    border-radius: 20px;
+    border-radius: 15px;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -27,9 +27,8 @@
 }
 
 .tag-link {
-    display: block;
     padding: 0.8rem 1.5rem;
     color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    font-size: 0.8rem;
 }
