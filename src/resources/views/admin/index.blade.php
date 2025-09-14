@@ -7,11 +7,14 @@
 @section("content")
     <div class="container">
         <h1 class="contents-h1">コンテンツ作成</h1>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.contents.store") }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="title">タイトル</label>
-                <input type="text" id="title" name="title" class="form-control" required>
+                <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
+                @error('title')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="description">説明</label>
@@ -26,8 +29,8 @@
                 <input type="text" id="content_url" name="content_url" class="form-control">
             </div>
             <div class="form-group">
-                <label for="tag">タグ</label>
-                <input type="text" id="tag" name="tag" class="form-control">
+                <label for="tag">タグ（カンマ区切りで入力）</label>
+                <textarea id="tag" name="tag" class="form-control" rows="2" placeholder="例: PHP, Laravel, Web開発"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">作成</button>
         </form>

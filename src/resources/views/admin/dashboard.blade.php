@@ -18,8 +18,8 @@
         <section class="dashboard-section">
             <div class="section-header">
                 <h2>登録コンテンツ一覧</h2>
-                {{-- コンテンツ作成ルート名を admin.create に変更 --}}
-                <a href="{{ route('admin.index') }}" class="btn btn-primary">コンテンツを追加</a>
+                {{-- コンテンツ作成ルート名を admin.create から admin.contents.create に変更 --}}
+                <a href="{{ route('admin.contents.create') }}" class="btn btn-primary">コンテンツを追加</a>
             </div>
             <div class="table-responsive">
                 <table class="dashboard-table">
@@ -47,8 +47,8 @@
                                 </td>
                                 <td>{{ $content->created_at->format('Y/m/d') }}</td>
                                 <td class="action-buttons">
-                                    <a href="{{ route('admin.edit', ['content' => $content->id]) }}" class="btn btn-edit">編集</a>
-                                    <form action="{{ route('admin.destroy', ['content' => $content->id]) }}" method="POST"
+                                    <a href="{{ route('admin.contents.edit', ['content' => $content->id]) }}" class="btn btn-edit">編集</a>
+                                    <form action="{{ route('admin.contents.destroy', ['content' => $content->id]) }}" method="POST"
                                         onsubmit="return confirm('本当に削除しますか？');" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -110,5 +110,7 @@
                 </table>
             </div>
         </section>
+        
+        <a href="{{ route("admin.contents.create") }}"></a>
     </div>
 @endsection

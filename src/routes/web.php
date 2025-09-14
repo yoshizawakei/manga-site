@@ -38,35 +38,30 @@ Route::get("/tags/{tagName}", [TagController::class, "show"])->name("tags.show")
 Route::get('/search', [TagController::class, 'show'])->name('search.results');
 
 
-
-
+// ---
 // AdminController関連のルート設定
+// 認証が必要ないルート (ログイン・ログアウト)
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 Route::post('/admin/authenticate', [AdminController::class, 'authenticate'])->name('admin.authenticate');
-
-// ログインが必要なルートグループ
-Route::middleware(['auth'])->group(function () {
-    // ここに認証が必要なルートを追加
-    // コンテンツ作成フォームを表示するルート
-    Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
-
-    // コンテンツを新規作成するルート (POST)
-    Route::post("/admin/index", [AdminController::class, "store"])->name("admin.store");
-
-    // ダッシュボードを表示するルート (コンテンツ一覧を含む)
-    Route::get("/admin/dashboard", [AdminController::class, "dashboard"])->name("admin.dashboard");
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 
-    // 編集フォームを表示・更新するルート
-    Route::get('/admin/index/{content}', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/admin/index/{content}', [AdminController::class, 'update'])->name('admin.update');
+// ---
+// 認証が必要な管理者ルートのグループ化
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
-    // 削除するルート
-    Route::delete('/admin/index/{content}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    // ダッシュボード
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // お問い合わせ詳細画面を表示するルート
-    Route::get('/admin/inquiries/{inquiry}', [ContactController::class, 'showInquiry'])->name('admin.inquiries.show');
+    // コンテンツ管理（リソースフルルート）
+    // 'create', 'store', 'edit', 'update', 'destroy' の各アクションに対応
+    // 'index' アクションはダッシュボードとして利用
+    Route::get('/contents/create', [AdminController::class, 'create'])->name('contents.create');
+    Route::post('/contents', [AdminController::class, 'store'])->name('contents.store');
+    Route::get('/contents/{content}/edit', [AdminController::class, 'edit'])->name('contents.edit');
+    Route::put('/contents/{content}', [AdminController::class, 'update'])->name('contents.update');
+    Route::delete('/contents/{content}', [AdminController::class, 'destroy'])->name('contents.destroy');
+
+    // お問い合わせ管理
+    Route::get('/inquiries/{inquiry}', [AdminController::class, 'showInquiry'])->name('inquiries.show');
 });
-
-

@@ -15,13 +15,10 @@ class Content extends Model
         'description',
         'image_url',
         'content_url',
-        'tag',
     ];
 
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
-
-
 }

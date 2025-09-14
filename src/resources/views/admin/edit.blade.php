@@ -7,7 +7,7 @@
 @section("content")
     <div class="container">
         <h1>コンテンツ編集</h1>
-        <form action="{{ route('admin.update', ['content' => $content->id]) }}" method="POST"
+        <form action="{{ route('admin.contents.update', ['content' => $content->id]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -37,5 +37,7 @@
             </div>
             <button type="submit" class="btn btn-primary">更新</button>
         </form>
+
+        <a href="{{ route('admin.dashboard') }}">ダッシュボードへ</a>
     </div>
 @endsection

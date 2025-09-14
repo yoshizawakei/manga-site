@@ -41,6 +41,9 @@
                 <span class="detail-label">受信日時:</span>
                 <span class="detail-value">{{ $inquiry->created_at->format('Y/m/d H:i') }}</span>
             </div>
+
+            <div class="back-button-container">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">ダッシュボードに戻る</a>
         </div>
     </div>
 @endsection
