@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="{{ asset("css/layouts/common.css") }}">
     @yield("css")
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43VEPFSJSE"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-43VEPFSJSE');
     </script>
     <title>ドキドキ漫画</title>
 </head>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="ad-item ad-placeholder">
                     <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
                     <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
@@ -67,25 +67,10 @@
             </div>
         </section>
 
-        <section class="ad-section top-ad-section">
-            <div class="ad-grid">
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-            </div>
-        </section>
+        <!-- admax -->
+        <script src="https://adm.shinobi.jp/s/65c86dec891067fdd7176002a8ef3181"></script>
+        <!-- admax -->
+
 
         <div class="content-container">
             <main>
@@ -142,38 +127,17 @@
             <div class="ad-grid">
                 <div class="ad-item ad-placeholder">
                     <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
+                    <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
                     <!-- admax -->
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
+                    <a rel="noopener sponsored"
+                        href="https://dlaf.jp/home/dlaf/=/aid/dokidoki_manga/url/https%3A%2F%2Fwww.dlsite.com%2Fhome%2F%3Futm_medium%3Daffiliate%26utm_campaign%3Dbnlink%26utm_content%3Dbn_sp_300_250_dojin_01.jpg"
+                        target="_blank"><img src="https://www.dlsite.com/img/female/dojin/bn_sp_300_250_dojin_01.jpg"
+                            alt="同人誌、同人ゲーム、同人ソフトのダウンロードショップ - DLsite" width="300" height="250" border="0" /></a>
                 </div>
                 <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-            </div>
-        </section>
-
-        <section class="ad-section bottom-ad-section">
-            <div class="ad-grid">
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
-                </div>
-                <div class="ad-item ad-placeholder">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/fa7cbef13ddc5c22247148b33c48a7a6"></script>
-                    <!-- admax -->
+                    <a rel="noopener sponsored" href="https://dlaf.jp/home/dlaf/=/aid/dokidoki_manga/url/https%3A%2F%2Fwww.dlsite.com%2Fhome%2F%3Futm_medium%3Daffiliate%26utm_campaign%3Dbnlink%26utm_content%3Dbn_sp_300_250_dojin_01.jpg" target="_blank"><img src="https://www.dlsite.com/img/male/dojin/bn_sp_300_250_dojin_01.jpg" alt="同人誌、同人ゲーム、同人ソフトのダウンロードショップ - DLsite" width="300" height="250" border="0" /></a>
                 </div>
             </div>
         </section>

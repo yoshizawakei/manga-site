@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="{{ asset("css/layouts/sanitize.css") }}">
     <link rel="stylesheet" href="{{ asset("css/layouts/common.css") }}">
     @yield("css")
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43VEPFSJSE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-43VEPFSJSE');
+    </script>
     <title>ドキドキ漫画</title>
 </head>
 

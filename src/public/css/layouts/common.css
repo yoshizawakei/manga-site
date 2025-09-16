@@ -397,10 +397,10 @@ aside {
 
 .manga-card img {
     width: 100%;
-    height: 280px;
-    object-fit: cover;
-    /* height: auto;
-    object-fit: contain; */
+    /* height: 280px; */
+    /* object-fit: cover; */
+    height: auto;
+    object-fit: contain;
     display: block;
     border-bottom: 4px solid var(--accent-color);
 }

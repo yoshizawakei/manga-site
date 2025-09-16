@@ -16,8 +16,8 @@ class AdminController extends Controller
         return $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image_url' => 'nullable|url',
-            'content_url' => 'required|url',
+            'image_url' => 'nullable',
+            'content_url' => 'required',
             'tag' => 'nullable|string',
         ]);
     }
