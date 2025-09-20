@@ -414,12 +414,12 @@ aside {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    text-align: center;
+    text-align: left;
 }
 
 .manga-description {
     font-size: 0.9rem;
-    margin: 0.5rem 1rem 0.5rem;
+    margin: 0 1rem 0.5rem;
     color: #555;
     line-height: 1.4;
     overflow: hidden;
@@ -870,6 +870,14 @@ aside {
     .main-content-container {
         padding: 2rem 1rem;
         border-radius: 8px;
+    }
+
+    .manga-card h3 {
+        font-size: 0.9rem;
+    }
+
+    .manga-description {
+        font-size: 0.7rem;
     }
 
     /* タグのモバイル対応 */

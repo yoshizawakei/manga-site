@@ -11,7 +11,7 @@ class MangaController extends Controller
     public function index()
     {
         $contents_latest = Content::with("tags")->orderBy('created_at', 'desc')->take(12)->get();
-        $contents_all = Content::with("tags")->orderBy('views', 'desc')->paginate(12);
+        $contents_all = Content::with("tags")->inRandomOrder()->paginate(12);
 
         return view("index", compact('contents_latest', 'contents_all'));
     }

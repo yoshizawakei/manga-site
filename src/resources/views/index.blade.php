@@ -9,7 +9,7 @@
                     <div class="manga-card">
                         <a href="{{ $manga_all->content_url }}" target="_blank" rel="noopener noreferrer">
                             <img src="{{ $manga_all->image_url }}" alt="{{ $manga_all->title }}">
-                            <!-- <h3>{{ $manga_all->title }}</h3> -->
+                            <h3>{{ $manga_all->title }}</h3>
                             <div class="manga-description">{{ $manga_all->description }}</div>
                             <!-- <div class="manga-tag">
                                 @foreach ($manga_all->tags as $tag)
