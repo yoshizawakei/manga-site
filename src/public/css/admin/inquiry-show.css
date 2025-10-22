@@ -1,79 +1,108 @@
+/*
+ * ファイル: css/detail-card-generic.css (汎用的な詳細カードのスタイル)
+ * 目的: クールなダークテーマに合わせた詳細表示カードのスタイル定義 (Bootstrap 5 統合)
+ */
+
+/* ====================================
+   1. カード全体のスタイル
+   ==================================== */
 .card {
-    background-color: var(--card-background);
-    padding: 3rem;
-    width: 100%;
+    /* HTML側で .bg-dark .shadow-lg .rounded-3 が適用されていることを想定 */
+    /* ここでは、カスタムテーマの変数を適用して見た目を統一 */
+    background-color: var(--card-background, #1E1E1E) !important;
+    padding: 2.5rem !important;
     max-width: 800px;
-    margin: 4rem auto;
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
+    margin: 3rem auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--border-color, #333333) !important;
 }
 
+/* ====================================
+   2. タイトルと見出し
+   ==================================== */
 .card-title {
+    /* HTML側で fs-3 や fw-bold が適用されていることを想定 */
     font-size: 2rem;
-    font-weight: 800;
-    color: var(--secondary-color);
-    text-align: center;
+    font-weight: 700;
+    color: var(--primary-color, #BB86FC);
+    /* 紫 */
+    text-align: left;
+    /* 一般的なデザインとして左寄せに */
     margin-bottom: 2rem;
-    position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--secondary-color, #03DAC6);
+    /* シアンのライン */
 }
 
+/* タイトルの下線カスタムを無効化（Bootstrapの border-bottom を優先）
+   HTML側で ::after を使わないシンプルな構造を推奨します */
+/*
 .card-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary-color);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
+    content: none !important;
 }
+*/
 
-.detail-group {
-    margin-bottom: 1.5rem;
-}
+/* ====================================
+   3. 詳細グループと値
+   ==================================== */
 
+/* ラベルのスタイル (HTML側で .form-label や .d-block が適用されていることを想定) */
 .detail-label {
-    display: block;
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--secondary-color, #03DAC6);
+    /* シアンを強調色に */
     margin-bottom: 0.5rem;
     font-size: 1rem;
 }
 
+/* 値のコンテナスタイル (HTML側で .p-3 .rounded が適用されていることを想定) */
 .detail-value {
-    background-color: var(--background-color);
+    background-color: #242424;
+    /* カード背景より濃い色 */
     padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    display: block;
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #444444);
     font-size: 1rem;
-    color: var(--text-color);
+    color: var(--text-color, #EEEEEE);
+    word-break: break-word;
+    /* 長い文字列の折り返し */
 }
 
+/* メッセージ/本文エリア */
 .detail-message {
-    background-color: var(--background-color);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+    background-color: #242424;
+    padding: 1.25rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #444444);
     white-space: pre-wrap;
+    /* 改行を保持 */
     font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-color);
+    line-height: 1.8;
+    color: var(--text-color, #EEEEEE);
 }
 
-@media (max-width: 576px) {
+/* ====================================
+   4. レスポンシブデザイン
+   ==================================== */
+@media (max-width: 768px) {
     .card {
-        padding: 2rem;
-        margin: 2rem auto;
+        padding: 1.5rem !important;
+        margin: 2rem auto !important;
     }
 
     .card-title {
-        font-size: 1.8rem;
+        font-size: 1.75rem;
     }
 
     .detail-label,
     .detail-value,
     .detail-message {
         font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    .detail-message {
+        line-height: 1.6;
     }
 }

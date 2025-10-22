@@ -1,98 +1,135 @@
-/*=====================================
-  お問い合わせ詳細ページのスタイル
-=====================================*/
+/*
+ * ファイル: css/admin/detail.css (または inquiry-show.css)
+ * 目的: 管理者 お問い合わせ詳細ページのスタイル定義 (Bootstrap 5 & Dark Theme 統合)
+ */
+
+/* ====================================
+   1. グローバルレイアウト
+   ==================================== */
 .inquiry-show-container {
-    max-width: 900px;
+    max-width: 800px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
 
-.card {
-    background-color: var(--card-background);
-    border-radius: 16px;
-    /* 他のページと統一 */
-    box-shadow: var(--shadow-light);
-    padding: 2.5rem;
-    /* 他のページと統一 */
+/* カード全体のスタイル (.detail-card に対応) */
+.detail-card {
+    background-color: var(--card-background, #1E1E1E);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    padding: 2rem 2.5rem;
+    border: 1px solid var(--border-color, #333333);
 }
 
-.card-title {
+/* ====================================
+   2. タイトルと見出し
+   ==================================== */
+.detail-card h1 {
     font-size: 2rem;
-    font-weight: 800;
-    color: var(--secondary-color);
-    text-align: center;
+    font-weight: 700;
+    /* プライマリカラーとセカンダリカラーを組み合わせたデザイン */
+    color: var(--primary-color, #BB86FC);
+    /* 紫 */
+    text-align: left;
+    /* 左寄せに変更 */
     margin-bottom: 2rem;
-    position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--secondary-color, #03DAC6);
+    /* シアン */
 }
 
-.card-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary-color);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-}
+/* ====================================
+   3. 詳細グループと値
+   ==================================== */
 
+/* HTML側で .row と .mb-3 に置き換えたため、このCSSは使用しないが、Bootstrapを補助するスタイルとして定義 */
 .detail-group {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-    /* 変数を使用 */
+    /* Bootstrapのmb-3, row, align-items-baseline で代用 */
 }
 
 .detail-label {
     font-weight: bold;
-    color: var(--text-color);
-    min-width: 150px;
-    font-size: 1.1rem;
-}
-
-.detail-value {
-    color: var(--text-color);
+    color: var(--secondary-color, #03DAC6);
+    /* シアンを強調色に */
+    min-width: 140px;
+    /* 幅を確保 */
     font-size: 1rem;
 }
 
-.full-width-group {
-    display: block;
+.detail-value {
+    color: var(--text-color, #EEEEEE);
+    font-size: 1rem;
+    word-break: break-word;
 }
 
+/* メッセージ表示エリア */
 .detail-message {
-    background-color: var(--background-color);
-    /* 変数を使用 */
-    border: 1px solid var(--border-color);
-    /* 変数を使用 */
+    background-color: #242424;
+    /* 背景色をカードより少し濃く */
+    border: 1px solid var(--border-color, #444444);
     border-radius: 8px;
     padding: 1.5rem;
-    margin-top: 1rem;
     line-height: 1.8;
-    color: var(--text-color);
-    /* 変数を使用 */
+    color: var(--text-color, #EEEEEE);
     white-space: pre-wrap;
-    word-wrap: break-word;
+    font-family: inherit;
+    /* フォントを親要素から継承 */
 }
 
+/* ====================================
+   4. ボタンとアクション
+   ==================================== */
 .back-button-container {
-    text-align: center;
-    margin-top: 2.5rem;
+    /* HTML側で text-end や pt-3 が適用されていることを想定 */
+    margin-top: 2rem;
 }
 
-.btn-secondary {
-    background-color: #bdc3c7;
-    color: var(--secondary-color);
+/* btn-secondary の代わりに btn-info (シアン系) を使用する想定 */
+.btn-info {
+    /* Bootstrapのbtn-infoをベースにカスタム */
+    background-color: var(--secondary-color, #0DCAF0);
+    /* シアン */
+    color: #121212;
     padding: 0.75rem 1.5rem;
-    border-radius: 40px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-secondary:hover {
+.btn-info:hover {
+    background-color: #00BFFF;
+    /* 明るいシアン */
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ====================================
+   5. レスポンシブデザイン
+   ==================================== */
+@media (max-width: 768px) {
+    .inquiry-show-container {
+        padding: 0 0.5rem;
+    }
+
+    .detail-card {
+        padding: 1.5rem;
+    }
+
+    .detail-card h1 {
+        font-size: 1.75rem;
+        text-align: center;
+    }
+
+    .detail-label {
+        min-width: 100px;
+        /* モバイルでの最小幅を調整 */
+    }
+
+    .detail-message {
+        padding: 1rem;
+    }
 }

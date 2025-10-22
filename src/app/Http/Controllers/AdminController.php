@@ -14,7 +14,7 @@ class AdminController extends Controller
     private function validateContentData(Request $request)
     {
         return $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:contents',
             'description' => 'required|string',
             'image_url' => 'nullable',
             'content_url' => 'required',

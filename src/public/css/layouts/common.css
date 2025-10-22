@@ -1,34 +1,45 @@
-/* ---------------------------------- */
-/* サイト全体の共通スタイル */
-/* ---------------------------------- */
+/* ------------------------------------------------ */
+/* サイト全体の共通スタイル (DARK THEME ADAPTATION for Bootstrap) */
+/* ------------------------------------------------ */
 :root {
-    --primary-color: #e53935;
-    --secondary-color: #2c3e50;
-    --accent-color: #ffb300;
-    --text-color: #333;
-    --light-text-color: #fce4ec;
-    --background-color: #f8f8f8;
-    --card-background: #ffffff;
-    --border-color: #e0e0e0;
-    --shadow-light: 0 6px 16px rgba(0, 0, 0, 0.1);
-    --shadow-heavy: 0 12px 32px rgba(0, 0, 0, 0.25);
+    /* カラー変数をダークテーマに合うように調整 */
+    --primary-color: #BB86FC;
+    /* 紫: クールなアクセント */
+    --secondary-color: #03DAC6;
+    /* シアン: サブアクセント */
+    --accent-color: #FFC107;
+    /* 黄色: アラート・強調 */
+    --text-color: #E0E0E0;
+    /* 明るいテキスト */
+    --light-text-color: #121212;
+    /* ヘッダー内のダークテキスト */
+    --background-color: #121212;
+    /* 濃い背景 (bodyのbg-darkと連携) */
+    --card-background: #1E1E1E;
+    /* カードの背景 (bg-secondaryと連携) */
+    --border-color: #333333;
+    /* 境界線 */
+    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-heavy: 0 10px 20px rgba(0, 0, 0, 0.8);
+
+    /* Bootstrapのカスタムプロパティを上書き (デザインの一貫性のため) */
+    --bs-body-bg: var(--background-color);
+    --bs-body-color: var(--text-color);
+    --bs-primary: var(--primary-color);
+    --bs-secondary: var(--secondary-color);
 }
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.7;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    /* Bootstrapのクラスに任せるため、margin/padding/flex-directionを削除 */
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
 }
 
 a {
     text-decoration: none;
-    color: var(--accent-color);
+    color: var(--secondary-color);
     transition: color 0.2s ease-in-out;
 }
 
@@ -36,921 +47,202 @@ a:hover {
     color: var(--primary-color);
 }
 
-/* ヘッダーの基本スタイル (PC向け) */
-header {
-    background: linear-gradient(90deg, var(--primary-color) 0%, #d81b60 100%);
-    color: var(--light-text-color);
-    box-shadow: var(--shadow-light);
-    z-index: 100;
-    position: relative;
-    /* 子要素のabsolute基準点とする */
-}
-
-.header-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.5rem 2rem;
-    display: flex;
-    /* header-innerにflexboxを適用 */
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    /* main-navのabsolute基準点 */
+/* ---------------------------------- */
+/* ヘッダーのスタイル (Bootstrap Navbarと連携) */
+/* ---------------------------------- */
+header .navbar {
+    box-shadow: var(--shadow-light) !important;
+    border-bottom: 2px solid var(--primary-color);
+    /* アクセントライン */
+    background-color: rgba(18, 18, 18, 0.95) !important;
+    /* 透過した濃い背景 */
 }
 
 .header-h1 {
-    margin: 0;
-    color: #fff;
-    font-size: 2rem;
+    /* Bootstrapの.navbar-brandに相当 */
+    color: var(--primary-color) !important;
     font-weight: 900;
     letter-spacing: 2px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* PC向けのナビゲーションメニュー */
-.main-nav {
-    display: block;
-    /* PCでは常に表示 */
-}
-
-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 2rem;
-}
-
-header nav a {
-    color: var(--light-text-color);
-    text-decoration: none;
+/* ナビゲーションリンクのホバーエフェクト */
+.navbar .nav-link {
+    color: var(--text-color) !important;
     font-weight: 600;
     transition: color 0.3s ease-in-out, transform 0.3s;
-    position: relative;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-header nav a:hover {
-    color: var(--accent-color);
+.navbar .nav-link:hover {
+    color: var(--secondary-color) !important;
     transform: scale(1.1);
 }
 
-/* ハンバーガーメニューボタン (PCでは非表示) */
-.menu-toggle {
-    display: none;
-}
-
-
-/* フッターの基本スタイル (PC向け) */
+/* ---------------------------------- */
+/* フッターのスタイル (Bootstrapと連携) */
+/* ---------------------------------- */
 footer {
-    background-color: var(--secondary-color);
-    color: var(--light-text-color);
-    text-align: center;
-    padding: 1.5rem 0;
-    margin-top: auto;
-}
-
-.footer-nav {
-    margin-bottom: 1.5rem;
-}
-
-.footer-nav ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 2rem;
-    flex-wrap: wrap;
+    background-color: #000 !important;
+    color: var(--text-color);
+    border-top: 1px solid var(--border-color) !important;
 }
 
 .footer-nav a {
-    color: var(--light-text-color);
-    font-weight: bold;
-    transition: color 0.3s;
+    color: var(--text-color);
 }
 
 .footer-nav a:hover {
-    color: var(--accent-color);
-}
-
-
-/* ---------------------------------- */
-/* 主要コンテンツのラッパー */
-/* ---------------------------------- */
-.hero-section,
-.main-wrapper,
-.ad-section,
-.new-releases,
-.other-manga-section,
-.content-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 3rem;
-}
-
-.main-wrapper {
-    flex-grow: 1;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-}
-
-.content-container {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.main-content-container {
-    padding: 3rem;
-    background-color: var(--card-background);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
-    line-height: 1.8;
-}
-
-.main-content-container h2 {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    border-bottom: 4px solid var(--accent-color);
-    display: inline-block;
-    padding-bottom: 0.5rem;
-}
-
-.main-content-container h3 {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
     color: var(--secondary-color);
 }
 
-.main-content-container ul {
-    margin: 0.7rem 0;
-    padding-left: 2rem;
+/* ---------------------------------- */
+/* レイアウトのクラス (Bootstrapに依存するため、幅と余白の設定は削除) */
+/* ---------------------------------- */
+.hero-section,
+.ad-section,
+.new-releases,
+.content-container {
+    /* max-width/margin/paddingはHTML側のBootstrapコンテナクラス(container-xxl, my-4など)に任せる */
+    padding: 0;
+    /* Bootstrapのクラスで制御 */
+    margin: 0;
+    /* Bootstrapのクラスで制御 */
 }
 
-.main-content-container li {
-    margin-bottom: 0.5rem;
-    list-style-type: '👉 ';
-}
-
+/* Bootstrapのグリッドを使用するため、main/asideのflex設定を削除 */
 main {
-    flex: 1;
     min-width: 0;
 }
 
 aside {
-    flex: 0 0 300px;
-    background-color: var(--card-background);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
-    padding: 2.5rem;
-    align-self: flex-start;
-    position: sticky;
-    top: 2rem;
-    height: fit-content;
+    background-color: var(--card-background) !important;
+    box-shadow: var(--shadow-light) !important;
+    border: 1px solid var(--border-color);
+    /* position: stickyはBootstrap環境で有効に */
+}
+
+aside h3 {
+    color: var(--primary-color) !important;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
 }
 
 /* ---------------------------------- */
 /* 各セクションのスタイル */
 /* ---------------------------------- */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #ff8a65 100%);
-    color: var(--light-text-color);
-    text-align: center;
-    padding: 6rem 2rem;
-    margin-bottom: 4rem;
-    border-radius: 16px;
-    box-shadow: var(--shadow-heavy);
-    position: relative;
-    overflow: hidden;
-    transform: perspective(1000px) rotateX(2deg);
-}
-
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpolygon points='0 0 20 0 10 20'/%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.8;
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #03DAC6 100%) !important;
+    color: var(--light-text-color) !important;
+    box-shadow: var(--shadow-heavy) !important;
+    transform: none !important;
+    /* 歪みアニメーションを削除 */
 }
 
 .hero-content h2 {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    margin-bottom: 1rem;
-    font-weight: 900;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-}
-
-.hero-content p {
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
-    margin-bottom: 2rem;
-    opacity: 0.9;
-}
-
-.search-form-inline {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
+    color: var(--light-text-color) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .search-form-inline input[type="text"] {
-    width: 100%;
-    max-width: 450px;
-    padding: 1.2rem 1.8rem;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    outline: none;
-    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .search-form-inline input[type="text"]:focus {
-    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(255, 179, 0, 0.4);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(3, 218, 198, 0.4);
+    /* シアンのフォーカスリング */
 }
 
 .search-form-inline button {
-    padding: 1.2rem 3rem;
-    background-color: var(--accent-color);
-    color: var(--secondary-color);
-    border: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 6px 12px rgba(255, 179, 0, 0.4);
-}
-
-.search-form-inline button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(255, 179, 0, 0.5);
+    background-color: var(--accent-color) !important;
+    color: var(--light-text-color) !important;
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.4);
 }
 
 .section-title {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--secondary-color);
-    font-weight: 800;
+    color: var(--text-color) !important;
+    font-weight: 700 !important;
     text-transform: uppercase;
     letter-spacing: 1px;
-    position: relative;
 }
 
 .section-title::after {
-    content: '';
-    display: block;
-    width: 100px;
-    height: 6px;
-    background-color: var(--primary-color);
-    margin: 1.5rem auto 0;
-    border-radius: 3px;
-    transform: skewX(-20deg);
+    background-color: var(--primary-color) !important;
 }
 
 .ad-section {
-    background-color: var(--card-background);
-    padding: 1rem 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 16px;
+    background-color: var(--card-background) !important;
     box-shadow: var(--shadow-light);
-    text-align: center;
-}
-
-.ad-section h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--primary-color);
-}
-
-.ad-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    justify-content: center;
 }
 
 .ad-item {
-    background: linear-gradient(45deg, #fff3e0 0%, #fbe9e7 100%);
+    background: var(--card-background) !important;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--border-color);
 }
 
 .ad-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.new-releases {
-    padding: 1rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.other-manga-section {
-    padding: 3rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.manga-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-    gap: 1rem;
+    transform: scale(1.01) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .manga-card {
-    background-color: var(--card-background);
-    border-radius: 4px;
-    overflow: hidden;
+    background-color: var(--card-background) !important;
     box-shadow: var(--shadow-light);
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
-    display: flex;
-    flex-direction: column;
+    border: 1px solid var(--border-color);
 }
 
 .manga-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-heavy);
+    transform: translateY(-5px) scale(1.01) !important;
+    box-shadow: var(--shadow-heavy) !important;
 }
 
 .manga-card a {
-    display: block;
-    text-decoration: none;
     color: var(--text-color);
 }
 
 .manga-card img {
-    width: 100%;
-    /* height: 280px; */
-    /* object-fit: cover; */
-    height: auto;
-    object-fit: contain;
-    display: block;
-    border-bottom: 4px solid var(--accent-color);
+    border-bottom: 3px solid var(--secondary-color);
 }
 
 .manga-card h3 {
-    font-size: 1.2rem;
-    margin: 1rem 1rem 0;
-    height: 2em;
+    color: var(--primary-color);
     font-weight: 700;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    text-align: left;
 }
 
 .manga-description {
-    font-size: 0.9rem;
-    margin: 0 1rem 0.5rem;
-    color: #555;
-    line-height: 1.4;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    text-overflow: ellipsis;
+    color: #A0A0A0;
 }
 
-.manga-tag {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 0.9rem;
-    margin: 0.5rem 1rem 1.5rem;
-    text-align: left;
-    /* PC向けでは左揃え */
-    color: var(--primary-color);
-    font-weight: bold;
-    opacity: 0.8;
-}
-
-.manga-tag a {
-    background-color: #f0f0f0;
-    color: #555;
-    padding: 4px 8px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.manga-tag a:hover {
-    background-color: var(--accent-color);
-    color: #fff;
-}
-
-.no-results {
-    text-align: center;
-    font-size: 1.4rem;
-    color: #888;
-    padding: 5rem 0;
-}
-
-/* ---------------------------------- */
-/* ページネーションのスタイル */
-/* ---------------------------------- */
-.pagination-links {
-    margin-top: 4rem;
-    text-align: center;
-}
-
-.pagination-links nav ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.pagination-links nav ul li {
-    margin: 0;
-}
-
-.pagination-links nav ul li a,
-.pagination-links nav ul li span {
-    display: block;
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
-    color: var(--secondary-color);
-    background-color: #fff;
-    border: 1px solid var(--border-color);
-    border-right: none;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* 矢印アイコンのサイズ調整 */
-.pagination-links svg {
-    height: 1.5rem;
-    width: 1.5rem;
-    vertical-align: middle;
-    fill: var(--secondary-color);
-}
-
-.pagination-links nav ul li:last-child a,
-.pagination-links nav ul li:last-child span {
-    border-right: 1px solid var(--border-color);
-}
-
-.pagination-links nav ul li.active span {
-    background-color: var(--primary-color);
-    color: #fff;
-    border-color: var(--primary-color);
-    cursor: default;
-}
-
-.pagination-links nav ul li a:hover {
-    background-color: var(--accent-color);
-    color: #fff;
-    border-color: var(--accent-color);
-}
-
-.pagination-links nav ul li:first-child a,
-.pagination-links nav ul li:first-child span {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.pagination-links nav ul li:last-child a,
-.pagination-links nav ul li:last-child span {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
-.pagination-links nav ul li.disabled span {
-    color: #ccc;
-    background-color: #f4f4f4;
-    cursor: not-allowed;
-}
-
-/* ページネーションの余計な文字列を非表示にする */
-.pagination-links .flex-1.hidden.sm\:flex {
-    display: none;
-}
-
-/* ---------------------------------- */
-/* 広告のプレースホルダーのスタイル */
-/* ---------------------------------- */
-.ad-placeholder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    text-align: center;
-    color: #888;
-    font-size: 1rem;
-    padding: 0.8rem;
-    box-sizing: border-box;
-}
-
-.ad-placeholder p {
-    
-}
-
-.ad-placeholder>iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-}
-
-.ad-placeholder:not(:empty) p {
-    
-}
-
-/* ---------------------------------- */
-/* ハンバーガーメニューのスタイル */
-/* ---------------------------------- */
-.menu-toggle {
-    display: none;
-    /* PCでは非表示 */
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    width: 36px;
-    height: 36px;
-    position: relative;
-    z-index: 101;
-    /* ヘッダーのz-indexより高くする */
-}
-
-.hamburger-icon,
-.hamburger-icon::before,
-.hamburger-icon::after {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: var(--light-text-color);
-    position: absolute;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.hamburger-icon {
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-}
-
-.hamburger-icon::before {
-    content: '';
-    top: -10px;
-}
-
-.hamburger-icon::after {
-    content: '';
-    top: 10px;
-}
-
-.menu-toggle.is-active .hamburger-icon {
+/* タグリスト (Bootstrapボタンと連携) */
+.tag-list a.tag-link {
     background-color: transparent;
-}
-
-.menu-toggle.is-active .hamburger-icon::before {
-    transform: rotate(45deg);
-    top: 0;
-}
-
-.menu-toggle.is-active .hamburger-icon::after {
-    transform: rotate(-45deg);
-    top: 0;
-}
-
-
-/* ---------------------------------- */
-/* お問い合わせフォームのスタイル */
-/* ---------------------------------- */
-.contact-form {
-    max-width: 600px;
-    margin: 2rem auto;
-    background-color: #f9f9f9;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
     color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
 }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-    box-sizing: border-box;
+.tag-list a.tag-link:hover {
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
 }
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.2);
-}
-
-.required {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-    margin-left: 0.5rem;
-}
-
-.submit-button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.submit-button:hover {
-    background-color: #d81b60;
-    transform: translateY(-2px);
-}
-
-.error-message {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    display: block;
-}
-
-.alert-success {
-    background-color: #e8f5e9;
-    color: #388e3c;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
 
 /* ---------------------------------- */
-/* メディアクエリによる詳細な調整 */
+/* レスポンシブデザインの調整 */
 /* ---------------------------------- */
 @media (max-width: 768px) {
 
-    /* 全体のパディングを調整 */
-    .header-inner,
-    .hero-section,
-    .main-wrapper,
-    .ad-section,
-    .new-releases,
-    .other-manga-section,
-    .content-container {
-        padding: 0 1rem;
-        transform: none;
-        margin: 0;
-    }
-
-    /* ヘッダーのモバイル対応 */
-    .header-inner {
-        padding: 1rem;
-        /* パディングを小さく */
-    }
-
-    .header-h1 {
-        font-size: 1.5rem;
-        /* タイトルのフォントサイズを小さく */
-    }
-
-    .menu-toggle {
-        display: block;
-        /* モバイルではハンバーガーメニューを表示 */
-    }
-
-    .main-nav {
-        display: none;
-        /* デフォルトで非表示 */
-        position: absolute;
-        top: 100%;
-        /* ヘッダーの真下に配置 */
-        left: 0;
-        width: 100%;
-        background-color: var(--secondary-color);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 1rem 0;
-        z-index: 100;
-        /* コンテンツの上に表示されるように調整 */
-    }
-
+    /* ヘッダーのハンバーガーメニュー展開時 */
     .main-nav.is-active {
-        display: block;
-        /* is-activeクラスがあるときに表示 */
+        background-color: #000 !important;
     }
 
-    .main-nav ul {
-        flex-direction: column;
-        /* 縦並び */
-        gap: 0;
-    }
-
-    .main-nav li {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .main-nav a {
-        display: block;
-        padding: 1rem 2rem;
-        color: var(--light-text-color);
-        text-align: center;
-    }
-
-    /* ヒーローセクションのモバイル対応 */
+    /* ヒーローセクション */
     .hero-section {
-        padding: 1.5rem 1rem;
-        margin: 1rem 0;
         transform: none !important;
-        border-radius: 4px;
-    }
-
-    .hero-section::before {
-        display: none;
-    }
-
-    .hero-content h2 {
-        font-size: 2rem;
-        hyphens: auto;
-    }
-
-    .search-form-inline {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .search-form-inline input[type="text"] {
-        padding: 1rem 1.2rem;
-        font-size: 1rem;
-    }
-
-    .search-form-inline button {
-        padding: 1rem 2.5rem;
-        font-size: 1rem;
-        width: 100%;
-    }
-
-    .section-title {
-        font-size: clamp(1.5rem, 5vw, 2.5rem);
-    }
-
-    .ad-grid {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 0.3rem;
-    }
-    .manga-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-    }
-
-    /* 主要コンテンツのレイアウトを修正 */
-    .content-container {
-        flex-direction: column;
-        gap: 2rem;
-    }
-
-    main {
-        flex: auto;
-    }
-
-    aside {
-        width: 100%;
-        flex: auto;
-        position: static;
-    }
-
-    .ad-section {
-        padding: 0.8rem 1rem;
-        margin-bottom: 0.8rem;
-    }
-
-    .new-releases,
-    .other-manga-section {
-        padding: 2rem 0;
-        margin-bottom: 2rem;
-    }
-
-    .main-content-container {
-        padding: 2rem 1rem;
-        border-radius: 8px;
-    }
-
-    .manga-card h3 {
-        font-size: 0.9rem;
-    }
-
-    .manga-description {
-        font-size: 0.7rem;
-    }
-
-    /* タグのモバイル対応 */
-    .manga-tag {
-        margin: 0.5rem 0.5rem 1.5rem;
-        /* パディングを少し小さく */
-        justify-content: center;
-        /* タグを中央寄せに */
-        text-align: center;
-    }
-
-    /* モバイルでのページネーション調整 */
-    .pagination-links nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        /* 中央寄せ */
-        box-shadow: none;
-    }
-
-    .pagination-links nav ul li {
-        margin: 0 0.2rem 0.5rem;
-        /* 下にもマージンを追加して折り返しに対応 */
-    }
-
-    .pagination-links nav ul li a,
-    .pagination-links nav ul li span {
-        padding: 0.8rem 1rem;
-        font-size: 1rem;
-        border: 1px solid var(--border-color);
-        border-right: 1px solid var(--border-color);
-        /* 右ボーダーを復活 */
-        border-radius: 4px;
-    }
-
-    .pagination-links nav ul li:first-child a,
-    .pagination-links nav ul li:last-child a,
-    .pagination-links nav ul li:first-child span,
-    .pagination-links nav ul li:last-child span {
-        border-radius: 4px;
-    }
-
-    /* フッターのモバイル対応 */
-    footer {
-        padding: 1rem 1rem;
-    }
-
-    .footer-nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .footer-nav a {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 389px) {
-    .manga-grid {
-            grid-template-columns: repeat(1, 1fr);
-            gap: 1rem;
-        }
-}
-
-/* PC向けの表示を強制 */
-@media (min-width: 769px) {
-    .main-nav {
-        display: block !important;
-        /* PCでは常に表示 */
-    }
-
-    .menu-toggle {
-        display: none !important;
-        /* PCではハンバーガーメニューを非表示 */
     }
 }

@@ -1,34 +1,107 @@
+/*
+ * ファイル: css/tags.css
+ * 目的: ユーザー向けタグ一覧ページのスタイル定義 (Bootstrap 5 & Dark Theme 統合)
+ */
+
+/* ====================================
+   1. メインコンテナ (カード表現)
+   ==================================== */
 .main-content-container {
-    padding: 3rem;
-    background-color: var(--card-background);
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
+    /* HTML側で max-width: 800px; と margin: 0 auto; が適用されていることを想定 */
+    padding: 3rem !important;
+    background-color: var(--card-background, #1E1E1E) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--border-color, #333333);
 }
 
+.main-content-container h2 {
+    /* HTML側で fs-3 や fw-bold が適用されていることを想定 */
+    color: var(--primary-color, #BB86FC);
+    /* 紫 */
+    border-bottom: 3px solid var(--secondary-color, #03DAC6);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+/* ====================================
+   2. タグリスト (フレックスコンテナ)
+   ==================================== */
 .tag-list {
+    /* HTML側で display: flex; flex-wrap: wrap; が適用されていることを想定 */
     list-style: none;
     padding: 0;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
+    gap: 0.75rem;
+    /* Bootstrapの g-* を補強 */
+    /* 中央寄せは HTML側で justify-content-center に置き換える */
 }
 
 .tag-list li {
-    background-color: var(--secondary-color);
-    border-radius: 15px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    /* li要素の直接スタイルを削除し、tag-linkに集約 */
+    margin: 0;
+    /* gapで制御 */
 }
 
-.tag-list li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
+/* ====================================
+   3. タグリンク (ボタン/バッジのようなデザイン)
+   ==================================== */
 .tag-link {
-    padding: 0.8rem 1.5rem;
-    color: #fff;
+    /* ベーススタイルをボタンのように再定義 */
+    display: block;
+    background-color: #333333;
+    /* ダークグレーの背景 */
+    color: var(--secondary-color, #03DAC6);
+    /* シアンの文字色 */
+    border: 2px solid var(--secondary-color, #03DAC6);
+    border-radius: 25px;
+    /* 丸みを強調 */
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.tag-link:hover {
+    /* ホバー時のアニメーションと色変更を統一テーマで実現 */
+    background-color: var(--secondary-color, #03DAC6);
+    /* ホバーで背景色をシアンに */
+    color: #121212;
+    /* ホバーで文字色をダークに */
+    border-color: var(--primary-color, #BB86FC);
+    /* ホバーでボーダーを紫に */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* ====================================
+   4. レスポンシブデザイン
+   ==================================== */
+@media (max-width: 768px) {
+    .main-content-container {
+        padding: 2rem 1rem !important;
+    }
+
+    .main-content-container h2 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .tag-list {
+        gap: 0.6rem;
+        justify-content: space-around;
+    }
+
+    .tag-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .tag-link:hover {
+        transform: translateY(-3px);
+    }
 }

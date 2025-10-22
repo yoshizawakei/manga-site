@@ -1,118 +1,142 @@
+/*
+ * ファイル: css/admin/login.css
+ * 目的: 管理者ログインページのスタイル定義 (Bootstrap 5 & Dark Theme 統合)
+ */
+
+/* ====================================
+   1. グローバルレイアウト
+   ==================================== */
 .login-container {
-    background-color: var(--card-background);
-    padding: 3rem;
-    width: 100%;
-    max-width: 700px;
-    margin: 3rem auto;
-    border-radius: 16px;
-    box-shadow: var(--shadow-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* HTML側で max-width: 400px; と bg-dark shadow-lg rounded-3 が適用されていることを想定 */
+    background-color: var(--card-background, #1E1E1E) !important;
+    padding: 2.5rem !important;
+    max-width: 400px;
+    /* ログインフォーム用に狭く設定 */
+    margin: 3rem auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6) !important;
+    /* 影を濃く */
+    border: 1px solid var(--border-color, #333333);
+    /* 中央寄せは body にて行うため、ここでは flex-direction は削除 */
+    display: block;
 }
 
+/* ====================================
+   2. タイトルと見出し
+   ==================================== */
 .login-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--secondary-color);
+    /* HTML側で fs-3 や fw-bold が適用されていることを想定 */
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color, #BB86FC);
+    /* 紫 */
     text-align: center;
     margin-bottom: 2rem;
-    position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--secondary-color, #03DAC6);
+    /* シアン */
 }
 
-.login-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary-color);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-}
+/* ====================================
+   3. フォームコントロール
+   ==================================== */
 
 .login-form {
     width: 100%;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
 .form-label {
+    /* Bootstrapの form-label を上書きし、テーマカラーを適用 */
     display: block;
     font-size: 1rem;
-    color: var(--text-color);
+    color: var(--secondary-color, #03DAC6);
+    /* シアンを強調色に */
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
 .form-control {
-    width: 100%;
+    /* Bootstrapの form-control をダークテーマに最適化 */
     padding: 0.8rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-sizing: border-box;
+    border: 1px solid var(--border-color, #444444);
+    border-radius: 6px;
     font-size: 1rem;
+    background-color: #242424;
+    /* カード背景より濃い色 */
+    color: var(--text-color, #EEEEEE);
     transition: all 0.3s ease-in-out;
-    background-color: var(--background-color);
-    color: var(--text-color);
 }
 
 .form-control:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.2);
+    /* フォーカス時の色をテーマカラーに */
+    border-color: var(--primary-color, #BB86FC);
+    box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.3);
+    /* 紫の影 */
+    background-color: #242424;
+    color: var(--text-color, #EEEEEE);
 }
 
+/* エラーメッセージ (HTML側で .error-message を使用している場合) */
 .error-message {
-    color: var(--primary-color);
+    color: #DC3545;
+    /* Bootstrapの danger (赤) を使用 */
     font-size: 0.875rem;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     display: block;
     font-weight: 500;
 }
 
+/* ====================================
+   4. ボタン
+   ==================================== */
 .btn-primary {
-    background: linear-gradient(90deg, var(--primary-color) 0%, #d81b60 100%);
-    color: var(--light-text-color);
+    /* Bootstrapの btn-primary をオーバーライド */
+    background-color: var(--primary-color, #BB86FC);
+    color: #121212;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 40px;
-    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     width: 100%;
     margin-top: 2rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: var(--shadow-light);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary:hover {
+    background-color: #A064FF;
+    /* 少し明るい紫 */
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    opacity: 0.9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    opacity: 1;
 }
 
-/* ---------------------------------- */
-/* レスポンシブデザイン */
-/* ---------------------------------- */
+/* ====================================
+   5. レスポンシブデザイン
+   ==================================== */
 @media (max-width: 576px) {
     .login-container {
-        padding: 2rem;
-        margin: 2rem auto;
+        padding: 1.5rem !important;
+        margin: 1.5rem auto !important;
     }
 
     .login-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .form-control {
-        padding: 0.75rem;
+        padding: 0.65rem;
+        font-size: 0.9rem;
     }
 
     .btn-primary {
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        margin-top: 1.5rem;
     }
 }
