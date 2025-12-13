@@ -2,6 +2,15 @@
 <html lang="ja" data-bs-theme="dark">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43VEPFSJSE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-43VEPFSJSE');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="無料で読めるエロ漫画を毎日更新！あなたにぴったりの一冊を見つけよう。">
@@ -26,6 +35,17 @@
             margin-right: auto !important;
             /* ブロック要素として動作することを明示 */
             display: block !important;
+        }
+
+        /* manga-cardの説明文の行数制限（前回の提案の適用） */
+        .manga-card .manga-description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            /* 2行で制限 */
+            line-height: 1.5em;
+            max-height: 3em;
         }
     </style>
 
@@ -69,7 +89,7 @@
 
     <div class="container-xxl my-4 main-wrapper">
 
-        <section class="hero-section text-center p-5">
+        <section class="hero-section text-center p-5 mb-5">
             <div class="hero-content">
                 <h2 class="display-5 fw-bold text-white mb-3">無料で読めるエロ漫画を毎日更新しています！</h2>
                 <p class="lead text-secondary mb-4">あなたにぴったりの一冊を見つけよう</p>
@@ -84,12 +104,14 @@
             </div>
         </section>
 
-        <div class="row content-container g-3 d-flex justify-content-center">
-            <main class="col-lg-8">
+        {{-- g-x-5: 水平方向のガターを最大に | align-items-start: アサイドとコンテンツの開始位置を揃える --}}
+        {{-- main: col-lg-10 (より広く) | aside: col-lg-2 (より小さく) --}}
+        <div class="row content-container g-3 d-flex justify-content-center g-x-5 align-items-start">
+            <main class="col-lg-10">
                 <script src="https://adm.shinobi.jp/s/65c86dec891067fdd7176002a8ef3181"></script>
 
                 <section class="ad-section-inline my-4">
-                    <div class="row g-0 d-flex justify-content-center">
+                    <div class="row g-0 d-flex justify-content-center text-center">
                         <div class="col">
                             <div class="card bg-secondary border-0 p-2 ad-item ad-placeholder ad-center-block">
                                 <ins class="dmm-widget-placement" data-id="b52df2cfb345572d2e574978552aca8b"
@@ -151,7 +173,7 @@
                 </section>
                 @yield('content')
 
-                <section class="ad-section-inline my-5">
+                <section class="ad-section-inline my-5 text-center">
                     <h3 class="ad-section-title text-white-50">おすすめのサービス</h3>
                     <div class="row g-0 d-flex justify-content-center">
                         <div class="col-12 col-md-6">
@@ -174,33 +196,48 @@
                 </section>
             </main>
 
-            <aside class="col-lg-4 mt-4 mt-lg-0">
+            <aside class="col-lg-2 mt-4 mt-lg-0"> {{-- アサイドの幅を col-lg-2 に変更 --}}
                 <div class="sidebar p-4">
                     <h3>人気ランキング</h3>
                     <ul class="list-group list-group-flush mb-4">
-                        <li class="list-group-item bg-transparent border-0"><a href="#"
-                                class="text-white text-decoration-none">人気作品A</a></li>
-                        <li class="list-group-item bg-transparent border-0"><a href="#"
-                                class="text-white text-decoration-none">人気作品B</a></li>
-                        <li class="list-group-item bg-transparent border-0"><a href="#"
-                                class="text-white text-decoration-none">人気作品C</a></li>
+                        @isset($contents_popular)
+                            @forelse($contents_popular as $popular_manga)
+                                <li class="list-group-item bg-transparent border-0">
+                                    <a href="{{ $popular_manga->content_url }}" target="_blank" rel="noopener noreferrer"
+                                        class="text-white text-decoration-none fw-bold text-truncate d-block">
+                                        {{ $popular_manga->title }}
+                                    </a>
+                                </li>
+                            @empty
+                                <li class="list-group-item bg-transparent border-0 text-white-50">
+                                    人気作品がまだ登録されていません。
+                                </li>
+                            @endforelse
+                        @else
+                            <li class="list-group-item bg-transparent border-0 text-white-50">
+                                データ取得中...
+                            </li>
+                        @endisset
                     </ul>
                     <h3>タグから探す</h3>
                     <div class="tag-list d-flex flex-wrap gap-2">
-                        @forelse($tags as $tag)
-                            <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}"
-                                class="btn btn-sm btn-outline-secondary tag-link">{{ $tag->name }}</a>
-                        @empty
-                            <p class="no-results text-white-50">タグが見つかりませんでした。</p>
-                        @endforelse
+                        @isset($tags)
+                            @forelse($tags as $tag)
+                                <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}"
+                                    class="btn btn-sm btn-outline-secondary tag-link">{{ $tag->name }}</a>
+                            @empty
+                                <p class="no-results text-white-50">タグが見つかりませんでした。</p>
+                            @endforelse
+                        @endisset
                     </div>
                 </div>
             </aside>
         </div>
 
-        <section class="ad-section bottom-ad-section mt-5">
-            <h3 class="ad-section-title text-white-50">その他の注目サービス</h3>
-            <div class="row row-cols-1 row-cols-md-3 g-0 text-center">
+        {{-- その他の注目サービスのパディングとガターを調整 --}}
+        <section class="ad-section bottom-ad-section mt-5 p-4"> {{-- p-4: パディングを広く --}}
+            <h3 class="ad-section-title text-white-50 mb-4">その他の注目サービス</h3> {{-- mb-4: タイトル下の余白を確保 --}}
+            <div class="row row-cols-1 row-cols-md-3 g-4 text-center"> {{-- g-4: アイテム間のガターを広く --}}
                 <div class="col">
                     <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
                         <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
@@ -222,8 +259,10 @@
             </div>
         </section>
 
-        <section class="ad-section bottom-ad-section mt-3">
-            <div class="row row-cols-1 row-cols-md-3 g-0 text-center">
+        {{-- こちらの「その他の注目サービス」も同様に調整 --}}
+        <section class="ad-section bottom-ad-section mt-3 p-4"> {{-- p-4: パディングを広く --}}
+            <h3 class="ad-section-title text-white-50 mb-4">おすすめのサービス</h3> {{-- こちらもタイトルと余白を追加するなら --}}
+            <div class="row row-cols-1 row-cols-md-3 g-4 text-center"> {{-- g-4: アイテム間のガターを広く --}}
                 <div class="col">
                     <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
                         <ins class="dmm-widget-placement" data-id="9e88f64eebb3d09da9a930c57dd138a1"
@@ -264,20 +303,11 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // BootstrapのNavbarTogglerを使用するため、元のトグル処理は削除または無効化
-            /*
-            const menuToggle = document.querySelector('.menu-toggle');
-            const mainNav = document.getElementById('main-nav');
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('is-active');
-                mainNav.classList.toggle('is-active');
-            });
-            */
 
             const fadeinElements = document.querySelectorAll('.js-fadein');
 
@@ -301,6 +331,7 @@
             });
         });
     </script>
+
     @yield('scripts')
 
 </body>

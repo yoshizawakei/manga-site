@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,3 +66,5 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // お問い合わせ管理
     Route::get('/inquiries/{inquiry}', [AdminController::class, 'showInquiry'])->name('inquiries.show');
 });
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);

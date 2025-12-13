@@ -34,7 +34,7 @@
 
             <div class="pagination-links mt-5 d-flex justify-content-center">
                 {{-- Bootstrap 5 のページネーションスタイルを適用 --}}
-                {{ $contents->links('pagination::bootstrap-5') }}
+                {{ $contents->links('pagination::bootstrap-4') }}
             </div>
         </section>
     </div>

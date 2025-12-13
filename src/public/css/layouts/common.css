@@ -12,7 +12,7 @@
     --text-color: #E0E0E0;
     /* 明るいテキスト */
     --light-text-color: #121212;
-    /* ヘッダー内のダークテキスト */
+    /* ヘッダーやヒーロー内のダークテキスト */
     --background-color: #121212;
     /* 濃い背景 (bodyのbg-darkと連携) */
     --card-background: #1E1E1E;
@@ -22,23 +22,29 @@
     --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.4);
     --shadow-heavy: 0 10px 20px rgba(0, 0, 0, 0.8);
 
-    /* Bootstrapのカスタムプロパティを上書き (デザインの一貫性のため) */
+    /* Bootstrapのカスタムプロパティを上書き */
     --bs-body-bg: var(--background-color);
     --bs-body-color: var(--text-color);
     --bs-primary: var(--primary-color);
     --bs-secondary: var(--secondary-color);
+    --bs-link-color: var(--secondary-color);
+    /* リンク色の統一 */
+    --bs-heading-color: var(--text-color);
+    /* 見出しの色の統一 */
 }
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.7;
-    /* Bootstrapのクラスに任せるため、margin/padding/flex-directionを削除 */
-    background-color: var(--background-color) !important;
-    color: var(--text-color) !important;
+    /* bodyへの !important は、:root変数でBootstrapを上書きしているため不要。
+       背景と色はHTMLで bg-dark text-light クラスが適用されている前提です。 */
+    /* background-color: var(--background-color) !important; <--- 削除 */
+    /* color: var(--text-color) !important; <--- 削除 */
 }
 
 a {
     text-decoration: none;
+    /* リンク色は :root の --bs-link-color があれば a:not([class]) に適用されるが、明示的に記述 */
     color: var(--secondary-color);
     transition: color 0.2s ease-in-out;
 }
@@ -51,16 +57,15 @@ a:hover {
 /* ヘッダーのスタイル (Bootstrap Navbarと連携) */
 /* ---------------------------------- */
 header .navbar {
-    box-shadow: var(--shadow-light) !important;
+    /* !important を削除。Bootstrapの `bg-dark` などのクラスをHTMLから削除し、このスタイルを適用 */
+    box-shadow: var(--shadow-light);
     border-bottom: 2px solid var(--primary-color);
-    /* アクセントライン */
-    background-color: rgba(18, 18, 18, 0.95) !important;
-    /* 透過した濃い背景 */
+    background-color: rgba(18, 18, 18, 0.95);
 }
 
 .header-h1 {
-    /* Bootstrapの.navbar-brandに相当 */
-    color: var(--primary-color) !important;
+    /* HTMLで .navbar-brand クラスと text-primary クラスを使用すれば !important は不要 */
+    color: var(--primary-color);
     font-weight: 900;
     letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
@@ -68,13 +73,15 @@ header .navbar {
 
 /* ナビゲーションリンクのホバーエフェクト */
 .navbar .nav-link {
-    color: var(--text-color) !important;
+    /* HTMLで text-light クラスを使用すれば !important は不要 */
+    color: var(--text-color);
     font-weight: 600;
     transition: color 0.3s ease-in-out, transform 0.3s;
 }
 
 .navbar .nav-link:hover {
-    color: var(--secondary-color) !important;
+    /* HTMLでホバー時に特定のクラスを適用していなければ !important は不要 */
+    color: var(--secondary-color);
     transform: scale(1.1);
 }
 
@@ -82,9 +89,11 @@ header .navbar {
 /* フッターのスタイル (Bootstrapと連携) */
 /* ---------------------------------- */
 footer {
-    background-color: #000 !important;
+    /* !important を削除。HTMLの `bg-dark` などを削除し、このスタイルを適用 */
+    background-color: #000;
     color: var(--text-color);
-    border-top: 1px solid var(--border-color) !important;
+    /* !important を削除 */
+    border-top: 1px solid var(--border-color);
 }
 
 .footer-nav a {
@@ -96,33 +105,34 @@ footer {
 }
 
 /* ---------------------------------- */
-/* レイアウトのクラス (Bootstrapに依存するため、幅と余白の設定は削除) */
+/* レイアウトのクラス */
 /* ---------------------------------- */
+/* Bootstrapのコンテナ/グリッドクラスを使用するため、ここにレイアウト設定は不要 */
 .hero-section,
 .ad-section,
 .new-releases,
 .content-container {
-    /* max-width/margin/paddingはHTML側のBootstrapコンテナクラス(container-xxl, my-4など)に任せる */
     padding: 0;
-    /* Bootstrapのクラスで制御 */
     margin: 0;
-    /* Bootstrapのクラスで制御 */
 }
 
-/* Bootstrapのグリッドを使用するため、main/asideのflex設定を削除 */
+/* main/asideのflex設定はHTML側のBootstrapグリッドクラスに任せる */
 main {
     min-width: 0;
+    /* flexアイテムのオーバーフロー防止 */
 }
 
 aside {
-    background-color: var(--card-background) !important;
-    box-shadow: var(--shadow-light) !important;
+    /* !important を削除。HTMLで bg-secondary などを削除し、このスタイルを適用 */
+    background-color: var(--card-background);
+    box-shadow: var(--shadow-light);
     border: 1px solid var(--border-color);
-    /* position: stickyはBootstrap環境で有効に */
+    /* position: stickyはHTMLのクラスで適用 */
 }
 
 aside h3 {
-    color: var(--primary-color) !important;
+    /* HTMLで text-primary クラスを使用すれば !important は不要 */
+    color: var(--primary-color);
     border-bottom: 2px solid var(--secondary-color);
     padding-bottom: 0.5rem;
 }
@@ -131,15 +141,18 @@ aside h3 {
 /* 各セクションのスタイル */
 /* ---------------------------------- */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #03DAC6 100%) !important;
-    color: var(--light-text-color) !important;
-    box-shadow: var(--shadow-heavy) !important;
-    transform: none !important;
-    /* 歪みアニメーションを削除 */
+    /* !important を削除。HTMLの bg-primary などを削除し、このスタイルを適用 */
+    background: linear-gradient(135deg, var(--primary-color) 0%, #03DAC6 100%);
+    /* !important を削除。テキスト色は Bootstrap の text-dark クラスに置き換えるべき */
+    color: var(--light-text-color);
+    /* !important を削除 */
+    box-shadow: var(--shadow-heavy);
+    transform: none;
 }
 
 .hero-content h2 {
-    color: var(--light-text-color) !important;
+    /* !important を削除 */
+    color: var(--light-text-color);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -152,33 +165,47 @@ aside h3 {
 
 .search-form-inline input[type="text"]:focus {
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(3, 218, 198, 0.4);
-    /* シアンのフォーカスリング */
 }
 
 .search-form-inline button {
-    background-color: var(--accent-color) !important;
-    color: var(--light-text-color) !important;
+    /* !important を削除 */
+    background-color: var(--accent-color);
+    /* !important を削除。ボタン内のテキストは text-dark クラスに置き換えるべき */
+    color: var(--light-text-color);
     box-shadow: 0 6px 12px rgba(255, 193, 7, 0.4);
 }
 
 .section-title {
-    color: var(--text-color) !important;
-    font-weight: 700 !important;
+    /* !important を削除 */
+    color: var(--text-color);
+    /* !important を削除 */
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .section-title::after {
-    background-color: var(--primary-color) !important;
+    /* !important を削除 */
+    background-color: var(--primary-color);
+    /* **不足している ::after のコンテンツと表示設定を追加** */
+    content: '';
+    display: block;
+    width: 50px;
+    /* 例 */
+    height: 3px;
+    /* 例 */
+    margin-top: 5px;
 }
 
 .ad-section {
-    background-color: var(--card-background) !important;
+    /* !important を削除 */
+    background-color: var(--card-background);
     box-shadow: var(--shadow-light);
 }
 
 .ad-item {
-    background: var(--card-background) !important;
+    /* !important を削除 */
+    background: var(--card-background);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -186,20 +213,28 @@ aside h3 {
 }
 
 .ad-item:hover {
-    transform: scale(1.01) !important;
+    /* !important を削除 */
+    transform: scale(1.01);
+    /* !important を削除 */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .manga-card {
-    background-color: var(--card-background) !important;
-    box-shadow: var(--shadow-light);
+    /* !important を削除 */
+    background-color: var(--card-background);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    /* 影を統一 */
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
     border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 2rem;
 }
 
 .manga-card:hover {
-    transform: translateY(-5px) scale(1.01) !important;
-    box-shadow: var(--shadow-heavy) !important;
+    /* !important を削除 */
+    transform: translateY(-5px) scale(1.01);
+    /* !important を削除 */
+    box-shadow: var(--shadow-heavy);
 }
 
 .manga-card a {
@@ -215,12 +250,9 @@ aside h3 {
     font-weight: 700;
 }
 
-.manga-description {
-    color: #A0A0A0;
-}
-
 /* タグリスト (Bootstrapボタンと連携) */
 .tag-list a.tag-link {
+    /* .btn-outline-secondary などと連携 */
     background-color: transparent;
     color: var(--secondary-color);
     border: 1px solid var(--secondary-color);
@@ -231,6 +263,21 @@ aside h3 {
     color: var(--light-text-color);
 }
 
+/* カード内の説明文に行数制限を設ける */
+.manga-card .card-text {
+    /* 2行で統一する場合 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    /* ★ 表示したい行数を指定 (例: 2行) ★ */
+    /* 行の高さがブラウザ間でブレるのを防ぐため、line-heightを明示的に設定することを推奨 */
+    line-height: 1.5em;
+    /* 1行の高さ */
+    max-height: 3em;
+    /* line-height * 行数 (1.5em * 2 = 3em) */
+}
+
 /* ---------------------------------- */
 /* レスポンシブデザインの調整 */
 /* ---------------------------------- */
@@ -238,11 +285,13 @@ aside h3 {
 
     /* ヘッダーのハンバーガーメニュー展開時 */
     .main-nav.is-active {
-        background-color: #000 !important;
+        /* !important を削除 */
+        background-color: #000;
     }
 
     /* ヒーローセクション */
     .hero-section {
-        transform: none !important;
+        /* !important を削除 */
+        transform: none;
     }
 }

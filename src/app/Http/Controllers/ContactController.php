@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tag;
 use App\Models\Inquiry;
 
 class ContactController extends Controller
 {
     public function showForm()
     {
-        return view("contact");
+        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->limit(30)->get();
+
+        return view("contact", compact('tags'));
     }
 
     public function submitForm(Request $request)

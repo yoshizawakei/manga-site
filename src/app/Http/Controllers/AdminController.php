@@ -71,10 +71,40 @@ class AdminController extends Controller
         unset($validatedData['tag']);
 
         $content = Content::create($validatedData);
-
         $this->syncTags($content, $tagsArray);
 
+        $this->postToX($content);
+
         return redirect()->route('admin.dashboard')->with('success', 'コンテンツが正常に作成されました。');
+    }
+
+    private function postToX(Content $content)
+    {
+        // 投稿メッセージの作成 (文字数制限: 280文字に注意)
+        $tags = $content->tags->pluck('name')->map(fn($t) => "#" . $t)->implode(' ');
+
+        // 投稿文の例
+        $message = "【新着コンテンツ】\n「{$content->title}」が追加されました！\n\n{$content->content_url}\n\n{$tags}";
+
+        try {
+            // ここで実際に X API に投稿リクエストを送ります
+
+            // 例: thujohn/twitter パッケージを使用する場合の v1.1 API (現在の v2 APIとは異なる)
+            // Twitter::postTweet(['status' => $message, 'format' => 'json']);
+
+            // 例: Guzzleで v2 API の /2/tweets を叩く場合
+            // $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.twitter.com/']);
+            // $response = $client->post('2/tweets', [
+            //     'auth' => 'oauth', // OAuth 1.0a 認証設定
+            //     'json' => ['text' => $message],
+            // ]);
+
+            \Log::info("X (旧Twitter) にコンテンツ投稿を試行: " . $content->title);
+
+        } catch (\Exception $e) {
+            // エラーログを記録
+            \Log::error("X (旧Twitter) への投稿に失敗しました: " . $e->getMessage());
+        }
     }
 
     public function dashboard()
