@@ -1,113 +1,167 @@
-@extends('layouts.admin')
-{{-- NOTE: ユーザー向けページですが、デザイン統一のため、Bootstrap構造を持つlayouts.adminを継承します。 --}}
+@extends('layouts.app')
 
-@section("css")
+@section('title', ' | 個人情報保護方針（プライバシーポリシー）')
+
+@section('css')
     <style>
-        /* プライバシーポリシーページ用スタイル */
-        .main-content-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem;
-            background-color: var(--card-background);
-            /* common.cssのカード背景色を使用 */
-            border-radius: 0.75rem;
-            box-shadow: var(--shadow-light);
+        /* ポリシーコンテナ：枠組みを定義（パディングは内側のラッパーで制御） */
+        .policy-container {
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
 
-        .main-content-container h2 {
+        /* メインタイトル */
+        .policy-container h2 {
             color: var(--primary-color);
-            /* 紫のアクセント */
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
+            font-weight: 800;
+            border-left: 6px solid var(--primary-color);
+            padding-left: 1.25rem;
             margin-bottom: 2rem;
-            font-weight: bold;
-            font-size: 2rem;
+            letter-spacing: -0.02em;
         }
 
-        .main-content-container h3 {
-            color: var(--secondary-color);
-            /* シアンのアクセント */
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
+        /* セクション見出し */
+        .policy-container h3 {
+            color: var(--text-main);
             font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
         }
-
-        .main-content-container p,
-        .main-content-container ul {
-            color: var(--text-color);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .main-content-container ul {
-            list-style-type: none;
-            /* デフォルトのリストスタイルを非表示 */
-            padding-left: 0;
-        }
-
-        .main-content-container ul li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .main-content-container ul li::before {
-            content: "•";
-            color: var(--primary-color);
-            /* 紫の箇条書きマーク */
-            font-weight: bold;
+        .policy-container h3::before {
+            content: "";
             display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-            position: absolute;
+            width: 20px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        /* 本文とリスト */
+        .policy-container p, .policy-container li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* アイコン付きリスト */
+        .policy-list {
+            padding-left: 0;
+            list-style: none;
+        }
+        .policy-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .policy-list li i {
+            color: var(--primary-color);
+            margin-top: 5px;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Google Analytics等の注記ボックス：ライトモード向け調整 */
+        .policy-info-box {
+            background-color: #f0fdf4; /* 非常に薄いエメラルド */
+            border: 1px solid var(--primary-color);
+            color: var(--text-main);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 2.5rem 0;
+        }
+
+        .policy-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        /* パンくずリスト */
+        .breadcrumb-item a {
+            color: var(--primary-color) !important;
+            text-decoration: none;
+            font-weight: 600;
         }
     </style>
 @endsection
 
 @section('content')
-    <div class="main-content-container">
-        <h2>個人情報保護方針</h2>
-        <p class="lead">当サイトは、ユーザーの皆様の個人情報保護の重要性について認識し、個人情報保護に関する法令を遵守するとともに、以下のプライバシーポリシーに従い、適切に取り扱います。</p>
+<div class="row justify-content-center">
+    {{-- 横幅を col-lg-10 などで制限し、読みやすさを向上 --}}
+    <div class="col-12 col-lg-10 col-xl-9">
+        <div class="policy-container shadow-sm">
+            {{-- パディング確保用のラッパー --}}
+            <div class="p-4 p-md-5">
+                {{-- パンくずリスト --}}
+                <nav aria-label="breadcrumb" class="mb-4 small">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{{ route('top.index') }}">ホーム</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">個人情報保護方針</li>
+                    </ol>
+                </nav>
 
-        <hr class="border-secondary my-4">
+                <h2>個人情報保護方針</h2>
+                <p class="lead fw-bold" style="color: var(--text-main);">
+                    当サイトは、ユーザーの皆様の個人情報保護の重要性を認識し、法令を遵守するとともに、本プライバシーポリシーに従い適切に取り扱います。
+                </p>
 
-        <h3>1. 個人情報の取得について</h3>
-        <p>当サイトは、お問い合わせフォームのご利用、または広告サービスを通じて、以下のような個人情報を取得する場合があります。</p>
-        <ul class="list-unstyled">
-            <li><i class="fas fa-dot-circle me-2 text-primary"></i>メールアドレス</li>
-            <li><i class="fas fa-dot-circle me-2 text-primary"></i>IPアドレス</li>
-            <li><i class="fas fa-dot-circle me-2 text-primary"></i>利用端末の識別情報（Cookie情報、ブラウザ情報など）</li>
-        </ul>
-        <p class="small text-white-50">これらの情報は、当サイトのサービス向上、ユーザーの利便性向上、および広告効果の分析に利用されます。</p>
+                <hr class="my-5" style="border-color: var(--border-color); opacity: 1;">
 
-        <h3>2. 個人情報の利用目的</h3>
-        <p>取得した個人情報は、以下の目的で利用します。</p>
-        <ul class="list-unstyled">
-            <li><i class="fas fa-check-circle me-2 text-primary"></i>お問い合わせへの対応</li>
-            <li><i class="fas fa-check-circle me-2 text-primary"></i>サービスの改善、新サービスの開発</li>
-            <li><i class="fas fa-check-circle me-2 text-primary"></i>広告の配信、および広告効果の測定</li>
-            <li><i class="fas fa-check-circle me-2 text-primary"></i>利用状況の分析、統計データの作成</li>
-        </ul>
+                <section>
+                    <h3>1. 個人情報の取得について</h3>
+                    <p>当サイトは、お問い合わせフォームのご利用、または広告サービスを通じて、以下の情報を取得する場合があります。</p>
+                    <ul class="policy-list">
+                        <li><i class="fas fa-caret-right"></i>メールアドレス（お問い合わせ時）</li>
+                        <li><i class="fas fa-caret-right"></i>IPアドレス</li>
+                        <li><i class="fas fa-caret-right"></i>利用端末の識別情報（Cookie情報、ブラウザ情報など）</li>
+                    </ul>
+                </section>
 
-        <h3>3. 個人情報の第三者提供について</h3>
-        <p>当サイトは、以下の場合を除き、ご本人の同意を得ることなく、個人情報を第三者に提供することはありません。</p>
-        <ul class="list-unstyled">
-            <li><i class="fas fa-gavel me-2 text-primary"></i>法令に基づく場合</li>
-            <li><i class="fas fa-gavel me-2 text-primary"></i>人の生命、身体または財産の保護のために必要がある場合</li>
-            <li><i class="fas fa-gavel me-2 text-primary"></i>公衆衛生の向上または児童の健全な育成の推進のために特に必要がある場合</li>
-            <li><i class="fas fa-gavel me-2 text-primary"></i>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合</li>
-        </ul>
+                <section>
+                    <h3>2. 個人情報の利用目的</h3>
+                    <p>取得した情報は、以下の目的で適切に利用します。</p>
+                    <ul class="policy-list">
+                        <li><i class="fas fa-check"></i>お問い合わせへの回答および本人確認</li>
+                        <li><i class="fas fa-check"></i>サービスの改善、アクセスの統計分析</li>
+                        <li><i class="fas fa-check"></i>各アフィリエイト広告（DMM.com、FANZA、DLsite等）の効果測定</li>
+                    </ul>
+                </section>
 
-        <h3>4. アクセス解析ツールおよびCookieについて</h3>
-        <p class="alert alert-info text-dark fw-bold">当サイトでは、サービスの向上を目的として、**Google
-            Analytics**などのアクセス解析ツールを利用しています。これらのツールはトラフィックデータ収集のためにCookieを使用しますが、個人を特定する情報ではありません。ユーザーはブラウザの設定でCookieの利用を拒否することができます。
-        </p>
-        <p>また、当サイトで利用しているアフィリエイトサービス（DMM.com、FANZA、忍者AdMaxなど）も、Cookieを利用してユーザーの訪問履歴情報を取得する場合があります。これらの情報は、広告の配信、および成果の測定にのみ利用されます。
-        </p>
+                <section>
+                    <h3>3. アクセス解析とCookieについて</h3>
+                    <div class="policy-info-box shadow-sm">
+                        <h4 class="h6 fw-bold mb-3"><i class="fas fa-chart-line me-2 text-primary"></i>分析ツールの利用</h4>
+                        当サイトでは、サービスの向上を目的として**Google Analytics**を利用しています。
+                        これらはデータ収集のためにCookieを使用しますが、個人を特定する情報は含まれません。
+                        ユーザーはブラウザ設定でCookieを無効にすることが可能です。
+                    </div>
+                    <p>
+                        また、利用中のアフィリエイトサービス（DMM.com、FANZA、忍者AdMax、DLsiteなど）も、成果計測のためにCookieを利用する場合があります。
+                    </p>
+                </section>
 
-        <h3>5. プライバシーポリシーの変更について</h3>
-        <p>本ポリシーの内容は、法令改正やサービスの変更等に応じて、事前の予告なく変更されることがあります。変更後のプライバシーポリシーは、当サイトに掲載された時点で有効になります。</p>
+                <section>
+                    <h3>4. 第三者提供の制限</h3>
+                    <p>法令に基づく場合を除き、ご本人の同意を得ることなく個人情報を第三者に提供することはありません。</p>
+                </section>
+
+                <div class="policy-footer">
+                    <p class="small text-secondary mb-3">最終改定日：{{ date('Y年m月d日') }}</p>
+                    <a href="{{ route('top.index') }}" class="btn btn-outline-primary px-5 rounded-pill fw-bold">
+                        <i class="fas fa-home me-2"></i>トップへ戻る
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 @endsection

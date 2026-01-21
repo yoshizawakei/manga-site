@@ -1,85 +1,141 @@
 <!DOCTYPE html>
-<html lang="ja" data-bs-theme="dark">
+<html lang="ja" prefix="og: https://ogp.me/ns#">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43VEPFSJSE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-43VEPFSJSE');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="無料で読めるエロ漫画を毎日更新！あなたにぴったりの一冊を見つけよう。">
-    <meta name="keywords" content="エロ漫画, 無料漫画, 新着漫画, おすすめ漫画, ドキドキ漫画">
-    <meta name="author" content="ドキドキ漫画">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD0z3W2ShW4SgM7U+mB0n7MvUq0F/UjPjG/P3UaYl9ZJ8E0+W5H1Vp/o0M0w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- SEO対策：基本 --}}
+    <title>@yield('title', 'ホーム') | ドキドキ漫画</title>
+    <meta name="description" content="@yield('description', 'ドキドキ漫画は、毎日更新される厳選漫画のレビューや、おすすめ商品をご紹介するナビゲーションメディアです。')">
+    <meta name="keywords" content="@yield('keywords', '漫画レビュー,おすすめ漫画,無料漫画,アダルトコミック,エロ漫画,アダルトトイ,夜のおもちゃ')">
+    <link rel="canonical" href="{{ url()->current() }}">
 
-    <link rel="stylesheet" href="{{ asset("css/layouts/sanitize.css") }}">
-    <link rel="stylesheet" href="{{ asset("css/layouts/common.css") }}">
-    <link rel="stylesheet" href="{{ asset('css/tags.css') }}">
-    @yield("css")
+    {{-- SEO対策：OGP (SNS用) --}}
+    <meta property="og:site_name" content="ドキドキ漫画">
+    <meta property="og:title" content="@yield('title', 'ホーム') | ドキドキ漫画">
+    <meta property="og:description" content="@yield('description', '毎日更新される厳選漫画のレビューメディア。')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    {{-- 外部リソース --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        .ad-center-block {
-            /* 中央寄せのためマージンを左右autoに設定 */
-            margin-left: auto !important;
-            margin-right: auto !important;
-            /* ブロック要素として動作することを明示 */
-            display: block !important;
+        :root {
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-color: #10b981;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
         }
 
-        /* manga-cardの説明文の行数制限（前回の提案の適用） */
-        .manga-card .manga-description {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            /* 2行で制限 */
-            line-height: 1.5em;
-            max-height: 3em;
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            /* 横揺れ防止 */
         }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary-color) !important;
+        }
+
+        /* コンテナ共通パディング */
+        .main-content-container,
+        .contact-container,
+        .policy-container,
+        .detail-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 3rem !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        /* 広告横揺れ防止用 */
+        .ad-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .ad-scroll-container>div {
+            min-width: 728px;
+            flex-shrink: 0;
+        }
+
+        /* ボタン崩れ防止：レスポンシブ対応 */
+        .btn-responsive-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .btn-responsive-group {
+                flex-direction: column;
+                /* スマホでは縦並びに */
+                align-items: center;
+                width: 100%;
+            }
+
+            .btn-responsive-group .btn {
+                width: 100%;
+                /* ボタンを全幅に */
+                max-width: 300px;
+                padding: 1rem !important;
+                white-space: nowrap;
+                /* 改行を防止 */
+            }
+
+            .main-content-container,
+            .contact-container {
+                padding: 1.5rem !important;
+            }
+        }
+
+        @yield('css')
     </style>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43VEPFSJSE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-43VEPFSJSE');
-    </script>
-    <title>ドキドキ漫画 - 無料で読めるエロ漫画を毎日更新！</title>
 </head>
 
-<body class="bg-dark text-white">
+<body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-            <div class="container-fluid container-xxl">
-                <a class="navbar-brand header-h1" href="{{ route("top.index") }}">ドキドキ漫画</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
-                    aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <div class="container-xxl">
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('top.index') }}">
+                    <i class="fas fa-book-open me-2"></i>ドキドキ漫画
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-nav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route("top.index") }}"><i class="fas fa-home me-1"></i>ホーム</a>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.index') }}">ホーム</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route("tags.index") }}"><i
-                                    class="fas fa-tags me-1"></i>タグ一覧</a>
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('tags.index') }}">タグ一覧</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route("top.contact") }}"><i
-                                    class="fas fa-envelope me-1"></i>お問合せ</a>
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.contact') }}">お問合せ</a>
                         </li>
                     </ul>
                 </div>
@@ -87,253 +143,25 @@
         </nav>
     </header>
 
-    <div class="container-xxl my-4 main-wrapper">
+    <main>
+        @yield('content')
+    </main>
 
-        <section class="hero-section text-center p-5 mb-5">
-            <div class="hero-content">
-                <h2 class="display-5 fw-bold text-white mb-3">無料で読めるエロ漫画を毎日更新しています！</h2>
-                <p class="lead text-secondary mb-4">あなたにぴったりの一冊を見つけよう</p>
-                <form action="{{ route('search.results') }}" method="GET"
-                    class="search-form-inline d-flex justify-content-center">
-                    <input type="text" name="keyword" placeholder="キーワードを入力して検索" value="{{ request('keyword') }}"
-                        class="form-control form-control-lg me-2 border-secondary" style="max-width: 450px;">
-                    <button type="submit" class="btn btn-lg btn-warning fw-bold">
-                        <i class="fas fa-search me-1"></i>検索
-                    </button>
-                </form>
-            </div>
-        </section>
-
-        {{-- g-x-5: 水平方向のガターを最大に | align-items-start: アサイドとコンテンツの開始位置を揃える --}}
-        {{-- main: col-lg-10 (より広く) | aside: col-lg-2 (より小さく) --}}
-        <div class="row content-container g-3 d-flex justify-content-center g-x-5 align-items-start">
-            <main class="col-lg-10">
-                <script src="https://adm.shinobi.jp/s/65c86dec891067fdd7176002a8ef3181"></script>
-
-                <section class="ad-section-inline my-4">
-                    <div class="row g-0 d-flex justify-content-center text-center">
-                        <div class="col">
-                            <div class="card bg-secondary border-0 p-2 ad-item ad-placeholder ad-center-block">
-                                <ins class="dmm-widget-placement" data-id="b52df2cfb345572d2e574978552aca8b"
-                                    style="background:transparent"></ins>
-                                <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                                    data-id="b52df2cfb345572d2e574978552aca8b"></script>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card bg-secondary border-0 p-2 ad-item ad-placeholder ad-center-block">
-                                <ins class="dmm-widget-placement" data-id="ac8e424ab539c275eea2af4ad51e25b6"
-                                    style="background:transparent"></ins>
-                                <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                                    data-id="ac8e424ab539c275eea2af4ad51e25b6"></script>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="new-releases js-fadein my-5">
-                    @if(isset($contents_latest))
-                        <h2 class="section-title">新着・おすすめ作品</h2>
-                        <div class="row row-cols-2 row-cols-md-3 g-3 manga-grid">
-                            @forelse($contents_latest as $manga)
-                                <div class="col">
-                                    <div class="card manga-card border-0 p-0 h-100">
-                                        <a href="{{ $manga->content_url }}" target="_blank" rel="noopener noreferrer"
-                                            class="text-decoration-none text-white">
-                                            <img src="{{ $manga->image_url }}" class="card-img-top" alt="{{ $manga->title }}">
-                                            <div class="card-body p-3">
-                                                <h3 class="card-title fs-6 fw-bold text-truncate">{{ $manga->title }}</h3>
-                                                <div class="manga-description card-text text-secondary small">
-                                                    {{ $manga->description }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            @empty
-                                @for ($i = 0; $i < 4; $i++)
-                                    <div class="col">
-                                        <div class="card manga-card border-0 p-0 h-100 placeholder-glow">
-                                            <svg class="bd-placeholder-img card-img-top" width="100%" height="250"
-                                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
-                                                preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                <title>Placeholder</title>
-                                                <rect width="100%" height="100%" fill="#333"></rect>
-                                            </svg>
-                                            <div class="card-body p-3">
-                                                <h3 class="card-title fs-6 fw-bold text-truncate placeholder col-8"></h3>
-                                                <p class="card-text text-secondary small manga-description placeholder col-10"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endfor
-                            @endforelse
-                        </div>
-                    @endif
-                </section>
-                @yield('content')
-
-                <section class="ad-section-inline my-5 text-center">
-                    <h3 class="ad-section-title text-white-50">おすすめのサービス</h3>
-                    <div class="row g-0 d-flex justify-content-center">
-                        <div class="col-12 col-md-6">
-                            <div class="card bg-secondary border-0 p-2 ad-item ad-placeholder ad-center-block">
-                                <ins class="dmm-widget-placement" data-id="b52df2cfb345572d2e574978552aca8b"
-                                    style="background:transparent"></ins>
-                                <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                                    data-id="b52df2cfb345572d2e574978552aca8b"></script>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="card bg-secondary border-0 p-2 ad-item ad-placeholder ad-center-block">
-                                <ins class="dmm-widget-placement" data-id="ac8e424ab539c275eea2af4ad51e25b6"
-                                    style="background:transparent"></ins>
-                                <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                                    data-id="ac8e424ab539c275eea2af4ad51e25b6"></script>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-
-            <aside class="col-lg-2 mt-4 mt-lg-0"> {{-- アサイドの幅を col-lg-2 に変更 --}}
-                <div class="sidebar p-4">
-                    <h3>人気ランキング</h3>
-                    <ul class="list-group list-group-flush mb-4">
-                        @isset($contents_popular)
-                            @forelse($contents_popular as $popular_manga)
-                                <li class="list-group-item bg-transparent border-0">
-                                    <a href="{{ $popular_manga->content_url }}" target="_blank" rel="noopener noreferrer"
-                                        class="text-white text-decoration-none fw-bold text-truncate d-block">
-                                        {{ $popular_manga->title }}
-                                    </a>
-                                </li>
-                            @empty
-                                <li class="list-group-item bg-transparent border-0 text-white-50">
-                                    人気作品がまだ登録されていません。
-                                </li>
-                            @endforelse
-                        @else
-                            <li class="list-group-item bg-transparent border-0 text-white-50">
-                                データ取得中...
-                            </li>
-                        @endisset
-                    </ul>
-                    <h3>タグから探す</h3>
-                    <div class="tag-list d-flex flex-wrap gap-2">
-                        @isset($tags)
-                            @forelse($tags as $tag)
-                                <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}"
-                                    class="btn btn-sm btn-outline-secondary tag-link">{{ $tag->name }}</a>
-                            @empty
-                                <p class="no-results text-white-50">タグが見つかりませんでした。</p>
-                            @endforelse
-                        @endisset
-                    </div>
-                </div>
-            </aside>
-        </div>
-
-        {{-- その他の注目サービスのパディングとガターを調整 --}}
-        <section class="ad-section bottom-ad-section mt-5 p-4"> {{-- p-4: パディングを広く --}}
-            <h3 class="ad-section-title text-white-50 mb-4">その他の注目サービス</h3> {{-- mb-4: タイトル下の余白を確保 --}}
-            <div class="row row-cols-1 row-cols-md-3 g-4 text-center"> {{-- g-4: アイテム間のガターを広く --}}
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <ins class="dmm-widget-placement" data-id="715e75385c21d5f934f66fdff0ed5e48"
-                            style="background:transparent"></ins>
-                        <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                            data-id="715e75385c21d5f934f66fdff0ed5e48"></script>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- こちらの「その他の注目サービス」も同様に調整 --}}
-        <section class="ad-section bottom-ad-section mt-3 p-4"> {{-- p-4: パディングを広く --}}
-            <h3 class="ad-section-title text-white-50 mb-4">おすすめのサービス</h3> {{-- こちらもタイトルと余白を追加するなら --}}
-            <div class="row row-cols-1 row-cols-md-3 g-4 text-center"> {{-- g-4: アイテム間のガターを広く --}}
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <ins class="dmm-widget-placement" data-id="9e88f64eebb3d09da9a930c57dd138a1"
-                            style="background:transparent"></ins>
-                        <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                            data-id="9e88f64eebb3d09da9a930c57dd138a1"></script>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <script src="https://adm.shinobi.jp/s/df349200fae07afe14174435c7accc6e"></script>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card bg-secondary border-0 p-3 ad-item ad-placeholder ad-center-block">
-                        <ins class="dmm-widget-placement" data-id="d38144138179f7d463277fa158b634dc"
-                            style="background:transparent"></ins>
-                        <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts"
-                            data-id="d38144138179f7d463277fa158b634dc"></script>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer class="bg-dark text-center py-4 mt-5 border-top border-secondary">
-        <nav class="footer-nav mb-3">
-            <ul class="list-inline">
+    <footer class="text-center py-5 mt-5 border-top bg-white">
+        <div class="container">
+            <ul class="list-inline mb-4">
                 <li class="list-inline-item mx-2"><a href="{{ route('top.sitePolicy') }}"
-                        class="text-decoration-none text-white-50 small">サイトポリシー・利用規約</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route("top.disclaimer") }}"
-                        class="text-decoration-none text-white-50 small">免責事項</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route("top.privacyPolicy") }}"
-                        class="text-decoration-none text-white-50 small">個人情報保護方針</a></li>
+                        class="text-secondary text-decoration-none small">サイトポリシー</a></li>
+                <li class="list-inline-item mx-2"><a href="{{ route('top.disclaimer') }}"
+                        class="text-secondary text-decoration-none small">免責事項</a></li>
+                <li class="list-inline-item mx-2"><a href="{{ route('top.privacyPolicy') }}"
+                        class="text-secondary text-decoration-none small">個人情報保護</a></li>
             </ul>
-        </nav>
-        <p class="text-white-50 mb-0">&copy; {{ date('Y') }} ドキドキ漫画</p>
+            <p class="text-secondary small">&copy; {{ date('Y') }} ドキドキ漫画 - All Rights Reserved.</p>
+        </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const fadeinElements = document.querySelectorAll('.js-fadein');
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            fadeinElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                observer.observe(el);
-            });
-        });
-    </script>
-
-    @yield('scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

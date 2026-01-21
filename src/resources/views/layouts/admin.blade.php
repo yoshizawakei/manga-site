@@ -23,6 +23,134 @@
         gtag('config', 'G-43VEPFSJSE');
     </script>
     <title>ドキドキ漫画 @yield('title')</title>
+
+    <style>
+        /* 共有いただいたCSS定義を統合 */
+        :root {
+            /* ベース：深い紺色（真っ黒よりも奥行きが出ます） */
+            --bg-dark: #0f172a; 
+            /* カード：少しだけ明るい紺（階層を表現） */
+            --card-bg: #1e293b;
+            /* メインカラー：上品なエメラルド（目に優しくおしゃれ） */
+            --primary-color: #10b981; 
+            /* アクセント：落ち着いたゴールド（高級感） */
+            --accent-color: #f59e0b; 
+            /* ボーダー：馴染む程度の暗いグレー */
+            --border-color: #334155;
+            /* テキスト：純白ではなく少しグレーを混ぜて読みやすく */
+            --text-main: #f1f5f9;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif; /* モダンなフォント */
+        }
+
+        /* 共通：コンテンツコンテナ（規約、お問い合わせ等） */
+        .main-content-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .main-content-container h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        /* リンク設定 */
+        a { color: var(--secondary-color); text-decoration: none; transition: 0.3s; }
+        a:hover { color: var(--primary-color); }
+
+        /* ヘッダー */
+        .navbar {
+            background-color: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(10px); /* すりガラス効果 */
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar-brand { font-weight: 900; letter-spacing: 2px; color: var(--primary-color) !important; }
+
+        /* カード共通 */
+        .manga-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .manga-card:hover { transform: translateY(-5px); }
+
+        /* ヒーローセクションの装飾 */
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-main) !important;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* サイドバーのカード */
+        .card {
+            border-radius: 0.75rem;
+            border-color: var(--border-color);
+        }
+
+        .card-header {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* リストグループの調整 */
+        .list-group-item {
+            transition: background-color 0.2s;
+            border-bottom: 1px solid var(--border-color) !important;
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .smaller {
+            font-size: 0.75rem;
+        }
+        
+        .smaller { font-size: 0.7rem; }
+        .ad-container { transition: 0.3s; }
+        .cta-section { 
+            background: linear-gradient(to bottom, #1e1e1e, #121212); 
+            border: 1px solid #333 !important;
+        }
+        .btn-warning {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-warning:hover {
+            background-color: #ffca2c;
+            transform: scale(1.05);
+        }
+        @yield('css')
+    </style>
+    {{-- layouts/app.blade.php の <head> 内に追加 --}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">

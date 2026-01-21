@@ -1,153 +1,103 @@
-@extends('layouts.admin')
-{{-- NOTE: ユーザー向けのお問い合わせフォームであるため、通常はメインサイトのレイアウト(例: layouts.app)を継承しますが、デザイン統一のためBootstrapを適用します。 --}}
+@extends('layouts.app')
 
-@section("css")
-    <style>
-        /* お問い合わせフォーム用スタイル */
-        .main-content-container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            background-color: var(--card-background);
-            /* カード背景色を使用 */
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow-light);
-            border: 1px solid var(--border-color);
-        }
+@section('title', ' | お問い合わせ')
 
-        .main-content-container h2 {
-            color: var(--primary-color);
-            /* 紫のアクセント */
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-        }
-
-        .main-content-container p {
-            color: var(--text-color);
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            font-weight: bold;
-            color: var(--secondary-color);
-            /* シアンの強調色 */
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control {
-            background-color: #242424;
-            /* 入力フィールドの背景を濃く */
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-        }
-
-        .form-control:focus {
-            background-color: #242424;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
-        }
-
-        .required {
-            color: #DC3545;
-            /* 赤色で必須を強調 */
-            font-size: 0.8rem;
-            margin-left: 0.25rem;
-        }
-
-        .submit-button {
-            /* Bootstrapのbtn-primaryをカスタムテーマに合わせる */
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: #fff;
-            padding: 0.75rem 2rem;
-            font-weight: bold;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s, border-color 0.3s;
-            margin-top: 1rem;
-            display: inline-block;
-            border: none;
-        }
-
-        .submit-button:hover {
-            background-color: #A064FF;
-            border-color: #A064FF;
-        }
-
-        .error-message {
-            color: #DC3545;
-            /* BootstrapのDanger (赤) */
-            font-size: 0.875em;
-            display: block;
-            margin-top: 0.25rem;
-        }
-    </style>
+@section('css')
+<style>
+    .contact-container h2 {
+        color: var(--primary-color);
+        font-weight: 800;
+        border-left: 6px solid var(--primary-color);
+        padding-left: 1rem;
+        margin-bottom: 2rem;
+    }
+    .form-label {
+        font-weight: 700;
+        color: var(--text-main) !important;
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        background-color: #f8fafc;
+        border: 2px solid var(--border-color);
+        color: var(--text-main);
+        padding: 0.8rem;
+    }
+    .form-control:focus {
+        background-color: #fff;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.1);
+    }
+    .required-badge {
+        background-color: #ef4444;
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.4rem;
+        margin-left: 0.5rem;
+    }
+    .submit-button {
+        background-color: var(--primary-color);
+        color: #fff !important;
+        font-weight: 800;
+        padding: 1rem 3rem;
+        border-radius: 3rem;
+        border: none;
+        transition: 0.3s;
+    }
+    .submit-button:hover {
+        background-color: #059669;
+        transform: translateY(-2px);
+    }
+</style>
 @endsection
 
-@section("content")
-    <div class="main-content-container">
-        <h2>お問い合わせ</h2>
+@section('content')
+<div class="row justify-content-center">
+    {{-- col-md-10 などの指定で、コンテナが広がりすぎるのを防ぎつつ中央寄せ --}}
+    <div class="col-12 col-lg-10 col-xl-8">
+        <div class="contact-container shadow-sm border">
+            {{-- 内側にパディング専用のラッパーを追加 --}}
+            <div class="p-4 p-md-5">
+                <nav aria-label="breadcrumb" class="mb-4 small">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{{ route('top.index') }}" class="text-decoration-none">ホーム</a></li>
+                        <li class="breadcrumb-item active">お問い合わせ</li>
+                    </ol>
+                </nav>
 
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <h2 class="h3">お問い合わせ</h2>
+                <p class="text-secondary mb-5">ご意見・ご要望は以下のフォームよりお気軽にご連絡ください。</p>
+
+                <form action="{{ route('top.submitContact') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="name" class="form-label">お名前 <span class="required-badge">必須</span></label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="例：山田 太郎" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label">メールアドレス <span class="required-badge">必須</span></label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="example@domain.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="subject" class="form-label">件名</label>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="お問い合わせの件名">
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="message" class="form-label">お問い合わせ内容 <span class="required-badge">必須</span></label>
+                        <textarea id="message" name="message" rows="6" class="form-control" placeholder="詳細をご記入ください" required></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="submit-button shadow-sm">
+                            <i class="fas fa-paper-plane me-2"></i>メッセージを送信する
+                        </button>
+                    </div>
+                </form>
             </div>
-        @endif
-
-        <p>当サイトに関するご質問、ご意見、ご要望は、下記のフォームよりお気軽にご連絡ください。</p>
-
-        <form action="{{ route("top.submitContact") }}" method="POST" class="contact-form p-4">
-            @csrf
-
-            <div class="mb-3">
-                <label for="name" class="form-label">お名前<span class="required">（必須）</span></label>
-                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ old('name') }}" required>
-                @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">メールアドレス<span class="required">（必須）</span></label>
-                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                    value="{{ old('email') }}" required>
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="subject" class="form-label">件名</label>
-                <input type="text" id="subject" name="subject" class="form-control @error('subject') is-invalid @enderror"
-                    value="{{ old('subject') }}">
-                @error('subject')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="message" class="form-label">お問い合わせ内容<span class="required">（必須）</span></label>
-                <textarea id="message" name="message" rows="8" class="form-control @error('message') is-invalid @enderror"
-                    required>{{ old('message') }}</textarea>
-                @error('message')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <button type="submit" class="submit-button btn-lg">
-                <i class="fas fa-paper-plane me-2"></i>送信する
-            </button>
-        </form>
+        </div>
     </div>
+</div>
 @endsection

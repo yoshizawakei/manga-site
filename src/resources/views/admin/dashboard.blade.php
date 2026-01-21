@@ -1,207 +1,225 @@
 @extends('layouts.admin')
 
 @section("css")
-    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
     <style>
-        /* 管理画面用のダークテーマ補助スタイル */
+        /* ミッドナイト・エメラルド管理画面カスタム */
+        :root {
+            --admin-bg: #0f172a;
+            --admin-card: #1e293b;
+            --admin-primary: #10b981;
+            --admin-border: #334155;
+            --admin-text: #f1f5f9;
+            --admin-secondary: #94a3b8;
+        }
+
         .dashboard-container {
+            padding: 2rem 1rem;
+            background-color: var(--admin-bg);
+            min-vh-100;
+        }
+
+        /* セクション共通 */
+        .dashboard-section {
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background-color: var(--admin-card);
+            border-radius: 1rem;
+            border: 1px solid var(--admin-border);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* タイトル装飾 */
+        .dashboard-h1 {
+            color: var(--admin-primary);
+            font-weight: 800;
+            border-left: 5px solid var(--admin-primary);
+            padding-left: 1.5rem;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header h2 {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            color: var(--admin-text);
+        }
+        .section-header h2::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: var(--admin-primary);
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        /* テーブルカスタム */
+        .dashboard-table {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+        .dashboard-table thead th {
+            background-color: rgba(15, 23, 42, 0.5);
+            color: var(--admin-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            border: none;
             padding: 1rem;
         }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+        .dashboard-table tbody tr {
+            background-color: rgba(15, 23, 42, 0.3);
+            transition: transform 0.2s;
         }
-
-        .dashboard-section {
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background-color: var(--card-background);
-            /* common.cssの変数を使用 */
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        .dashboard-table tbody tr:hover {
+            background-color: rgba(16, 185, 129, 0.05) !important;
+            transform: scale(1.002);
         }
-
-        .dashboard-h1 {
-            color: var(--primary-color);
-            /* 紫のアクセント */
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            font-weight: bold;
-        }
-
-        .dashboard-table th {
-            background-color: #2a2a2a;
-            /* ヘッダーを強調 */
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--primary-color);
-        }
-
         .dashboard-table td {
-            color: var(--text-color);
+            vertical-align: middle;
+            border: none;
+            padding: 1rem;
+            color: var(--admin-text);
         }
 
-        .dashboard-table tr:hover {
-            background-color: #242424;
-        }
-
+        /* タグバッジ：エメラルドテーマ */
         .tag-badge {
-            background-color: var(--secondary-color);
-            color: #121212;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.8rem;
-            margin-right: 0.25rem;
-            display: inline-block;
-            margin-top: 0.2rem;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--admin-primary);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
 
-        .no-data {
-            color: #888;
-            text-align: center;
-            padding: 2rem !important;
-        }
+        /* ボタンカスタム */
+        .btn-primary { background-color: var(--admin-primary); border: none; }
+        .btn-primary:hover { background-color: #059669; }
+        
+        .btn-edit { background-color: #f59e0b; color: #fff; border-radius: 0.5rem; }
+        .btn-delete { background-color: #ef4444; color: #fff; border-radius: 0.5rem; }
+        .btn-view { background-color: #3b82f6; color: #fff; border-radius: 0.5rem; }
 
-        /* ボタンの色の調整（Bootstrapの色を使用） */
-        .btn-edit {
-            background-color: #FFC107;
-            /* warning */
-            color: #000;
-        }
-
-        .btn-delete {
-            background-color: #DC3545;
-            /* danger */
-            color: #fff;
-        }
-
-        .btn-view {
-            background-color: #0DCAF0;
-            /* info */
-            color: #000;
-        }
+        .no-data { color: var(--admin-secondary); font-style: italic; }
     </style>
 @endsection
 
 @section("content")
     <div class="dashboard-container">
-        <h1 class="dashboard-h1 display-4">管理者ダッシュボード</h1>
+        <h1 class="dashboard-h1 h2">Administrator Control Panel</h1>
 
-        {{-- アラートメッセージ --}}
+        {{-- アラート：通知もエメラルドトーンへ --}}
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="alert alert-success bg-opacity-10 bg-success border-success text-success border-0 shadow-sm mb-4" role="alert">
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
             </div>
         @endif
 
-        {{-- 登録コンテンツ一覧セクション --}}
-        <section class="dashboard-section shadow-lg">
-            <div class="section-header">
-                <h2 class="fs-4 fw-bold text-white">登録コンテンツ一覧</h2>
-                {{-- コンテンツ作成ルート名を admin.contents.create に変更 --}}
-                <a href="{{ route('admin.contents.create') }}" class="btn btn-primary fw-bold">
-                    <i class="fas fa-plus-circle me-1"></i>コンテンツを追加
+        {{-- コンテンツ一覧 --}}
+        <section class="dashboard-section">
+            <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Review Management</h2>
+                <a href="{{ route('admin.contents.create') }}" class="btn btn-primary px-4 fw-bold rounded-pill">
+                    <i class="fas fa-plus-circle me-2"></i>新規追加
                 </a>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-dark table-hover dashboard-table">
+                <table class="table dashboard-table text-white">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>タイトル</th>
-                            <th>説明</th>
+                            <th>作品タイトル</th>
+                            <th>要約</th>
                             <th>タグ</th>
-                            <th>作成日</th>
-                            <th>操作</th>
+                            <th>登録日</th>
+                            <th class="text-end">アクション</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($contents as $content)
                             <tr>
-                                <td>{{ $content->id }}</td>
-                                <td>{{ $content->title }}</td>
-                                <td>{{ Str::limit($content->description, 50) }}</td>
+                                <td class="text-secondary font-monospace">{{ $content->id }}</td>
+                                <td class="fw-bold">{{ $content->title }}</td>
+                                <td class="text-secondary smaller">{{ Str::limit($content->description, 40) }}</td>
                                 <td>
-                                    {{-- タグをループして表示 --}}
                                     @foreach($content->tags as $tag)
-                                        <span class="tag-badge">{{ $tag->name }}</span>
+                                        <span class="tag-badge">#{{ $tag->name }}</span>
                                     @endforeach
                                 </td>
-                                <td>{{ $content->created_at->format('Y/m/d') }}</td>
-                                <td class="action-buttons">
-                                    <a href="{{ route('admin.contents.edit', ['content' => $content->id]) }}"
-                                        class="btn btn-sm btn-edit me-2">編集</a>
-                                    <form action="{{ route('admin.contents.destroy', ['content' => $content->id]) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('本当にID: {{ $content->id }} のコンテンツ「{{ $content->title }}」を削除しますか？');"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-delete">削除</button>
-                                    </form>
+                                <td class="smaller">{{ $content->created_at->format('Y/m/d') }}</td>
+                                <td class="text-end">
+                                    <div class="btn-group">
+                                        <a href="{{ route('admin.contents.edit', $content->id) }}" class="btn btn-sm btn-edit px-3">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('admin.contents.destroy', $content->id) }}" method="POST" class="d-inline">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-delete px-3 ms-2" onclick="return confirm('本当に削除しますか？')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="no-data">まだコンテンツが登録されていません。</td>
+                                <td colspan="6" class="no-data py-5">
+                                    <i class="fas fa-inbox fa-2x mb-3 d-block"></i>データが登録されていません。
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-
-            {{-- ページネーションリンクの追加 --}}
-            <div class="d-flex justify-content-center mt-4">
+            
+            <div class="mt-4 d-flex justify-content-center">
                 {{ $contents->links('pagination::bootstrap-4') }}
             </div>
         </section>
 
-        {{-- お問い合わせ内容セクション --}}
-        <section class="dashboard-section shadow-lg">
-            <div class="section-header">
-                <h2 class="fs-4 fw-bold text-white">お問い合わせ</h2>
-                <span class="badge text-bg-info fs-6 py-2 px-3 fw-bold">{{ $inquiries_count ?? 0 }}件の未読</span>
+        {{-- お問い合わせ --}}
+        <section class="dashboard-section border-top border-primary border-4">
+            <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Inquiries</h2>
+                <span class="badge rounded-pill bg-primary px-3">{{ $inquiries_count ?? 0 }} 未対応</span>
             </div>
             <div class="table-responsive">
-                <table class="table table-dark table-hover dashboard-table inquiries-table">
+                <table class="table dashboard-table text-white">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>氏名</th>
-                            <th>メールアドレス</th>
+                            <th>送信者</th>
+                            <th>メール</th>
                             <th>件名</th>
                             <th>受信日</th>
-                            <th>詳細</th>
+                            <th class="text-end">詳細</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($inquiries as $inquiry)
                             <tr>
-                                <td>{{ $inquiry->id }}</td>
+                                <td class="text-secondary font-monospace">{{ $inquiry->id }}</td>
                                 <td>{{ $inquiry->name }}</td>
-                                <td>{{ $inquiry->email }}</td>
-                                <td>{{ Str::limit($inquiry->subject, 50) }}</td>
-                                <td>{{ $inquiry->created_at->format('Y/m/d') }}</td>
-                                <td class="action-buttons">
-                                    <a href="{{ route('admin.inquiries.show', ['inquiry' => $inquiry->id]) }}"
-                                        class="btn btn-sm btn-view">詳細</a>
+                                <td class="smaller text-secondary">{{ $inquiry->email }}</td>
+                                <td>{{ Str::limit($inquiry->subject, 30) }}</td>
+                                <td class="smaller">{{ $inquiry->created_at->format('m/d H:i') }}</td>
+                                <td class="text-end">
+                                    <a href="{{ route('admin.inquiries.show', $inquiry->id) }}" class="btn btn-sm btn-view px-3">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="no-data">まだ新しいお問い合わせはありません。</td>
+                                <td colspan="6" class="no-data py-5">お問い合わせはありません。</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </section>
-
-        <a href="{{ route("admin.contents.create") }}" class="d-none"></a>
     </div>
 @endsection

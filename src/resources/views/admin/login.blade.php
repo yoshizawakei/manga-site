@@ -1,98 +1,120 @@
 @extends('layouts.admin')
 
 @section("css")
-    <link rel="stylesheet" href="{{ asset('css/admin/login.css') }}">
     <style>
-        /* 管理者ログインページ用のダークテーマ補助スタイル */
-        /* 🚨 修正: body への Flexbox スタイルを削除 */
-        /* body {
-                min-height: 100vh;
-                margin: 0;
-                background-color: var(--background-color) !important;
-            } */
+        /* 管理画面ログイン：ミッドナイト・エメラルド・カスタム */
+        :root {
+            --admin-bg: #0f172a;
+            --admin-card: #1e293b;
+            --admin-primary: #10b981;
+            --admin-border: #334155;
+            --admin-text: #f1f5f9;
+            --admin-secondary: #94a3b8;
+        }
 
-        /* ログインコンテンツ全体を画面の中央に配置するためのラッパー */
+        /* 画面中央配置 */
         .center-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            /* 親要素 (main) の高さを利用して中央寄せ */
-            min-height: 100vh;
+            min-height: 80vh; /* ヘッダー・フッターを考慮して少し調整 */
             width: 100%;
-            /* ヘッダーやフッターの分だけ調整したい場合は min-height: calc(100vh - header_height - footer_height); */
         }
 
         .login-container {
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
-            padding: 2.5rem;
-            background-color: var(--card-background);
-            /* common.cssのカード背景を使用 */
-            border-radius: 1rem;
-            box-shadow: var(--shadow-heavy);
-            /* 強い影で浮き立たせる */
-            border: 1px solid var(--border-color);
+            padding: 3rem;
+            background-color: var(--admin-card);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--admin-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 装飾用のエメラルドライン */
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--admin-primary), transparent);
         }
 
         .login-title {
-            color: var(--primary-color);
-            /* 紫のアクセント */
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
+            color: var(--admin-primary);
+            font-weight: 800;
+            margin-bottom: 2.5rem;
             text-align: center;
-            font-weight: bold;
-            font-size: 1.8rem;
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
         }
 
+        /* ラベルと入力欄 */
         .form-label {
-            font-weight: bold;
-            color: var(--secondary-color);
-            /* シアンの強調色 */
+            font-weight: 600;
+            color: var(--admin-secondary);
             margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .form-control {
-            background-color: #242424;
-            /* 入力フィールドの背景を少し濃く */
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--admin-border);
+            color: var(--admin-text);
+            padding: 0.8rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
         }
 
         .form-control:focus {
-            background-color: #242424;
-            border-color: var(--primary-color);
-            /* フォーカス時に紫 */
-            box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+            background-color: rgba(15, 23, 42, 0.8);
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.15);
+            color: var(--admin-text);
         }
 
-        .btn-primary {
-            /* Bootstrapのbtn-primaryをカスタムテーマに合わせる */
+        /* ログインボタン：エメラルド・ソリッド */
+        .btn-login {
             display: block;
             width: 100%;
-            padding: 0.75rem;
-            margin-top: 1.5rem;
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            padding: 1rem;
+            margin-top: 2rem;
+            background-color: var(--admin-primary);
+            border: none;
             color: #fff;
-            font-weight: bold;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+            font-weight: 800;
+            border-radius: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        .btn-primary:hover {
-            background-color: #A064FF;
-            /* 少し明るい紫 */
-            border-color: #A064FF;
-            transform: translateY(-2px);
+        .btn-login:hover {
+            background-color: #059669;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
         }
 
+        .btn-login:active {
+            transform: translateY(-1px);
+        }
+
+        /* エラーメッセージ */
         .error-message {
-            color: #DC3545;
-            /* BootstrapのDanger (赤) */
-            font-size: 0.875em;
-            display: block;
-            margin-top: 0.25rem;
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .is-invalid {
+            border-color: #ef4444 !important;
         }
     </style>
 @endsection
@@ -100,39 +122,37 @@
 @section("content")
     <div class="center-wrapper">
         <div class="login-container">
-            <h2 class="login-title">管理者ログイン</h2>
+            <h2 class="login-title">ADMIN LOGIN</h2>
+            
             <form method="post" action="{{ route("admin.authenticate") }}" class="login-form needs-validation" novalidate>
                 @csrf
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">メールアドレス</label>
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email Address</label>
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                        value="{{ old('email') }}" autocomplete="email" autofocus required>
+                        value="{{ old('email') }}" placeholder="admin@example.com" autocomplete="email" autofocus required>
                     @error('email')
                         <span class="error-message" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
                         </span>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="form-label">パスワード</label>
+                <div class="mb-5">
+                    <label for="password" class="form-label">Password</label>
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" autocomplete="current-password" required>
+                        name="password" placeholder="••••••••" autocomplete="current-password" required>
                     @error('password')
                         <span class="error-message" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
                         </span>
                     @enderror
                 </div>
 
-                <button type="submit" class="btn-primary">
-                    <i class="fas fa-sign-in-alt me-2"></i>管理者ログインする
+                <button type="submit" class="btn-login shadow-lg">
+                    <i class="fas fa-shield-alt me-2"></i>Secure Login
                 </button>
             </form>
         </div>
     </div>
-@endsection
-
-@section('scripts')
 @endsection
