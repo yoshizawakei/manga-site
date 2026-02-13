@@ -60,20 +60,26 @@
 
     <aside class="col-lg-4">
         <div class="sticky-top" style="top: 100px;">
-            <div class="card bg-white border mb-4 shadow-sm overflow-hidden">
-                <div class="card-header border-bottom fw-bold text-primary small bg-light text-center">
-                    RECOMMENDED
-                </div>
-                <div class="card-body p-2 bg-white">
-                    <div class="d-flex justify-content-center align-items-center overflow-hidden" style="min-height: 250px;">
-                        <div style="width: 300px; flex-shrink: 0;">
-                            <ins class="dmm-widget-placement" data-id="bee09c210e9d1989e6509a2edc082bfa" style="background:transparent"></ins>
-                            <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts" data-id="bee09c210e9d1989e6509a2edc082bfa"></script>
-                        </div>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold text-center border-bottom">RECOMMENDED</div>
+                <div class="card-body p-2 d-flex justify-content-center overflow-hidden">
+                    <div style="width: 300px;">
+                        <ins class="dmm-widget-placement" data-id="bee09c210e9d1989e6509a2edc082bfa" style="background:transparent"></ins>
+                        <script src="https://widget-view.dmm.co.jp/js/placement.js" class="dmm-widget-scripts" data-id="bee09c210e9d1989e6509a2edc082bfa"></script>
                     </div>
                 </div>
             </div>
 
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold text-center border-bottom">人気のカテゴリー</div>
+                <div class="card-body d-flex flex-wrap gap-2 justify-content-center">
+                    @isset($tags)
+                        @foreach($tags as $tag)
+                            <a href="{{ route('tags.show', $tag->name) }}" class="badge rounded-pill border text-secondary text-decoration-none py-2 px-3 bg-light">#{{ $tag->name }}</a>
+                        @endforeach
+                    @endisset
+                </div>
+            </div>
             <div class="card bg-white border shadow-sm">
                 <div class="card-header border-bottom fw-bold small bg-light text-center text-lg-start" style="color: var(--text-main);">
                     <i class="fas fa-clock me-1 text-primary"></i> 最新のレビュー

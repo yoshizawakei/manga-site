@@ -24,6 +24,8 @@ class MangaController extends Controller
         // サイドバーに表示するための「最新作品」も取得（５件など）
         $contents_latest = Content::orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('show', compact('content', 'contents_latest'));
+        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(10)->get(); // 人気タグ
+
+        return view('show', compact('content', 'contents_latest', 'tags'));
     }
 }
