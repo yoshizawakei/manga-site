@@ -1,67 +1,69 @@
 @extends('layouts.app')
 
-@section('title', ' | ' . $title)
+@section('title', $title . ' の記事一覧')
 
 @section('content')
     <div class="container-xxl my-4">
-        <section class="other-manga-section">
-            {{-- セクションタイトル：エメラルドのアクセント --}}
-            <div class="d-flex align-items-center mb-4 border-bottom border-secondary pb-3">
-                <h2 class="section-title text-white mb-0 fs-3 fw-bold">
-                    <i class="fas fa-layer-group me-2 text-primary"></i>{{ $title }}
-                </h2>
-                <span class="ms-3 badge rounded-pill bg-dark border border-secondary text-secondary small">
-                    {{ $contents->total() }} items
+        <section class="practice-log-section">
+            
+            {{-- セクションタイトル --}}
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <h1 class="h4 fw-bold mb-0" style="color: var(--text-main);">
+                    <i class="fas fa-hashtag me-2 text-primary"></i>{{ $title }}
+                </h1>
+                <span class="ms-3 badge rounded-pill bg-primary bg-opacity-10 text-primary border border-primary-subtle small">
+                    {{ $contents->total() }} 記事
                 </span>
             </div>
 
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 manga-grid">
-                @if ($contents->count() > 0)
-                    @foreach ($contents as $content)
-                        <div class="col">
-                            {{-- 修正：manga-card クラスを適用し、デザインを統一 --}}
-                            <article class="card manga-card border-0 p-0 h-100 shadow-sm overflow-hidden">
-                                {{-- 修正：詳細ページ(manga.show)へのリンクに変更し、内部回遊を促す --}}
-                                <a href="{{ route('manga.show', $content->id) }}" class="text-decoration-none text-white">
-                                    <div class="position-relative overflow-hidden">
-                                        <img src="{{ $content->image_url }}" class="card-img-top" alt="{{ $content->title }}" 
-                                             style="aspect-ratio: 3/4; object-fit: cover; transition: transform 0.5s ease;">
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <h3 class="card-title fs-6 fw-bold text-truncate mb-2">{{ $content->title }}</h3>
-                                        <div class="manga-description card-text text-secondary smaller" style="line-height: 1.5;">
-                                            {{ Str::limit($content->description, 50) }}
-                                        </div>
-                                        
-                                        {{-- タグがあれば表示（任意） --}}
-                                        @if($content->tags->count() > 0)
-                                            <div class="mt-2 pt-2 border-top border-secondary border-opacity-50">
-                                                <span class="text-primary smaller">
-                                                    #{{ $content->tags->first()->name }}
-                                                </span>
+            <div class="row g-4">
+                {{-- メインコンテンツ --}}
+                <div class="col-lg-8">
+                    @if ($contents->count() > 0)
+                        <div class="row g-3">
+                            @foreach ($contents as $content)
+                                <div class="col-12 mb-2">
+                                    <article class="card h-100 border-0 shadow-sm overflow-hidden bg-white">
+                                        <a href="{{ route('manga.show', $content->id) }}" class="text-decoration-none d-flex flex-column flex-md-row">
+                                            {{-- 画像エリア --}}
+                                            <div class="col-md-4 col-lg-3" style="background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 150px;">
+                                                <img src="{{ $content->image_url }}" class="img-fluid p-2" style="max-height: 140px; object-fit: contain;" alt="{{ $content->title }}">
                                             </div>
-                                        @endif
-                                    </div>
-                                </a>
-                            </article>
+                                            
+                                            {{-- テキストエリア --}}
+                                            <div class="card-body p-3 p-md-4 flex-grow-1">
+                                                <div class="text-secondary small mb-1">
+                                                    <i class="far fa-calendar-alt me-1"></i>{{ $content->created_at->format('Y.m.d') }}
+                                                </div>
+                                                <h2 class="card-title text-main fs-5 fw-bold mb-2">{{ $content->title }}</h2>
+                                                <p class="text-secondary small mb-0 line-clamp-2">
+                                                    {{ Str::limit(strip_tags($content->description), 90) }}
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                @else
-                    <div class="col-12 py-5 text-center">
-                        <div class="no-results p-5 rounded-4 bg-dark bg-opacity-50 border border-secondary border-dashed">
-                            <i class="fas fa-search-minus fa-3x text-secondary mb-3"></i>
-                            <p class="text-secondary fs-5 mb-0">該当するコンテンツは見つかりませんでした。</p>
-                            <a href="{{ route('top.index') }}" class="btn btn-outline-primary mt-4 px-4 rounded-pill">
+
+                        {{-- ページネーション --}}
+                        <div class="pagination-links mt-5 d-flex justify-content-center">
+                            {{ $contents->links('pagination::bootstrap-4') }}
+                        </div>
+
+                    @else
+                        <div class="py-5 text-center bg-white rounded-4 border shadow-sm">
+                            <i class="fas fa-search-minus fa-3x text-light mb-3"></i>
+                            <p class="text-secondary fs-5 mb-0">このカテゴリーの記事は準備中です。</p>
+                            <a href="{{ route('top.index') }}" class="btn btn-primary mt-4 px-5 rounded-pill shadow-sm">
                                 トップページに戻る
                             </a>
                         </div>
-                    </div>
-                @endif
-            </div>
+                    @endif
+                </div>
 
-            {{-- ページネーション --}}
-            <div class="pagination-links mt-5 d-flex justify-content-center">
-                {{ $contents->links('pagination::bootstrap-4') }}
+                {{-- サイドバーの呼び出し --}}
+                @include('partials.sidebar')
             </div>
         </section>
     </div>
@@ -69,19 +71,11 @@
 
 @section('css')
 <style>
-    /* 画像ホバー時のズームエフェクト */
-    .manga-card:hover img {
-        transform: scale(1.1);
-    }
-    
-    /* カードのテキスト調整 */
-    .smaller {
-        font-size: 0.75rem;
-    }
-    
-    /* 枠線がダッシュ（点線）のスタイル（結果なし用） */
-    .border-dashed {
-        border-style: dashed !important;
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 </style>
 @endsection

@@ -71,3 +71,8 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // 作品詳細ページ（自サイト内のレビュー記事）
 Route::get('/manga/{id}', [MangaController::class, 'show'])->name('manga.show');
+
+// プロフィールページを追加
+Route::get('/profile', [PageController::class, 'profile'])->name('top.profile');
+
+Route::delete('/admin/inquiries/{inquiry}', [ContactController::class, 'destroyInquiry'])->name('admin.inquiries.destroy');

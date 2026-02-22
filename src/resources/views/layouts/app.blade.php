@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {{-- SEO対策 --}}
-    <title>@yield('title', 'ホーム') | エロ漫画と夜のおもちゃ</title>
-    <meta name="description" content="@yield('description', 'エロ漫画と夜のおもちゃは、毎日更新される漫画や大人のおもちゃのレビューメディアです。')">
-    <meta name="keywords" content="@yield('keywords', '漫画レビュー,おすすめ漫画,無料漫画,エロ漫画,夜のおもちゃ,アダルトトイ')">
-    <link rel="canonical" href="{{ url()->current() }}">
-    
+    {{-- タイトル --}}
+    <title>@yield('title', 'ホーム') | Keiの副業ログ ｜未経験からの収益化実践記</title>
+
+        {{-- メタタグ --}}
+    <meta name="description" content="@yield('description', 'スキルなし・知識ゼロから副業ブログをスタート。初収益を出すまでの道のりや、初心者がつまずきやすいポイントを実体験ベースで共有。一歩ずつ着実に収益化を目指す記録です。')">
+    <meta name="keywords" content="@yield('keywords', '副業,ブログ運営,収益化,初心者,実践記,未経験,在宅ワーク,アフィリエイト')">
+
     {{-- OGP設定 --}}
-    <meta property="og:site_name" content="エロ漫画と夜のおもちゃ">
-    <meta property="og:title" content="@yield('title', 'ホーム') | エロ漫画と夜のおもちゃ">
-    <meta property="og:description" content="@yield('description', '毎日更新される厳選漫画と大人のおもちゃのレビューメディア。')">
+    <meta property="og:site_name" content="Keiの副業ログ｜未経験からの収益化実践記">
+    <meta property="og:title" content="@yield('title', 'ホーム') | Keiの副業ログ">
+    <meta property="og:description" content="@yield('description', 'スキルなし・知識ゼロから副業ブログをスタート。初収益を出すまでの道のりや、初心者がつまずきやすいポイントを実体験ベースで共有。一歩ずつ着実に収益化を目指す記録です。')">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta name="twitter:card" content="summary_large_image">
@@ -48,7 +49,11 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .navbar-brand { font-weight: 800; color: var(--primary-color) !important; }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--primary-color) !important;
+        }
 
         /* コンテナ共通パディング */
         .main-content-container, .contact-container, .policy-container, .detail-card {
@@ -90,6 +95,24 @@
             justify-content: center;
         }
 
+        /* カードにマウスを置いた時の動き */
+        .card.h-100 {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card.h-100:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+        /* タイトルを最大2行に制限 */
+        .card-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
         @media (max-width: 576px) {
             .btn-responsive-group {
                 flex-direction: column;
@@ -104,8 +127,19 @@
             .main-content-container, .contact-container {
                 padding: 1.5rem !important;
             }
+            .main-content-container img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.5rem;
+            }
+            /* テーブルがスマホで崩れないように */
+            .main-content-container table {
+                width: 100%;
+                margin-bottom: 1rem;
+                overflow-x: auto;
+                display: block;
+            }
         }
-
         @yield('css')
     </style>
 </head>
@@ -114,16 +148,21 @@
         <nav class="navbar navbar-expand-lg navbar-light sticky-top">
             <div class="container-xxl">
                 <a class="navbar-brand d-flex align-items-center" href="{{ route('top.index') }}">
-                    <i class="fas fa-book-open me-2"></i>エロ漫画と夜のおもちゃ
+                    {{-- 成長をイメージするアイコンに変更 --}}
+                    <i class="fas fa-shoe-prints me-2"></i>Keiの副業ログ
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-nav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.index') }}">ホーム</a></li>
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('tags.index') }}">タグ一覧</a></li>
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.contact') }}">お問合せ</a></li>
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.index') }}">ホーム</a>
+                        </li>
+                        {{-- アフィリエイトブログで役立つ「カテゴリ（タグ）」や「実践記」への導線 --}}
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('tags.index') }}">ジャンル別</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link px-3 fw-bold"
+                                href="{{ route('top.contact') }}">お問い合わせ</a></li>
                     </ul>
                 </div>
             </div>
@@ -131,20 +170,31 @@
     </header>
 
     <main>
+        {{-- コンテンツの背景に少し余白を持たせるため、必要に応じてcontainerで囲むと綺麗です --}}
         @yield('content')
     </main>
 
     <footer class="text-center py-5 mt-5 border-top bg-white">
         <div class="container">
+            <div class="mb-4">
+                <p class="fw-bold mb-1">Keiの副業ログ</p>
+                <p class="text-secondary small">未経験からの収益化実践記</p>
+            </div>
             <ul class="list-inline mb-4">
-                <li class="list-inline-item mx-2"><a href="{{ route('top.sitePolicy') }}" class="text-secondary text-decoration-none small">サイトポリシー</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route('top.disclaimer') }}" class="text-secondary text-decoration-none small">免責事項</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route('top.privacyPolicy') }}" class="text-secondary text-decoration-none small">個人情報保護</a></li>
+                <li class="list-inline-item mx-2"><a href="{{ route('top.sitePolicy') }}"
+                        class="text-secondary text-decoration-none small">サイトポリシー</a></li>
+                <li class="list-inline-item mx-2"><a href="{{ route('top.disclaimer') }}"
+                        class="text-secondary text-decoration-none small">免責事項</a></li>
+                <li class="list-inline-item mx-2"><a href="{{ route('top.privacyPolicy') }}"
+                        class="text-secondary text-decoration-none small">プライバシーポリシー</a></li>
             </ul>
-            <p class="text-secondary small">&copy; {{ date('Y') }} エロ漫画と夜のおもちゃ - All Rights Reserved.</p>
+            <p class="text-secondary small">&copy; {{ date('Y') }} Keiの副業ログ - All Rights Reserved.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @yield('script')
+    @yield('scripts')
 </body>
 </html>

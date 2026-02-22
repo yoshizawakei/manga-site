@@ -36,11 +36,16 @@ class TagController extends Controller
             $query->whereHas('tags', function ($q) use ($tag) {
                 $q->where('tags.id', $tag->id);
             });
-            $title = 'タグ：' . $tag->name;
+            $title = $tag->name; // 「タグ：」を外すとスッキリします
         }
 
         $contents = $query->latest()->paginate(12);
 
-        return view('tags-show', compact('contents', 'title'));
+        // ★サイドバー用のデータを取得
+        $contents_latest = Content::latest()->take(5)->get();
+
+        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+
+        return view('tags-show', compact('contents', 'title', 'contents_latest', 'tags'));
     }
 }

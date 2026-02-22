@@ -7,17 +7,19 @@ use App\Models\Tag;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage; // 画像保存に必須
 
 class AdminController extends Controller
 {
-    // バリデーションの共通化（$idがある場合は更新時に自分を除外）
+    // バリデーションの共通化
     private function validateContentData(Request $request, $id = null)
     {
         return $request->validate([
             'title' => 'required|string|max:255|unique:contents,title,' . $id,
             'description' => 'required|string',
-            'body' => 'nullable|string', // ★追加：レビュー本文
-            'image_url' => 'nullable',
+            'body' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ファイルバリデーション
+            'image_url' => 'nullable|string',
             'content_url' => 'required',
             'tag' => 'nullable|string',
         ]);
@@ -34,7 +36,7 @@ class AdminController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, true)) {
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
@@ -57,10 +59,22 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->validateContentData($request);
-        $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
-        unset($validatedData['tag']);
 
-        $content = Content::create($validatedData);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('contents', 'public');
+            $validatedData['image_url'] = \Storage::url($path);
+        }
+
+        // bodyが確実に含まれるように明示的に配列を作成
+        $content = Content::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'body' => $request->input('body'), // 確実に入力値を取得
+            'image_url' => $validatedData['image_url'] ?? null,
+            'content_url' => $validatedData['content_url'],
+        ]);
+
+        $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
         $this->syncTags($content, $tagsArray);
         $this->postToX($content);
 
@@ -84,10 +98,22 @@ class AdminController extends Controller
     public function update(Request $request, Content $content)
     {
         $validatedData = $this->validateContentData($request, $content->id);
-        $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
-        unset($validatedData['tag']);
 
-        $content->update($validatedData);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('contents', 'public');
+            $validatedData['image_url'] = \Storage::url($path);
+        }
+
+        // 更新時も明示的に指定
+        $content->update([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'body' => $request->input('body'),
+            'image_url' => $validatedData['image_url'] ?? $content->image_url,
+            'content_url' => $validatedData['content_url'],
+        ]);
+
+        $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
         $this->syncTags($content, $tagsArray);
 
         return redirect()->route('admin.dashboard')->with('success', 'コンテンツを更新しました。');
@@ -123,8 +149,6 @@ class AdminController extends Controller
 
     private function postToX(Content $content)
     {
-        $tags = $content->tags->pluck('name')->map(fn($t) => "#" . $t)->implode(' ');
-        $message = "【新着レビュー】\n「{$content->title}」を追加しました！\n\n{$content->content_url}\n\n{$tags}";
         \Log::info("X投稿試行: " . $content->title);
     }
 }

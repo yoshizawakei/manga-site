@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
-@section('title', ' | 免責事項')
+@section('title', '免責事項')
 
 @section('css')
     <style>
-        /* 免責事項ページ専用コンテナ：パディングの直接指定は廃止しラッパーで行う */
         .policy-container {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -13,7 +12,6 @@
             overflow: hidden;
         }
 
-        /* メインタイトル */
         .policy-container h2 {
             color: var(--primary-color);
             font-weight: 800;
@@ -23,7 +21,6 @@
             letter-spacing: -0.02em;
         }
 
-        /* セクション見出し */
         .policy-container h3 {
             color: var(--text-main);
             font-size: 1.5rem;
@@ -33,6 +30,7 @@
             display: flex;
             align-items: center;
         }
+
         .policy-container h3::before {
             content: "";
             display: inline-block;
@@ -43,7 +41,6 @@
             border-radius: 2px;
         }
 
-        /* 本文テキスト */
         .policy-container p {
             color: var(--text-secondary);
             line-height: 1.8;
@@ -51,11 +48,10 @@
             font-weight: 500;
         }
 
-        /* 警告・重要事項の強調枠：ライトモードで見やすいアンバーに調整 */
         .policy-alert {
-            background-color: #fffbeb; /* 非常に薄いアンバー */
-            border: 2px solid #f59e0b; /* アンバーの境界線 */
-            color: #b45309; /* 濃い茶色に近いアンバーで文字を読みやすく */
+            background-color: #fffbeb;
+            border: 2px solid #f59e0b;
+            color: #b45309;
             padding: 1.5rem;
             border-radius: 0.75rem;
             margin: 2.5rem 0;
@@ -69,7 +65,6 @@
             text-align: center;
         }
 
-        /* パンくずリストの色固定 */
         .breadcrumb-item a {
             color: var(--primary-color) !important;
             text-decoration: none;
@@ -79,63 +74,60 @@
 @endsection
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-12 col-lg-10 col-xl-9">
-        <div class="policy-container shadow-sm">
-            {{-- 内側にしっかりパディングを確保 --}}
-            <div class="p-4 p-md-5">
-                {{-- パンくずリスト --}}
-                <nav aria-label="breadcrumb" class="mb-4 small">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{{ route('top.index') }}">ホーム</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">免責事項</li>
-                    </ol>
-                </nav>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+            <div class="policy-container shadow-sm bg-white">
+                <div class="p-4 p-md-5">
+                    <nav aria-label="breadcrumb" class="mb-4 small">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ route('top.index') }}">ホーム</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">免責事項</li>
+                        </ol>
+                    </nav>
 
-                <h2>免責事項</h2>
-                <p class="lead fw-bold" style="color: var(--text-main);">
-                    当サイトは、DMM.com、FANZA、DLsite、忍者AdMax等のアフィリエイトサービスを利用して運営されています。
-                </p>
-
-                <hr class="my-5" style="border-color: var(--border-color); opacity: 1;">
-
-                <section>
-                    <h3>1. コンテンツの正確性・完全性について</h3>
-                    <p>
-                        当サイトで紹介している作品情報、価格、在庫状況などは、提携先サイトの情報を元に作成していますが、これらは常に変動する可能性があります。
-                        最新の情報は、必ずリンク先の公式サイト（FANZA、DLsite等）にてご確認ください。
+                    <h2>免責事項</h2>
+                    <p class="lead fw-bold" style="color: var(--text-main);">
+                        「Keiの副業ログ」（以下、当ブログ）における免責事項は、下記の通りです。
                     </p>
-                    <div class="policy-alert shadow-sm">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        当サイトのご利用によって生じた、いかなる損害につきましても、当サイトでは一切の責任を負いかねます。
+
+                    <hr class="my-5" style="border-color: var(--border-color); opacity: 1;">
+
+                    <section>
+                        <h3>1. 情報の正確性について</h3>
+                        <p>
+                            当ブログのコンテンツや情報において、可能な限り正確な情報を掲載するよう努めておりますが、誤情報が入り込んだり、情報が古くなっていることもございます。
+                            特にIT技術や副業関連の情報は変化が早いため、必ずしも正確性や安全性を保証するものではありません。
+                        </p>
+                        <div class="policy-alert shadow-sm">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            当ブログに掲載された内容によって生じた損害等の一切の責任を負いかねますのでご了承ください。
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>2. リンク先サイトについて</h3>
+                        <p>
+                            当ブログから移動した先のサイトで提供される情報、サービス等について一切の責任を負いません。
+                            また、当ブログで紹介しているサービスやツールの利用に関しては、ユーザーご自身の責任において行っていただけますようお願いいたします。
+                        </p>
+                    </section>
+
+                    <section>
+                        <h3>3. 広告について</h3>
+                        <p>
+                            当ブログはアフィリエイトプログラムに参加しており、商品やサービスを紹介しています。
+                            紹介している商品等の詳細な購入方法、お問い合わせは、リンク先の各販売店へ直接ご確認ください。当ブログではお答えいたしかねる場合がございます。
+                        </p>
+                    </section>
+
+                    <div class="policy-footer">
+                        <p class="small text-secondary mb-3">最終改訂日：2026年02月19日</p>
+                        <a href="{{ route('top.index') }}" class="btn btn-outline-dark px-5 rounded-pill fw-bold btn-sm">
+                            <i class="fas fa-arrow-left me-2"></i>ホームへ戻る
+                        </a>
                     </div>
-                    <p>当サイトのコンテンツの正確性、完全性、有用性については一切保証いたしません。</p>
-                </section>
-
-                <section>
-                    <h3>2. 外部サイトへのリンクについて</h3>
-                    <p>
-                        当サイトから外部サイトへ移動した場合、移動先サイトで提供される情報やサービス、個人情報の取り扱い等について、当サイトは一切の責任を負いません。
-                        広告リンク先の利用については、各提携サイトの規約を遵守してください。
-                    </p>
-                </section>
-
-                <section>
-                    <h3>3. 広告の表示について</h3>
-                    <p>
-                        当サイトに掲載されている広告は、当サイト運営者が選択したものですが、すべての内容がユーザーのニーズに合致することを保証するものではありません。
-                        広告の表示内容や表現に関する責任は、各広告主に帰属します。
-                    </p>
-                </section>
-
-                <div class="policy-footer">
-                    <p class="small text-secondary mb-3">最終改訂：{{ date('Y年m月d日') }}</p>
-                    <a href="{{ route('top.index') }}" class="btn btn-outline-primary px-5 rounded-pill fw-bold">
-                        <i class="fas fa-arrow-left me-2"></i>ホームへ戻る
-                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
