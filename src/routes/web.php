@@ -70,7 +70,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 // 作品詳細ページ（自サイト内のレビュー記事）
-Route::get('/manga/{id}', [MangaController::class, 'show'])->name('manga.show');
+Route::get('/post/{id}', [MangaController::class, 'show'])->name('post.show');
 
 // プロフィールページを追加
 Route::get('/profile', [PageController::class, 'profile'])->name('top.profile');

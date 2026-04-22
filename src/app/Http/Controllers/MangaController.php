@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Crypt; // ← これを追加
+use Illuminate\Contracts\Encryption\DecryptException; // ← エラーハンドリング用
+
 
 class MangaController extends Controller
 {
@@ -28,10 +31,19 @@ class MangaController extends Controller
     /**
      * 記事詳細画面
      */
-    public function show($id)
+    public function show($encryptedId)
     {
-        // 指定されたIDのコンテンツをタグと一緒に取得
-        $content = Content::with('tags')->findOrFail($id);
+        try {
+            // 1. 暗号を復号して元のIDに戻す
+            $id = Crypt::decryptString($encryptedId);
+
+            // 2. IDを使ってデータベースから取得
+            $content = Content::with('tags')->findOrFail($id);
+
+        } catch (DecryptException $e) {
+            // URLが改ざんされていたり、不正な文字列の場合は404エラーを出す
+            abort(404);
+        }
 
         // サイドバー用：最新記事5件
         $contents_latest = Content::latest()->take(5)->get();

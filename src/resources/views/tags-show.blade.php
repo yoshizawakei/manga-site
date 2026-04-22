@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-xxl my-4">
         <section class="practice-log-section">
-            
+
             {{-- セクションタイトル --}}
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
                 <h1 class="h4 fw-bold mb-0" style="color: var(--text-main);">
@@ -24,12 +24,12 @@
                             @foreach ($contents as $content)
                                 <div class="col-12 mb-2">
                                     <article class="card h-100 border-0 shadow-sm overflow-hidden bg-white">
-                                        <a href="{{ route('manga.show', $content->id) }}" class="text-decoration-none d-flex flex-column flex-md-row">
+                                        <a href="{{ route('post.show', $content->encrypted_id) }}" class="text-decoration-none d-flex flex-column flex-md-row">
                                             {{-- 画像エリア --}}
                                             <div class="col-md-4 col-lg-3" style="background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 150px;">
                                                 <img src="{{ $content->image_url }}" class="img-fluid p-2" style="max-height: 140px; object-fit: contain;" alt="{{ $content->title }}">
                                             </div>
-                                            
+
                                             {{-- テキストエリア --}}
                                             <div class="card-body p-3 p-md-4 flex-grow-1">
                                                 <div class="text-secondary small mb-1">

@@ -34,7 +34,7 @@
             <div class="list-group list-group-flush">
                 @isset($contents_latest)
                     @foreach($contents_latest as $latest)
-                        <a href="{{ route('manga.show', $latest->id) }}" class="list-group-item list-group-item-action bg-white border-bottom small py-3">
+                        <a href="{{ route('post.show', $latest->encrypted_id) }}" class="list-group-item list-group-item-action bg-white border-bottom small py-3">
                             <div class="d-flex align-items-center">
                                 <img src="{{ $latest->image_url }}" class="rounded me-3 border" style="width: 50px; height: 50px; object-fit: cover;" alt="">
                                 <div class="text-truncate fw-bold" style="color: var(--text-main);">{{ $latest->title }}</div>

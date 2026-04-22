@@ -76,7 +76,6 @@ class AdminController extends Controller
 
         $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
         $this->syncTags($content, $tagsArray);
-        $this->postToX($content);
 
         return redirect()->route('admin.dashboard')->with('success', 'コンテンツを新規作成しました。');
     }
@@ -147,8 +146,4 @@ class AdminController extends Controller
         $content->tags()->sync($tagIds);
     }
 
-    private function postToX(Content $content)
-    {
-        \Log::info("X投稿試行: " . $content->title);
-    }
 }

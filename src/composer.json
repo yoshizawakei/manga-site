@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "abraham/twitteroauth": "^4.0",
+        "erusev/parsedown": "^1.8",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/fortify": "^1.19",
@@ -13,7 +15,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "league/commonmark": "^2.8",
-        "thujohn/twitter": "^3.1"
+        "thujohn/twitter": "^3.1",
+        "vinkla/hashids": "^9.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

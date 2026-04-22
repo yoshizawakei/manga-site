@@ -91,6 +91,24 @@
             border-left: 2px solid #10b981;
             padding-left: 0.5rem;
         }
+
+        /* テーブルを綺麗に見せるためのスタイル */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .markdown-body th, .markdown-body td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
     </style>
 @endsection
 
@@ -151,8 +169,10 @@
                 <div class="article-body">
                     <div class="content-text markdown-body"
                         style="color: var(--text-main); line-height: 1.8; letter-spacing: 0.03em; font-size: 1rem;">
-                        <div class="content-text markdown-body">
-                            {!! $content->mark_down_body !!}
+                        <div class="article-body">
+                            <div class="content-text markdown-body">
+                                {!! Str::markdown($content->body) !!}
+                            </div>
                         </div>
                     </div>
 
@@ -179,9 +199,7 @@
                     @endif
                 </div>
 
-                {{-- 以下、執筆者情報・シェアボタン等は変更なしのため省略可能ですが、構造は維持してください --}}
                 <hr class="my-5 border-secondary border-opacity-10">
-                {{-- ... (省略) ... --}}
 
             </div>
         </article>

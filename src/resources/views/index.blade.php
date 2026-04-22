@@ -57,7 +57,7 @@
 
                         <div class="col-12 mb-3">
                             <article class="card h-100 border-0 shadow-sm overflow-hidden bg-white">
-                                <a href="{{ route('manga.show', $manga_all->id) }}" class="text-decoration-none d-flex flex-column flex-md-row">
+                                <a href="{{ route('post.show', $manga_all->encrypted_id) }}" class="text-decoration-none d-flex flex-column flex-md-row">
                                     {{-- 画像エリアを小さく固定 --}}
                                     <div class="col-md-4 col-lg-3"
                                         style="background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 180px;">
