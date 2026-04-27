@@ -1,147 +1,158 @@
 @extends('layouts.app')
 
-@section('title', 'お問い合わせ')
-
-@section('css')
-    <style>
-        /* サイトのテーマカラーに合わせたスタイル調整 */
-        .contact-container h2 {
-            color: var(--primary-color);
-            font-weight: 800;
-            border-left: 6px solid var(--primary-color);
-            padding-left: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            font-weight: 700;
-            color: var(--text-main) !important;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control {
-            background-color: #f8fafc;
-            border: 2px solid var(--border-color);
-            color: var(--text-main);
-            padding: 0.8rem;
-        }
-
-        .form-control:focus {
-            background-color: #fff;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.1);
-        }
-
-        .required-badge {
-            background-color: #ef4444;
-            color: #fff;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 0.4rem;
-            margin-left: 0.5rem;
-        }
-
-        .submit-button {
-            background-color: var(--primary-color);
-            color: #fff !important;
-            font-weight: 800;
-            padding: 1rem 3rem;
-            border-radius: 3rem;
-            border: none;
-            transition: 0.3s;
-        }
-
-        .submit-button:hover {
-            background-color: #059669;
-            transform: translateY(-2px);
-        }
-    </style>
-@endsection
+@section('title', 'CONTACT')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-10 col-xl-8">
-            {{-- .main-content-container クラスがある場合はそれを適用すると余白が統一されます --}}
-            <div class="main-content-container shadow-sm border p-0 bg-white">
-                <div class="p-4 p-md-5">
-                    {{-- パンくずリスト --}}
-                    <nav aria-label="breadcrumb" class="mb-4 small">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('top.index') }}"
-                                    class="text-decoration-none">ホーム</a></li>
-                            <li class="breadcrumb-item active">お問い合わせ</li>
-                        </ol>
-                    </nav>
+    <div class="container py-4 py-lg-5 mt-lg-5">
+        <div class="row justify-content-center">
+            {{-- コンテンツ幅を読みやすく調整 --}}
+            <div class="col-lg-8">
+                <header class="mb-5">
+                    <h1 class="fw-black mb-3"
+                        style="font-size: 2.5rem; letter-spacing: 0.01em; text-transform: uppercase; color: #111;">
+                        CONTACT
+                    </h1>
+                    <p class="text-secondary small" style="letter-spacing: 0.1em;">
+                        お問い合わせ
+                    </p>
+                </header>
 
-                    <h2 class="h3">お問い合わせ</h2>
+                {{-- 成功メッセージ --}}
+                @if (session('success'))
+                    <div class="alert alert-dark border-0 mb-5 p-4 rounded-0 d-flex align-items-center"
+                        style="background-color: #111; color: #fff;">
+                        <i class="fas fa-check-circle me-3"></i>
+                        <div class="fw-bold small">{{ session('success') }}</div>
+                    </div>
+                @endif
 
-                    {{-- 成功メッセージの表示 --}}
-                    @if (session('success'))
-                        <div class="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center" 
-                            style="background-color: #d1fae5; color: #065f46; border-radius: 1rem;">
-                            <i class="fas fa-check-circle me-3 fa-lg"></i>
-                            <div class="fw-bold">{{ session('success') }}</div>
-                        </div>
-                    @endif
+                {{-- エラーメッセージ --}}
+                @if ($errors->any())
+                    <div class="alert alert-light border mb-5 p-4 rounded-0" style="color: #d00;">
+                        <ul class="mb-0 small fw-bold list-unstyled">
+                            @foreach ($errors->all() as $error)
+                                <li><i class="fas fa-exclamation-triangle me-2"></i>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    {{-- バリデーションエラーがあった場合（念のため） --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger border-0 shadow-sm mb-4" 
-                            style="background-color: #fef2f2; color: #991b1b; border-radius: 1rem;">
-                            <ul class="mb-0 small fw-bold">
-                                @foreach ($errors->all() as $error)
-                                    <li><i class="fas fa-exclamation-triangle me-2"></i>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    
-                    <p class="text-secondary mb-5">
+                <div class="mb-5">
+                    <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.8;">
                         当ブログに関するご質問、お仕事のご依頼などは以下のフォームよりお気軽にご連絡ください。<br>
                         通常、2〜3営業日以内に返信させていただきます。
                     </p>
+                </div>
 
-                    {{-- action先は既存の route('top.submitContact') を維持 --}}
-                    <form action="{{ route('top.submitContact') }}" method="POST">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="name" class="form-label">お名前 <span class="required-badge">必須</span></label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="例：山田 太郎" required>
-                        </div>
+                <form action="{{ route('top.submitContact') }}" method="POST" class="contact-form">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="name" class="form-label small fw-bold text-uppercase"
+                            style="letter-spacing: 0.1em;">Name <span class="text-danger">*</span></label>
+                        <input type="text" id="name" name="name" class="form-control custom-input" placeholder="例：山田 太郎"
+                            required>
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="email" class="form-label">メールアドレス <span class="required-badge">必須</span></label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="example@mail.com"
-                                required>
-                        </div>
+                    <div class="mb-4">
+                        <label for="email" class="form-label small fw-bold text-uppercase"
+                            style="letter-spacing: 0.1em;">Email <span class="text-danger">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control custom-input"
+                            placeholder="example@mail.com" required>
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="subject" class="form-label">件名</label>
-                            {{-- 自由入力の代わりにセレクトボックスにすると、何についての連絡か分かりやすくなります --}}
-                            <select id="subject" name="subject" class="form-control form-select">
-                                <option value="ご質問・ご相談">ご質問・ご相談</option>
-                                <option value="お仕事のご依頼">お仕事のご依頼</option>
-                                <option value="その他">その他</option>
-                            </select>
-                        </div>
+                    <div class="mb-4">
+                        <label for="subject" class="form-label small fw-bold text-uppercase"
+                            style="letter-spacing: 0.1em;">Subject</label>
+                        <select id="subject" name="subject" class="form-control form-select custom-input">
+                            <option value="ご質問・ご相談">ご質問・ご相談</option>
+                            <option value="お仕事のご依頼">お仕事のご依頼</option>
+                            <option value="その他">その他</option>
+                        </select>
+                    </div>
 
-                        <div class="mb-5">
-                            <label for="message" class="form-label">お問い合わせ内容 <span class="required-badge">必須</span></label>
-                            <textarea id="message" name="message" rows="6" class="form-control" placeholder="詳細をご記入ください"
-                                required></textarea>
-                        </div>
+                    <div class="mb-5">
+                        <label for="message" class="form-label small fw-bold text-uppercase"
+                            style="letter-spacing: 0.1em;">Message <span class="text-danger">*</span></label>
+                        <textarea id="message" name="message" rows="8" class="form-control custom-input"
+                            placeholder="詳細をご記入ください" required></textarea>
+                    </div>
 
-                        <div class="text-center">
-                            <button type="submit" class="submit-button shadow-sm">
-                                <i class="fas fa-paper-plane me-2"></i>メッセージを送信する
-                            </button>
-                            <p class="text-secondary smaller mt-4">
-                                ※送信前に<a href="{{ route('top.privacyPolicy') }}" target="_blank">プライバシーポリシー</a>をご確認ください。
-                            </p>
-                        </div>
-                    </form>
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn-submit">
+                            SEND MESSAGE →
+                        </button>
+                        <p class="text-secondary mt-4" style="font-size: 0.75rem;">
+                            ※送信前に<a href="{{ route('top.privacyPolicy') }}" target="_blank"
+                                class="text-dark fw-bold">プライバシーポリシー</a>をご確認ください。
+                        </p>
+                    </div>
+                </form>
+
+                <div class="mt-5 pt-5 text-center">
+                    <a href="{{ route('top.index') }}" class="sidebar-link">BACK TO TOP →</a>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('css')
+    <style>
+        .fw-black {
+            font-weight: 900 !important;
+        }
+
+        /* 入力フォーム：ABOUT ME等と同じ直線的なデザイン */
+        .custom-input {
+            border: 1px solid #ddd;
+            border-radius: 0;
+            /* 丸みを消す */
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            background-color: #fff;
+            transition: border-color 0.2s;
+        }
+
+        .custom-input:focus {
+            border-color: #111;
+            box-shadow: none;
+            /* 青い光を消す */
+            background-color: #fff;
+        }
+
+        /* 送信ボタン：モノトーンかつ力強いデザイン */
+        .btn-submit {
+            background-color: #111;
+            color: #fff;
+            font-weight: 900;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            padding: 1.2rem 4rem;
+            border: none;
+            border-radius: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.8;
+            color: #fff;
+        }
+
+        /* 共通リンクスタイル（他ページと同期） */
+        .sidebar-link {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #111;
+            text-decoration: none;
+            border-bottom: 1px solid #111;
+            padding-bottom: 2px;
+            display: inline-block;
+        }
+
+        /* プレースホルダーの色 */
+        ::placeholder {
+            color: #ccc !important;
+            font-size: 0.85rem;
+        }
+    </style>
 @endsection

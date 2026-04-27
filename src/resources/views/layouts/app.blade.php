@@ -1,200 +1,204 @@
 <!DOCTYPE html>
-<html lang="ja" prefix="og: https://ogp.me/ns#">
+<html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'ホーム') | KEI BLOG</title>
 
-    {{-- タイトル --}}
-    <title>@yield('title', 'ホーム') | Keiの副業ログ ｜未経験からの収益化実践記</title>
-
-        {{-- メタタグ --}}
-    <meta name="description" content="@yield('description', 'スキルなし・知識ゼロから副業ブログをスタート。初収益を出すまでの道のりや、初心者がつまずきやすいポイントを実体験ベースで共有。一歩ずつ着実に収益化を目指す記録です。')">
-    <meta name="keywords" content="@yield('keywords', '副業,ブログ運営,収益化,初心者,実践記,未経験,在宅ワーク,アフィリエイト')">
-
-    {{-- OGP設定 --}}
-    <meta property="og:site_name" content="Keiの副業ログ｜未経験からの収益化実践記">
-    <meta property="og:title" content="@yield('title', 'ホーム') | Keiの副業ログ">
-    <meta property="og:description" content="@yield('description', 'スキルなし・知識ゼロから副業ブログをスタート。初収益を出すまでの道のりや、初心者がつまずきやすいポイントを実体験ベースで共有。一歩ずつ着実に収益化を目指す記録です。')">
-    <meta property="og:type" content="@yield('og_type', 'website')">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta name="twitter:card" content="summary_large_image">
-
-    {{-- 外部リソース --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         :root {
-            --bg-light: #f8fafc;
-            --card-bg: #ffffff;
-            --primary-color: #10b981;
-            --border-color: #e2e8f0;
-            --text-main: #1e293b;
-            --text-secondary: #64748b;
+            --bg-body: #ffffff;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border-color: #eeeeee;
         }
 
         body {
-            background-color: var(--bg-light);
+            background-color: var(--bg-body);
             color: var(--text-main);
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            overflow-x: hidden;
+            line-height: 1.8;
+            letter-spacing: 0.03em;
         }
 
+        /* Navbar */
         .navbar {
-            background-color: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(10px);
+            background-color: #fff !important;
             border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 0;
         }
 
         .navbar-brand {
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: var(--primary-color) !important;
+            font-weight: 900;
+            font-size: 1.3rem;
+            letter-spacing: 0.01em;
+            color: var(--text-main) !important;
         }
 
-        /* コンテナ共通パディング */
-        .main-content-container, .contact-container, .policy-container, .detail-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            padding: 3rem !important;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
+        .nav-link {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--text-main) !important;
+            margin-left: 1.2rem;
         }
 
-        /* 巨大な矢印アイコンを隠し、ページネーションを整える */
-        .pagination svg {
-            width: 20px;
-            height: 20px;
-        }
-        .pagination .flex.justify-between.flex-1 {
-            display: none; /* スマホ用の重複表示を消す */
+        /* ページネーション */
+        .pagination .page-link {
+            border: none;
+            color: var(--text-main);
+            font-weight: bold;
         }
 
-        /* 広告横揺れ防止用 */
-        .ad-scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+        .pagination .page-item.active .page-link {
+            background-color: var(--text-main);
+            border-radius: 4px;
+        }
+
+        footer {
+            background-color: #fafafa;
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0;
+            margin-top: 5rem;
+        }
+
+        /* サイドバー崩れ防止 */
+        aside .card {
+            border: none !important;
+            background: none !important;
+            margin-bottom: 3rem;
+        }
+
+        aside .card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-bottom: 2px solid #111;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* --- Footer Design --- */
+        footer {
+            background-color: #fff; /* 背景は白のまま、清潔感を重視 */
+            border-top: 1px solid #f0f0f0;
+            padding: 80px 0; /* 圧倒的な余白で「抜き」を作る */
+            margin-top: 100px;
+        }
+
+        .footer-logo a {
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            color: #111;
+            opacity: 0.8;
+        }
+
+        .footer-nav {
             display: flex;
             justify-content: center;
-            padding: 1rem 0;
-        }
-        .ad-scroll-container > div {
-            min-width: 728px;
-            flex-shrink: 0;
+            align-items: center;
+            gap: 20px; /* リンク間の距離 */
         }
 
-        /* ボタン崩れ防止 */
-        .btn-responsive-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
+        .footer-nav a {
+            font-size: 0.65rem; /* あえて小さく */
+            font-weight: 700;
+            color: #888; /* グレーにして情報の優先度を下げる */
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            transition: color 0.3s ease;
         }
 
-        /* カードにマウスを置いた時の動き */
-        .card.h-100 {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .card.h-100:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        .footer-nav a:hover {
+            color: #111; /* ホバーした時だけ黒く光る */
         }
 
-        /* タイトルを最大2行に制限 */
-        .card-title {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.4;
+        .footer-nav .sep {
+            font-size: 0.6rem;
+            color: #ddd;
+            user-select: none;
         }
 
+        .copyright {
+            font-size: 0.6rem;
+            color: #bbb;
+            letter-spacing: 0.05em;
+            margin-top: 20px;
+        }
+
+        /* スマホ表示では縦に並べて美しく */
         @media (max-width: 576px) {
-            .btn-responsive-group {
+            .footer-nav {
                 flex-direction: column;
-                align-items: center;
-                width: 100%;
+                gap: 12px;
             }
-            .btn-responsive-group .btn {
-                width: 100%;
-                max-width: 300px;
-                padding: 1rem !important;
-            }
-            .main-content-container, .contact-container {
-                padding: 1.5rem !important;
-            }
-            .main-content-container img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 0.5rem;
-            }
-            /* テーブルがスマホで崩れないように */
-            .main-content-container table {
-                width: 100%;
-                margin-bottom: 1rem;
-                overflow-x: auto;
-                display: block;
+            .footer-nav .sep {
+                display: none; /* スマホではスラッシュを消す */
             }
         }
+
         @yield('css')
     </style>
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-            <div class="container-xxl">
-                <a class="navbar-brand d-flex align-items-center" href="{{ route('top.index') }}">
-                    {{-- 成長をイメージするアイコンに変更 --}}
-                    <i class="fas fa-shoe-prints me-2"></i>Keiの副業ログ
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav">
+        <nav class="navbar navbar-expand-lg sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ route('top.index') }}">KEI BLOG</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#main-nav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-nav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('top.index') }}">ホーム</a>
-                        </li>
-                        {{-- アフィリエイトブログで役立つ「カテゴリ（タグ）」や「実践記」への導線 --}}
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold" href="{{ route('tags.index') }}">ジャンル別</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link px-3 fw-bold"
-                                href="{{ route('top.contact') }}">お問い合わせ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('top.index') }}">TOP</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('tags.index') }}">CATEGORIES</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('top.contact') }}">CONTACT</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main>
-        {{-- コンテンツの背景に少し余白を持たせるため、必要に応じてcontainerで囲むと綺麗です --}}
-        @yield('content')
-    </main>
+    <main>@yield('content')</main>
 
-    <footer class="text-center py-5 mt-5 border-top bg-white">
+    <footer>
         <div class="container">
-            <div class="mb-4">
-                <p class="fw-bold mb-1">Keiの副業ログ</p>
-                <p class="text-secondary small">未経験からの収益化実践記</p>
+            <div class="footer-content text-center">
+                <div class="footer-logo mb-4">
+                    <a href="{{ route('top.index') }}" class="fw-black text-decoration-none">KEI BLOG</a>
+                </div>
+
+                <nav class="footer-nav mb-4">
+                    <a href="{{ route('top.sitePolicy') }}">SITE POLICY</a>
+                    <span class="sep">/</span>
+                    <a href="{{ route('top.disclaimer') }}">DISCLAIMER</a>
+                    <span class="sep">/</span>
+                    <a href="{{ route('top.privacyPolicy') }}">PRIVACY POLICY</a>
+                </nav>
+
+                <div class="copyright">
+                    &copy; {{ date('Y') }} KEI BLOG. All rights reserved.
+                </div>
             </div>
-            <ul class="list-inline mb-4">
-                <li class="list-inline-item mx-2"><a href="{{ route('top.sitePolicy') }}"
-                        class="text-secondary text-decoration-none small">サイトポリシー</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route('top.disclaimer') }}"
-                        class="text-secondary text-decoration-none small">免責事項</a></li>
-                <li class="list-inline-item mx-2"><a href="{{ route('top.privacyPolicy') }}"
-                        class="text-secondary text-decoration-none small">プライバシーポリシー</a></li>
-            </ul>
-            <p class="text-secondary small">&copy; {{ date('Y') }} Keiの副業ログ - All Rights Reserved.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    @yield('script')
-    @yield('scripts')
 </body>
+
 </html>

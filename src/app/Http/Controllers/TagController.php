@@ -10,10 +10,15 @@ class TagController extends Controller
 {
     public function index()
     {
-        // 全てのタグをコンテンツ数が多い順に取得
+        // 全てのタグを取得
         $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->get();
 
-        return view("tags", compact('tags'));
+        // ★サイドバー用のデータを取得（これを追加）
+        $contents_latest = Content::latest()->take(5)->get();
+        // ★サイドバー用のタグリスト（必要に応じて）
+        $sidebar_tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+
+        return view("tags", compact('tags', 'contents_latest', 'sidebar_tags'));
     }
 
     public function show(Request $request, $tagName = null)

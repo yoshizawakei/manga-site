@@ -2,140 +2,180 @@
 
 @section('title', 'カテゴリー一覧')
 
-@section('css')
-    <style>
-        .tags-main-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .tags-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        .tags-card-header {
-            padding: 1.5rem;
-            background-color: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-weight: 800;
-            font-size: 1.25rem;
-        }
-
-        .tags-card-body {
-            padding: 2rem 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .tags-card-body {
-                padding: 3rem;
-            }
-        }
-
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 0;
-            list-style: none;
-            margin: 0;
-        }
-
-        .tag-badge-link {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: #f8fafc;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .tag-badge-link:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background-color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
-        }
-
-        /* 広告枠のプレースホルダー */
-        .ad-placeholder {
-            background-color: #f1f5f9;
-            border: 2px dashed var(--border-color);
-            border-radius: 1rem;
-            padding: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-    </style>
-@endsection
-
 @section('content')
-    <div class="container-xxl py-4">
-        <div class="tags-main-container">
+    {{-- ヘッダー：他ページと余白・フォントを完全同期 --}}
+    <section class="py-5 mt-lg-5 mb-5">
+        <div class="container px-4">
+            <h1 class="fw-black mb-4" style="font-size: 2.5rem; letter-spacing: 0.01em; text-transform: uppercase;">
+                CATEGORIES
+            </h1>
+            <p class="text-secondary" style="letter-spacing: 0.05em; line-height: 1.8;">
+                これまでの記事をカテゴリー別にまとめています。
+            </p>
+        </div>
+    </section>
 
-            <div class="tags-card shadow-sm bg-white">
-                <div class="tags-card-header d-flex align-items-center">
-                    <i class="fas fa-folder-open me-2 text-primary"></i>
-                    <span>カテゴリー一覧</span>
-                </div>
-
-                <div class="tags-card-body">
-                    {{-- パンくずリスト --}}
-                    <nav aria-label="breadcrumb" class="mb-4 small">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('top.index') }}"
-                                    class="text-decoration-none">ホーム</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">カテゴリー</li>
-                        </ol>
-                    </nav>
-
-                    <h1 class="h5 fw-bold mb-3">気になるテーマから探す</h1>
-                    <p class="text-secondary mb-5 small">これまでの副業の実践記録や、使用しているツールをカテゴリー別にまとめています。</p>
-
-                    @if(isset($tags))
-                        <ul class="tag-list">
-                            @forelse($tags as $tag)
-                                <li>
-                                    <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}" class="tag-badge-link">
-                                        <i class="fas fa-hashtag me-1 text-primary-emphasis opacity-50"></i>{{ $tag->name }}
-                                    </a>
-                                </li>
-                            @empty
-                                <div class="py-5 text-center w-100">
-                                    <p class="text-secondary">現在、登録されているカテゴリーはありません。</p>
-                                </div>
-                            @endforelse
-                        </ul>
+    <div class="container px-4">
+        <div class="row g-5">
+            {{-- 左側：メインコンテンツ --}}
+            <main class="col-lg-8">
+                <div class="mb-5">
+                    @if(isset($tags) && $tags->count() > 0)
+                        <div class="tag-grid">
+                            @foreach($tags as $tag)
+                                <a href="{{ route('tags.show', ['tagName' => $tag->name]) }}" class="tag-item">
+                                    {{ $tag->name }}
+                                </a>
+                            @endforeach
+                        </div>
                     @else
-                        <div class="alert alert-warning border-0 small">
-                            <i class="fas fa-exclamation-triangle me-2"></i>カテゴリー情報を読み込めませんでした。
+                        <div class="py-5 text-center border">
+                            <p class="text-secondary small mb-0">現在、登録されているカテゴリーはありません。</p>
                         </div>
                     @endif
                 </div>
-            </div>
 
-            {{-- 広告セクション（将来用） --}}
-            <div class="mt-5 text-center">
-                <div class="ad-placeholder">
-                    <p class="mb-0">-- 広告 / お知らせ --</p>
+                <div class="mt-5 pt-5 text-center">
+                    <a href="{{ route('top.index') }}" class="sidebar-link">BACK TO TOP →</a>
                 </div>
-            </div>
+            </main>
 
-            <div class="mt-5 text-center">
-                <a href="{{ route('top.index') }}" class="btn btn-outline-dark px-5 rounded-pill fw-bold btn-sm">
-                    <i class="fas fa-arrow-left me-2"></i>トップページへ戻る
-                </a>
-            </div>
-
+            {{-- 右側：サイドバー (PCのみ固定、スマホでは下に流れる) --}}
+            <aside class="col-lg-4">
+                <div class="sidebar-wrapper">
+                    @include('partials.sidebar')
+                </div>
+            </aside>
         </div>
     </div>
+@endsection
+
+@section('css')
+    <style>
+        /* 共通設定 */
+        .fw-black {
+            font-weight: 900 !important;
+            color: #111;
+        }
+
+        /* タググリッドのデザイン：トップページのトーンに合わせる */
+        .tag-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag-item {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #111;
+            /* 細い黒枠 */
+            color: #111;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .tag-item:hover {
+            background-color: #111;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* サイドバー・リンク共通スタイル */
+        .sidebar-link {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #111;
+            text-decoration: none;
+            border-bottom: 1px solid #111;
+            padding-bottom: 4px;
+        }
+
+        /* レスポンシブ制御 */
+        @media (min-width: 992px) {
+            .sidebar-wrapper {
+                position: sticky;
+                top: 100px;
+                padding-left: 3rem;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .sidebar-wrapper {
+                margin-top: 5rem;
+                padding-left: 0;
+            }
+
+            .fw-black {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* サイドバーコンポーネント用：以前の修正内容を補完 */
+        .sidebar-section {
+            margin-bottom: 4rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            border-bottom: 1px solid #111;
+            padding-bottom: 8px;
+            margin-bottom: 1.5rem;
+            color: #111;
+        }
+
+        .sidebar-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-text {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-list li {
+            margin-bottom: 12px;
+        }
+
+        .sidebar-list li a {
+            font-size: 0.9rem;
+            color: #444;
+            text-decoration: none;
+        }
+
+        .latest-item {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .latest-item img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .latest-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.4;
+        }
+    </style>
 @endsection
