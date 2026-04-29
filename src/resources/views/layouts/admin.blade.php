@@ -17,7 +17,8 @@
     {{-- 既存のCSS（適宜パスを調整してください） --}}
     <link rel="stylesheet" href="{{ asset("css/layouts/sanitize.css") }}">
 
-    <title>@yield('title') | Keiの副業ログ</title>
+    <title>@yield('title') | KEI BLOG</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}?v={{ time() }}">
 
     <style>
         :root {

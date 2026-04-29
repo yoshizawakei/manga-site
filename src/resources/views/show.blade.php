@@ -16,7 +16,7 @@
                         @endforeach
                     </div>
 
-                    <h1 class="fw-black mb-4" style="font-size: 1.7rem; line-height: 1.2; color: #111;">
+                    <h1 class="fw-black mb-4" style="font-size: 1.8rem; line-height: 1.4; color: #111;">
                         {{ $content->title }}
                     </h1>
 
@@ -43,6 +43,7 @@
                     </div>
                 @endif
 
+                {{-- 目次エリア --}}
                 <div id="toc" class="toc-container mb-5" style="display:none;">
                     <div class="toc-title text-uppercase">Index</div>
                     <ul id="toc-list" class="toc-list"></ul>
@@ -76,7 +77,7 @@
                 </div>
             </article>
 
-            {{-- サイドバー：他ページと同じ共通パーツを使用 --}}
+            {{-- サイドバー --}}
             <aside class="col-lg-4">
                 <div class="sidebar-sticky-wrapper">
                     @include('partials.sidebar')
@@ -92,141 +93,9 @@
             font-weight: 900 !important;
         }
 
-        /* ===== 全体レイアウト ===== */
-        .container {
-            max-width: 1100px;
-        }
-
-        article {
-            padding-right: 1rem;
-        }
-
-        .article-body {
-            margin-top: 3rem;
-        }
-
-        /* ===== タイポグラフィ ===== */
-        .markdown-body {
-            font-size: 1.05rem;
-            line-height: 2.1;
-            color: #333;
-            letter-spacing: 0.02em;
-        }
-
-        h1 {
-            font-weight: 800;
-            letter-spacing: -0.01em;
-        }
-
-        .markdown-body h2 {
-            font-size: 1.55rem;
-            font-weight: 900;
-            margin-top: 5rem;
-            margin-bottom: 2rem;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #111;
-            color: #111;
-        }
-
-        .markdown-body h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            color: #111;
-        }
-
-        .markdown-body p {
-            margin-bottom: 2.2rem;
-        }
-
-        /* ===== 画像 ===== */
-        img {
-            border-radius: 6px;
-        }
-
-        .article-body img {
-            margin: 2rem 0;
-        }
-
-        /* ===== TOC ===== */
-        .toc-container {
-            background: #fafafa;
-            padding: 1.5rem 1.8rem;
-            border-radius: 6px;
-            border: 1px solid #eee;
-            position: relative;
-        }
-
-        .toc-container::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 10%;
-            height: 80%;
-            width: 3px;
-            background: #111;
-        }
-
-        .toc-title {
-            font-weight: 900;
-            font-size: 0.8rem;
-            margin-bottom: 1.2rem;
-            letter-spacing: 0.1em;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .toc-list li {
-            margin-bottom: 0.6rem;
-        }
-
-        .toc-list a {
-            display: block;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.9rem;
-            padding: 4px 0;
-            transition: all 0.2s;
-        }
-
-        .toc-list a:hover,
-        .toc-list a.active {
-            color: #111;
-            font-weight: bold;
-            transform: translateX(4px);
-        }
-
-        /* ===== おすすめカード ===== */
-        .bg-light {
-            background: #fafafa !important;
-            border: 1px solid #eee;
-            transition: all 0.2s ease;
-        }
-
-        .bg-light:hover {
-            transform: translateY(-2px);
-        }
-
-        .bg-light img {
-            transition: transform 0.3s ease;
-        }
-
-        .bg-light:hover img {
-            transform: scale(1.03);
-        }
-
-        /* ===== サイドバー ===== */
+        /* サイドバー共通パーツ：他ページと同期 */
         .sidebar-section {
             margin-bottom: 3.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
         }
 
         .sidebar-title {
@@ -273,7 +142,6 @@
 
         .sidebar-link:hover {
             opacity: 0.7;
-            color: #111 !important;
         }
 
         .sidebar-list {
@@ -290,12 +158,6 @@
             font-size: 0.9rem;
             color: #444;
             text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .sidebar-list li a:hover {
-            opacity: 0.7;
-            color: #111;
         }
 
         .latest-item {
@@ -303,11 +165,6 @@
             align-items: center;
             text-decoration: none;
             margin-bottom: 15px;
-            transition: opacity 0.2s;
-        }
-
-        .latest-item:hover {
-            opacity: 0.7;
         }
 
         .latest-item img {
@@ -315,7 +172,7 @@
             height: 45px;
             object-fit: cover;
             margin-right: 12px;
-            border-radius: 4px;
+            border-radius: 2px;
         }
 
         .latest-title {
@@ -325,10 +182,121 @@
             line-height: 1.4;
         }
 
+        /* 目次のデザイン */
+        .toc-container {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 2px;
+            border: 1px solid #eee;
+        }
+
+        .toc-title {
+            font-weight: 900;
+            font-size: 0.8rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-item {
+            margin-bottom: 0.6rem;
+        }
+
+        .toc-link-wrap {
+            display: flex;
+            align-items: center;
+        }
+
+        .toc-link {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .toc-link:hover {
+            color: #111;
+        }
+
+        .toc-child-group {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-top: 0.4rem;
+            display: none;
+            border-left: 1px dashed #ccc;
+        }
+
+        .toc-child-group.is-open {
+            display: block;
+        }
+
+        .toc-child-link {
+            text-decoration: none;
+            color: #888;
+            font-size: 0.85rem;
+            display: block;
+            padding: 2px 0;
+        }
+
+        .toc-child-link:hover {
+            color: #111;
+        }
+
+        .toc-toggle {
+            cursor: pointer;
+            display: inline-block;
+            width: 20px;
+            font-size: 0.6rem;
+            color: #999;
+            transition: transform 0.2s;
+        }
+
+        .toc-toggle.is-active {
+            transform: rotate(90deg);
+            color: #111;
+        }
+
+        /* 本文スタイル */
+        .markdown-body {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: #333;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #111;
+            color: #111;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-top: 3rem;
+            margin-bottom: 1.2rem;
+            color: #111;
+        }
+
+        .markdown-body p {
+            margin-bottom: 2rem;
+        }
+
         @media (min-width: 992px) {
             .sidebar-sticky-wrapper {
                 position: sticky;
-                top: 120px;
+                top: 100px;
                 padding-left: 3rem;
             }
         }
@@ -336,36 +304,74 @@
 @endsection
 
 @section('script')
+    {{-- Markdown解析用のライブラリをここで読み込み --}}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const body = document.querySelector('.markdown-body');
             const tocList = document.getElementById('toc-list');
             const tocContainer = document.getElementById('toc');
+            if (!body || !tocList || !tocContainer) return;
+
+            // 本文の中から見出しを探す
             const headings = body.querySelectorAll('h2, h3');
 
+            // 見出しが1つ以上あれば目次を表示する
             if (headings.length > 0) {
-                tocContainer.style.display = 'block';
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            document.querySelectorAll('.toc-list a').forEach(a => a.classList.remove('active'));
-                            const activeAnchor = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
-                            if (activeAnchor) activeAnchor.classList.add('active');
-                        }
-                    });
-                }, { rootMargin: '-10% 0px -80% 0px' });
+                // CSSに勝てるように明示的に表示
+                tocContainer.style.setProperty('display', 'block', 'important');
+
+                let currentH2Li = null;
+                let currentChildGroup = null;
 
                 headings.forEach((heading, index) => {
-                    const id = 'heading-' + index;
+                    const id = 'section-' + index;
                     heading.setAttribute('id', id);
-                    observer.observe(heading);
-                    const li = document.createElement('li');
-                    if (heading.tagName === 'H3') li.style.paddingLeft = '1.2rem';
-                    const a = document.createElement('a');
-                    a.href = '#' + id;
-                    a.textContent = heading.textContent;
-                    li.appendChild(a);
-                    tocList.appendChild(li);
+
+                    if (heading.tagName === 'H2') {
+                        currentH2Li = document.createElement('li');
+                        currentH2Li.className = 'toc-item';
+
+                        const linkWrap = document.createElement('div');
+                        linkWrap.className = 'toc-link-wrap';
+
+                        const toggle = document.createElement('span');
+                        toggle.className = 'toc-toggle';
+                        toggle.style.visibility = 'hidden';
+                        toggle.innerHTML = '▶';
+                        linkWrap.appendChild(toggle);
+
+                        const a = document.createElement('a');
+                        a.href = '#' + id;
+                        a.className = 'toc-link';
+                        a.textContent = heading.textContent;
+                        linkWrap.appendChild(a);
+
+                        currentH2Li.appendChild(linkWrap);
+                        tocList.appendChild(currentH2Li);
+
+                        currentChildGroup = document.createElement('ul');
+                        currentChildGroup.className = 'toc-child-group';
+                        currentH2Li.appendChild(currentChildGroup);
+
+                        toggle.onclick = (e) => {
+                            toggle.classList.toggle('is-active');
+                            currentChildGroup.classList.toggle('is-open');
+                        };
+                    }
+                    else if (heading.tagName === 'H3' && currentChildGroup) {
+                        const parentToggle = currentH2Li.querySelector('.toc-toggle');
+                        if (parentToggle) parentToggle.style.visibility = 'visible';
+
+                        const childLi = document.createElement('li');
+                        const childA = document.createElement('a');
+                        childA.href = '#' + id;
+                        childA.className = 'toc-child-link';
+                        childA.textContent = heading.textContent;
+                        childLi.appendChild(childA);
+                        currentChildGroup.appendChild(childLi);
+                    }
                 });
             }
         });
