@@ -16,7 +16,7 @@
                         @endforeach
                     </div>
 
-                    <h1 class="fw-black mb-4" style="font-size: 2.2rem; line-height: 1.4; color: #111;">
+                    <h1 class="fw-black mb-4" style="font-size: 1.7rem; line-height: 1.2; color: #111;">
                         {{ $content->title }}
                     </h1>
 
@@ -92,9 +92,141 @@
             font-weight: 900 !important;
         }
 
-        /* 1. サイドバーのデザインを他ページと完全同期 */
+        /* ===== 全体レイアウト ===== */
+        .container {
+            max-width: 1100px;
+        }
+
+        article {
+            padding-right: 1rem;
+        }
+
+        .article-body {
+            margin-top: 3rem;
+        }
+
+        /* ===== タイポグラフィ ===== */
+        .markdown-body {
+            font-size: 1.05rem;
+            line-height: 2.1;
+            color: #333;
+            letter-spacing: 0.02em;
+        }
+
+        h1 {
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.55rem;
+            font-weight: 900;
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #111;
+            color: #111;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .markdown-body p {
+            margin-bottom: 2.2rem;
+        }
+
+        /* ===== 画像 ===== */
+        img {
+            border-radius: 6px;
+        }
+
+        .article-body img {
+            margin: 2rem 0;
+        }
+
+        /* ===== TOC ===== */
+        .toc-container {
+            background: #fafafa;
+            padding: 1.5rem 1.8rem;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            position: relative;
+        }
+
+        .toc-container::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10%;
+            height: 80%;
+            width: 3px;
+            background: #111;
+        }
+
+        .toc-title {
+            font-weight: 900;
+            font-size: 0.8rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.6rem;
+        }
+
+        .toc-list a {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 4px 0;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: #111;
+            font-weight: bold;
+            transform: translateX(4px);
+        }
+
+        /* ===== おすすめカード ===== */
+        .bg-light {
+            background: #fafafa !important;
+            border: 1px solid #eee;
+            transition: all 0.2s ease;
+        }
+
+        .bg-light:hover {
+            transform: translateY(-2px);
+        }
+
+        .bg-light img {
+            transition: transform 0.3s ease;
+        }
+
+        .bg-light:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ===== サイドバー ===== */
         .sidebar-section {
             margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
         }
 
         .sidebar-title {
@@ -183,7 +315,7 @@
             height: 45px;
             object-fit: cover;
             margin-right: 12px;
-            border-radius: 2px;
+            border-radius: 4px;
         }
 
         .latest-title {
@@ -193,76 +325,10 @@
             line-height: 1.4;
         }
 
-        /* 2. 目次と本文のスタイル */
-        .toc-container {
-            background: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 2px;
-        }
-
-        .toc-title {
-            font-weight: 900;
-            font-size: 0.8rem;
-            margin-bottom: 1.2rem;
-            letter-spacing: 0.1em;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .toc-list li {
-            margin-bottom: 0.6rem;
-        }
-
-        .toc-list a {
-            text-decoration: none;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .toc-list a:hover,
-        .toc-list a.active {
-            color: #111;
-            font-weight: bold;
-        }
-
-        .markdown-body {
-            font-size: 1.05rem;
-            line-height: 2;
-            color: #333;
-        }
-
-        .markdown-body h2 {
-            font-size: 1.6rem;
-            font-weight: 900;
-            margin-top: 4rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #111;
-            color: #111;
-        }
-
-        .markdown-body h3 {
-            font-size: 1.3rem;
-            font-weight: 900;
-            margin-top: 3rem;
-            margin-bottom: 1.2rem;
-            color: #111;
-        }
-
-        .markdown-body p {
-            margin-bottom: 2rem;
-        }
-
         @media (min-width: 992px) {
             .sidebar-sticky-wrapper {
                 position: sticky;
-                top: 100px;
+                top: 120px;
                 padding-left: 3rem;
             }
         }

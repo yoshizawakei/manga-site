@@ -9,7 +9,7 @@
             <div class="col-lg-8">
                 <header class="mb-5">
                     <h1 class="fw-black mb-3"
-                        style="font-size: 2.5rem; letter-spacing: 0.01em; text-transform: uppercase; color: #111;">
+                        style="font-size: 2.0rem; letter-spacing: 0.01em; text-transform: uppercase; color: #111;">
                         CONTACT
                     </h1>
                     <p class="text-secondary small" style="letter-spacing: 0.1em;">

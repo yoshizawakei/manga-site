@@ -4,7 +4,7 @@
 
 @section("css")
     <style>
-        /* 1. 編集画面の全体レイアウト */
+        /* 1. 全体レイアウト */
         body {
             background-color: #f1f5f9 !important;
         }
@@ -17,7 +17,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
 
-        /* 2. 入力フィールドのデザイン */
+        /* 2. 入力フィールド */
         input[type="text"],
         input[type="file"],
         textarea {
@@ -47,7 +47,7 @@
             color: #1e293b;
         }
 
-        /* 3. 【最重要】プレビュー内のデザインを本番(show.blade.php)と完全同期 */
+        /* 3. 本番(show.blade.php)と同期したプレビューデザイン */
         .markdown-body {
             font-size: 1.05rem;
             line-height: 2;
@@ -57,40 +57,58 @@
         .markdown-body h2 {
             font-size: 1.6rem;
             font-weight: 900;
-            margin-top: 2rem;
-            /* プレビュー用に少し調整 */
+            margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             padding-bottom: 10px;
             border-bottom: 2px solid #111;
-            /* 本番と同じ黒の下線 */
             color: #111;
         }
 
         .markdown-body h3 {
             font-size: 1.3rem;
             font-weight: 900;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             margin-bottom: 1.2rem;
             color: #111;
         }
 
-        .markdown-body p {
-            margin-bottom: 1.5rem;
-        }
-
-        .markdown-body ul,
-        .markdown-body ol {
-            margin-bottom: 1.5rem;
-        }
-
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
+        /* 4. 目次(TOC)のプレビューデザイン */
+        .toc-preview {
+            background: #f9f9f9;
+            padding: 1.5rem;
             border-radius: 2px;
-            margin: 1rem 0;
+            margin-bottom: 2rem;
+            border: 1px solid #eee;
         }
 
-        /* 4. 送信ボタン */
+        .toc-title {
+            font-weight: 900;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: 1.2rem;
+            font-size: 0.85rem;
+        }
+
+        /* 5. 送信ボタン */
         .btn-submit-action {
             display: block !important;
             width: 100% !important;
@@ -103,8 +121,8 @@
             border-radius: 12px !important;
             cursor: pointer !important;
             box-shadow: 0 8px 0 #047857 !important;
-            text-align: center !important;
-            margin-top: 30px !important;
+            text-align: center;
+            margin-top: 30px;
             text-decoration: none;
         }
 
@@ -124,7 +142,7 @@
         </div>
 
         <div class="editor-card">
-            <h2 class="fw-bold mb-4">📝 記事投稿フォーム</h2>
+            <h2 class="fw-bold mb-4">📝 新規記事投稿</h2>
 
             <form action="{{ route('admin.contents.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -134,19 +152,27 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="description" class="label-text">リード文（導入文）</label>
+                    <label for="description" class="label-text">リード文</label>
                     <textarea name="description" id="description" rows="2">{{ old('description') }}</textarea>
                 </div>
 
                 <div class="row">
+                    {{-- 入力エリア --}}
                     <div class="col-md-6 mb-4">
                         <label for="body" class="label-text">記事本文（Markdown対応）</label>
                         <textarea name="body" id="body" rows="25" placeholder="## 見出しを書く">{{ old('body') }}</textarea>
                     </div>
+
+                    {{-- プレビューエリア：ここに見出し用の「箱」を追加しました --}}
                     <div class="col-md-6 mb-4">
-                        <label class="label-text text-primary">リアルタイムプレビュー</label>
-                        <div id="preview-area" class="markdown-body border rounded p-4 bg-white"
+                        <label class="label-text text-primary">リアルタイムプレビュー（目次自動生成）</label>
+                        <div id="preview-container" class="border rounded p-4 bg-white"
                             style="height: 635px; overflow-y: auto; border: 2px solid #334155 !important;">
+                            <div id="toc-preview-area" class="toc-preview" style="display:none;">
+                                <div class="toc-title">Index</div>
+                                <ul id="toc-preview-list" class="toc-list"></ul>
+                            </div>
+                            <div id="preview-area" class="markdown-body"></div>
                         </div>
                     </div>
                 </div>
@@ -173,19 +199,38 @@
         </div>
     </div>
 
-    {{-- 前回の成功パターンを維持 --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script>
         window.addEventListener('load', function () {
             const textarea = document.getElementById('body');
-            const preview = document.getElementById('preview-area');
+            const previewArea = document.getElementById('preview-area');
+            const tocArea = document.getElementById('toc-preview-area');
+            const tocList = document.getElementById('toc-preview-list');
 
-            if (!textarea || !preview) return;
+            if (!textarea || !previewArea) return;
 
             function updatePreview() {
                 if (typeof marked !== 'undefined') {
                     const rawValue = textarea.value;
-                    preview.innerHTML = rawValue ? marked.parse(rawValue) : '<p class="text-secondary small">ここにプレビューが表示されます</p>';
+
+                    // 1. 本文のレンダリング
+                    previewArea.innerHTML = rawValue ? marked.parse(rawValue) : '<p class="text-secondary small">ここにプレビューが表示されます</p>';
+
+                    // 2. 目次の自動生成
+                    const headings = previewArea.querySelectorAll('h2, h3');
+                    tocList.innerHTML = '';
+
+                    if (headings.length > 0) {
+                        tocArea.style.display = 'block';
+                        headings.forEach((heading) => {
+                            const li = document.createElement('li');
+                            if (heading.tagName === 'H3') li.className = 'toc-h3';
+                            li.textContent = heading.textContent;
+                            tocList.appendChild(li);
+                        });
+                    } else {
+                        tocArea.style.display = 'none';
+                    }
                 }
             }
 
@@ -193,7 +238,4 @@
             updatePreview();
         });
     </script>
-@endsection
-
-@section('script')
 @endsection

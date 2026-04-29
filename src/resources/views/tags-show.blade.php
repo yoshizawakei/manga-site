@@ -8,7 +8,7 @@
             {{-- メインコンテンツ：ABOUT MEの構造と完全同期 --}}
             <main class="col-lg-8">
                 <h1 class="fw-black mb-4 mb-lg-5"
-                    style="font-size: 2.5rem; letter-spacing: 0.01em; text-transform: uppercase;">
+                    style="font-size: 1.7rem; letter-spacing: 0.01em; text-transform: uppercase;">
                     {{ $title }}
                 </h1>
 

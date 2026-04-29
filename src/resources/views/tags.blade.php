@@ -6,7 +6,7 @@
     {{-- ヘッダー：他ページと余白・フォントを完全同期 --}}
     <section class="py-5 mt-lg-5 mb-5">
         <div class="container px-4">
-            <h1 class="fw-black mb-4" style="font-size: 2.5rem; letter-spacing: 0.01em; text-transform: uppercase;">
+            <h1 class="fw-black mb-4" style="font-size: 2.0rem; letter-spacing: 0.01em; text-transform: uppercase;">
                 CATEGORIES
             </h1>
             <p class="text-secondary" style="letter-spacing: 0.05em; line-height: 1.8;">
