@@ -10,58 +10,90 @@ class SitemapController extends Controller
 {
     public function index(): Response
     {
-        $urls = [];
+        $xml = [];
 
-        // 1. トップページ
-        $urls[] = [
-            'loc' => '/', // Blade側の url() ヘルパで絶対パス化するため相対パスで保持
-            'lastmod' => now(), // Carbonオブジェクトのまま渡す
-            'changefreq' => 'daily',
-            'priority' => 1.0,
-        ];
+        // XML開始
+        $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-        // 2. 固定ページ
+        /*
+        |--------------------------------------------------------------------------
+        | TOPページ
+        |--------------------------------------------------------------------------
+        */
+
+        $xml[] = '
+        <url>
+            <loc>' . url('/') . '</loc>
+            <lastmod>' . now()->toAtomString() . '</lastmod>
+        </url>';
+
+        /*
+        |--------------------------------------------------------------------------
+        | 固定ページ
+        |--------------------------------------------------------------------------
+        */
+
         $staticPages = [
-            'top.profile' => 0.5,
-            'top.contact' => 0.5,
-            'top.sitePolicy' => 0.3, // プライバシーポリシーなどは少し優先度を下げるのが一般的
-            'top.privacyPolicy' => 0.3,
-            'top.disclaimer' => 0.3,
+            'top.profile',
+            'top.contact',
+            'top.sitePolicy',
+            'top.privacyPolicy',
+            'top.disclaimer',
         ];
-        foreach ($staticPages as $routeName => $priority) {
-            $urls[] = [
-                'loc' => route($routeName, [], false), // 相対パスで取得しBladeで加工
-                'lastmod' => now(),
-                'changefreq' => 'monthly',
-                'priority' => $priority,
-            ];
+
+        foreach ($staticPages as $routeName) {
+
+            $xml[] = '
+            <url>
+                <loc>' . route($routeName) . '</loc>
+                <lastmod>' . now()->subMonth()->toAtomString() . '</lastmod>
+            </url>';
         }
 
-        // 3. 全ての記事（実践記）
-        // メモリ節約のため、全カラムではなく必要なものだけ取得するのがベター
-        $contents = Content::select('id', 'updated_at')->orderBy('updated_at', 'desc')->get();
-        foreach ($contents as $content) {
-            $urls[] = [
-                'loc' => route('manga.show', $content->id, false),
-                'lastmod' => $content->updated_at,
-                'changefreq' => 'weekly',
-                'priority' => 0.8,
-            ];
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | 記事ページ
+        |--------------------------------------------------------------------------
+        */
 
-        // 4. 全てのカテゴリー（タグ）
+        Content::select('id', 'updated_at')
+            ->orderByDesc('updated_at')
+            ->chunk(500, function ($contents) use (&$xml) {
+
+                foreach ($contents as $content) {
+
+                    $xml[] = '
+                    <url>
+                        <loc>' . route('post.show', $content->id) . '</loc>
+                        <lastmod>' . $content->updated_at->toAtomString() . '</lastmod>
+                    </url>';
+                }
+            });
+
+        /*
+        |--------------------------------------------------------------------------
+        | タグページ
+        |--------------------------------------------------------------------------
+        */
+
         $tags = Tag::all();
+
         foreach ($tags as $tag) {
-            $urls[] = [
-                'loc' => route('tags.show', $tag->name, false),
-                'lastmod' => now(),
-                'changefreq' => 'weekly',
-                'priority' => 0.4,
-            ];
+
+            $xml[] = '
+            <url>
+                <loc>' . route('tags.show', $tag->name) . '</loc>
+                <lastmod>' . now()->subWeek()->toAtomString() . '</lastmod>
+            </url>';
         }
 
-        return response()
-            ->view('sitemap.index', compact('urls'))
-            ->header('Content-Type', 'text/xml; charset=UTF-8'); // application/xmlよりtext/xmlが一般的です
+        // XML終了
+        $xml[] = '</urlset>';
+
+        return response(
+            implode("\n", $xml),
+            200
+        )->header('Content-Type', 'application/xml');
     }
 }

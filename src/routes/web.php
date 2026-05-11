@@ -12,67 +12,105 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-//  トップページ
-Route::get('/', [MangaController::class, 'index'])->name('top.index');
-
-// お問い合わせ関連
-Route::get("/contact", [ContactController::class, "showForm"])->name("top.contact");
-Route::post("/contact", [ContactController::class, "submitForm"])->name("top.submitContact");
-
-// 静的ページ関連
-Route::get("/site-policy", [PageController::class, "sitePolicy"])->name("top.sitePolicy");
-Route::get("/disclaimer", [PageController::class, "disclaimer"])->name("top.disclaimer");
-Route::get("/privacy-policy", [PageController::class, "privacyPolicy"])->name("top.privacyPolicy");
-
-// タグ関連
-Route::get("/tags", [TagController::class, "index"])->name("tags.index");
-// タグ詳細ページ (タグ名で表示)
-Route::get("/tags/{tagName}", [TagController::class, "show"])->name("tags.show");
-// 検索結果ページ (検索クエリで表示)
-Route::get('/search', [TagController::class, 'show'])->name('search.results');
+// トップページ
+Route::get('/', [MangaController::class, 'index'])
+    ->name('top.index');
 
 
-// ---
-// AdminController関連のルート設定
-// 認証が必要ないルート (ログイン・ログアウト)
-Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
-Route::post('/admin/authenticate', [AdminController::class, 'authenticate'])->name('admin.authenticate');
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+// お問い合わせ
+Route::get('/contact', [ContactController::class, 'showForm'])
+    ->name('top.contact');
+
+Route::post('/contact', [ContactController::class, 'submitForm'])
+    ->name('top.submitContact');
 
 
-// ---
-// 認証が必要な管理者ルートのグループ化
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+// 静的ページ
+Route::get('/site-policy', [PageController::class, 'sitePolicy'])
+    ->name('top.sitePolicy');
 
-    // ダッシュボード
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::get('/disclaimer', [PageController::class, 'disclaimer'])
+    ->name('top.disclaimer');
 
-    // コンテンツ管理（リソースフルルート）
-    // 'create', 'store', 'edit', 'update', 'destroy' の各アクションに対応
-    // 'index' アクションはダッシュボードとして利用
-    Route::get('/contents/create', [AdminController::class, 'create'])->name('contents.create');
-    Route::post('/contents', [AdminController::class, 'store'])->name('contents.store');
-    Route::get('/contents/{content}/edit', [AdminController::class, 'edit'])->name('contents.edit');
-    Route::put('/contents/{content}', [AdminController::class, 'update'])->name('contents.update');
-    Route::delete('/contents/{content}', [AdminController::class, 'destroy'])->name('contents.destroy');
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])
+    ->name('top.privacyPolicy');
 
-    // お問い合わせ管理
-    Route::get('/inquiries/{inquiry}', [AdminController::class, 'showInquiry'])->name('inquiries.show');
-});
+Route::get('/profile', [PageController::class, 'profile'])
+    ->name('top.profile');
 
-Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
-// 作品詳細ページ（自サイト内のレビュー記事）
-Route::get('/post/{id}', [MangaController::class, 'show'])->name('post.show');
+// タグ
+Route::get('/tags', [TagController::class, 'index'])
+    ->name('tags.index');
 
-// プロフィールページを追加
-Route::get('/profile', [PageController::class, 'profile'])->name('top.profile');
+Route::get('/tags/{tagName}', [TagController::class, 'show'])
+    ->name('tags.show');
 
-Route::delete('/admin/inquiries/{inquiry}', [ContactController::class, 'destroyInquiry'])->name('admin.inquiries.destroy');
+
+// 検索
+Route::get('/search', [TagController::class, 'show'])
+    ->name('search.results');
+
+
+// サイトマップ
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])
+    ->name('sitemap');
+
+
+// 記事詳細
+Route::get('/post/{id}', [MangaController::class, 'show'])
+    ->name('post.show');
+
+
+// ========================
+// 管理画面（未認証）
+// ========================
+
+Route::get('/admin/login', [AdminController::class, 'login'])
+    ->name('admin.login');
+
+Route::post('/admin/authenticate', [AdminController::class, 'authenticate'])
+    ->name('admin.authenticate');
+
+Route::post('/admin/logout', [AdminController::class, 'logout'])
+    ->name('admin.logout');
+
+
+// ========================
+// 管理画面（認証必要）
+// ========================
+
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        // ダッシュボード
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])
+            ->name('dashboard');
+
+        // コンテンツ管理
+        Route::get('/contents/create', [AdminController::class, 'create'])
+            ->name('contents.create');
+
+        Route::post('/contents', [AdminController::class, 'store'])
+            ->name('contents.store');
+
+        Route::get('/contents/{content}/edit', [AdminController::class, 'edit'])
+            ->name('contents.edit');
+
+        Route::put('/contents/{content}', [AdminController::class, 'update'])
+            ->name('contents.update');
+
+        Route::delete('/contents/{content}', [AdminController::class, 'destroy'])
+            ->name('contents.destroy');
+
+        // お問い合わせ管理
+        Route::get('/inquiries/{inquiry}', [AdminController::class, 'showInquiry'])
+            ->name('inquiries.show');
+
+        Route::delete('/inquiries/{inquiry}', [ContactController::class, 'destroyInquiry'])
+            ->name('inquiries.destroy');
+    });
