@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Content;
 use App\Models\Tag;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class SitemapController extends Controller
 {
@@ -63,9 +64,11 @@ class SitemapController extends Controller
 
                 foreach ($contents as $content) {
 
+                    $encryptedId = Crypt::encryptString($content->id);
+
                     $xml[] = '
                     <url>
-                        <loc>' . route('post.show', $content->id) . '</loc>
+                        <loc>' . route('post.show', $encryptedId) . '</loc>
                         <lastmod>' . $content->updated_at->toAtomString() . '</lastmod>
                     </url>';
                 }
