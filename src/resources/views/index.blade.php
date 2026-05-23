@@ -59,7 +59,7 @@
                                             {{ $manga_all->title }}
                                         </h3>
                                         <p class="text-secondary small d-none d-md-block mb-0" style="line-height: 1.7;">
-                                            {{ Str::limit($manga_all->description, 80) }}
+                                            {{ Str::limit($manga_all->description, 180) }}
                                         </p>
                                     </div>
                                 </a>

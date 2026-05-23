@@ -43,6 +43,10 @@
                     </div>
                 @endif
 
+                <p class="article-body">
+                    {{ $content->description }}
+                </p>
+
                 {{-- 目次エリア --}}
                 <div id="toc" class="toc-container mb-5" style="display:none;">
                     <div class="toc-title text-uppercase">Index</div>
