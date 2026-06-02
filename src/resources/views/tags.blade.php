@@ -156,6 +156,14 @@
             text-decoration: none;
         }
 
+        .profile-icon-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.2rem;
+        }
+
         .latest-item {
             display: flex;
             align-items: center;

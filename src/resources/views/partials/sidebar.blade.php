@@ -2,7 +2,7 @@
     {{-- プロフィール --}}
     <div class="sidebar-section">
         <div class="profile-icon">
-            <i class="fas fa-user-circle"></i>
+            <img class="profile-icon-img" src="{{ asset('img/profile.png') }}" alt="icon">
         </div>
         <h3 class="sidebar-name">KEI</h3>
         <p class="sidebar-text">

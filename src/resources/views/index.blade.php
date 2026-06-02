@@ -59,7 +59,7 @@
                                             {{ $manga_all->title }}
                                         </h3>
                                         <p class="text-secondary small d-none d-md-block mb-0" style="line-height: 1.7;">
-                                            {{ Str::limit($manga_all->description, 180) }}
+                                            {{ Str::limit($manga_all->description, 170) }}
                                         </p>
                                     </div>
                                 </a>
@@ -107,6 +107,14 @@
         }
 
         /* プロフィール */
+        .profile-icon-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.2rem;
+        }
+
         .profile-icon i {
             font-size: 50px;
             color: #111;

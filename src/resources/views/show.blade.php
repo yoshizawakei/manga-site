@@ -133,6 +133,14 @@
             margin-bottom: 10px;
         }
 
+        .profile-icon-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.2rem;
+        }
+
         .sidebar-link {
             font-size: 0.8rem;
             font-weight: bold;

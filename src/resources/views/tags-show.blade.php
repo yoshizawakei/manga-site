@@ -108,6 +108,14 @@
             margin-bottom: 10px;
         }
 
+        .profile-icon-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.2rem;
+        }
+
         /* 【ここを修正】プロフィール詳細リンクの色とスタイル */
         .sidebar-link {
             font-size: 0.8rem;
