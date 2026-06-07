@@ -12,7 +12,7 @@ class ContactController extends Controller
     public function showForm()
     {
         // サイドバー用のデータを一括取得
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->limit(30)->get();
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->limit(30)->get();
         $contents_latest = Content::latest()->take(5)->get(); // orderByの代わりにlatest()を使用
 
         return view("contact", compact('tags', 'contents_latest'));

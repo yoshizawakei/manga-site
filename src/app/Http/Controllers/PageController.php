@@ -43,7 +43,7 @@ class PageController extends Controller
         // サイドバーに表示する最新記事を5件取得
         $contents_latest = Content::orderBy('created_at', 'desc')->take(5)->get();
 
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get(); // ★追加
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get(); // ★追加
 
         return view('profile', compact('contents_latest', 'tags'));
 

@@ -11,12 +11,12 @@ class TagController extends Controller
     public function index()
     {
         // 全てのタグを取得
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->get();
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->get();
 
         // ★サイドバー用のデータを取得（これを追加）
         $contents_latest = Content::latest()->take(5)->get();
         // ★サイドバー用のタグリスト（必要に応じて）
-        $sidebar_tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+        $sidebar_tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
 
         return view("tags", compact('tags', 'contents_latest', 'sidebar_tags'));
     }
@@ -49,7 +49,7 @@ class TagController extends Controller
         // ★サイドバー用のデータを取得
         $contents_latest = Content::latest()->take(5)->get();
 
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
 
         return view('tags-show', compact('contents', 'title', 'contents_latest', 'tags'));
     }

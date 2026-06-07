@@ -23,7 +23,7 @@ class MangaController extends Controller
         $contents_latest = Content::latest()->take(5)->get();
 
         // サイドバー用：カテゴリー一覧（記事数が多い順に30個程度まで表示）
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
 
         return view('index', compact('contents_all', 'contents_latest', 'tags'));
     }
@@ -49,7 +49,7 @@ class MangaController extends Controller
         $contents_latest = Content::latest()->take(5)->get();
 
         // サイドバー用：カテゴリー一覧
-        $tags = Tag::withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
+        $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
 
         return view('show', compact('content', 'contents_latest', 'tags'));
     }
