@@ -1,12 +1,15 @@
-@extends('layouts.app') {{-- 共通のappレイアウトを使用 --}}
+@extends('layouts.admin')
 
 @section('title', '新規ログ作成')
 
-@section("css")
+{{--
+親レイアウトの受け口に合わせて @push('css') に変更し、
+スタイルが確実に反映されるように修正しました。
+--}}
+@push('css')
     <style>
         /* クリーン・エメラルド・エディターカスタム */
         :root {
-            --editor-bg: #f8fafc;
             --editor-card: #ffffff;
             --editor-primary: #10b981;
             --editor-border: #e2e8f0;
@@ -14,9 +17,11 @@
             --editor-secondary: #64748b;
         }
 
-        .container {
+        /* 【修正】全体の最大幅を維持しつつ、左右中央に配置するラッパー */
+        .editor-container {
             max-width: 900px;
-            padding: 3rem 1rem;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .editor-card {
@@ -58,7 +63,8 @@
             margin-right: 8px;
         }
 
-        .form-control {
+        .form-control,
+        .form-select {
             background-color: #f8fafc;
             border: 1.5px solid var(--editor-border);
             color: var(--editor-text);
@@ -67,7 +73,8 @@
             transition: all 0.2s;
         }
 
-        .form-control:focus {
+        .form-control:focus,
+        .form-select:focus {
             background-color: #fff;
             border-color: var(--editor-primary);
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
@@ -81,19 +88,21 @@
             background-color: #fff;
         }
 
-        .btn-submit {
-            background-color: var(--editor-primary);
-            border: none;
+        /* 【修正】Bootstrap標準のbtn-primaryと競合しないようカスタムボタンに変更 */
+        .btn-editor-submit {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            border: none !important;
             padding: 1rem;
             border-radius: 0.75rem;
             font-weight: 800;
             font-size: 1.1rem;
-            transition: 0.3s;
+            color: #ffffff !important;
+            transition: all 0.2s ease-in-out;
             box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
         }
 
-        .btn-submit:hover {
-            background-color: #059669;
+        .btn-editor-submit:hover {
+            filter: brightness(1.05);
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
         }
@@ -116,11 +125,22 @@
         .back-link:hover {
             color: var(--editor-primary);
         }
+
+        /* スマホ向けの余白調整 */
+        @media (max-width: 576px) {
+            .editor-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .contents-h1 {
+                font-size: 1.25rem;
+            }
+        }
     </style>
-@endsection
+@endpush
 
 @section("content")
-    <div class="container">
+    <div class="editor-container">
         <div class="mb-4">
             <a href="{{ route("admin.dashboard") }}" class="back-link">
                 <i class="fas fa-arrow-left me-2"></i>ダッシュボードへ戻る
@@ -129,13 +149,13 @@
 
         <div class="editor-card">
             <div class="editor-header">
-                <h1 class="contents-h1"><i class="fas fa-pen-nib me-2 text-primary"></i>新規ログ作成</h1>
+                <h1 class="contents-h1"><i class="fas fa-pen-nib me-2 text-success"></i>新規ログ作成</h1>
                 <p class="text-secondary small mb-0 mt-1">新しい副業実践記・レビューを公開しましょう</p>
             </div>
 
             @if ($errors->any())
                 <div class="alert alert-danger mx-4 mt-4 border-0 shadow-sm" style="background-color: #fef2f2; color: #991b1b;">
-                    <ul class="mb-0 fw-bold small">
+                    <ul class="mb-0 fw-bold small" style="list-style: none; padding-left: 0;">
                         @foreach ($errors->all() as $error)
                             <li><i class="fas fa-exclamation-triangle me-2"></i>{{ $error }}</li>
                         @endforeach
@@ -143,7 +163,7 @@
                 </div>
             @endif
 
-            <form action="{{ route("admin.contents.store") }}" method="POST" class="p-4 p-md-5">
+            <form action="{{ route("admin.contents.store") }}" method="POST" class="p-3 p-sm-4 p-md-5">
                 @csrf
 
                 {{-- タイトル --}}
@@ -152,6 +172,18 @@
                     <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror"
                         value="{{ old('title') }}" placeholder="記事のタイトルを入力" required>
                     @error('title')
+                        <div class="invalid-feedback fw-bold">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- 公開ステータス設定 --}}
+                <div class="mb-4">
+                    <label for="status" class="form-label"><i class="fas fa-eye"></i>公開設定</label>
+                    <select name="status" id="status" class="form-select @error('status') is-invalid @enderror" required>
+                        <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>公開</option>
+                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>非公開（下書き）</option>
+                    </select>
+                    @error('status')
                         <div class="invalid-feedback fw-bold">{{ $message }}</div>
                     @enderror
                 </div>
@@ -175,16 +207,15 @@
                     @enderror
                 </div>
 
+                {{-- 画像URL & アフィリエイトURL --}}
                 <div class="row">
-                    {{-- 画像URL --}}
-                    <div class="col-md-6 mb-4">
+                    <div class="col-12 col-md-6 mb-4">
                         <label for="image_url" class="form-label"><i class="fas fa-image"></i>画像URL</label>
                         <input type="text" id="image_url" name="image_url" class="form-control"
                             value="{{ old('image_url') }}" placeholder="https://example.com/thumb.jpg">
                     </div>
 
-                    {{-- コンテンツURL --}}
-                    <div class="col-md-6 mb-4">
+                    <div class="col-12 col-md-6 mb-4">
                         <label for="content_url" class="form-label"><i class="fas fa-link"></i>アフィリエイトURL</label>
                         <input type="text" id="content_url" name="content_url" class="form-control"
                             value="{{ old('content_url') }}" placeholder="https://al.dmm.co.jp/...">
@@ -201,8 +232,8 @@
 
                 {{-- 送信ボタン --}}
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-submit text-white">
-                        <i class="fas fa-paper-plane me-2"></i>この記事を公開する
+                    <button type="submit" class="btn btn-editor-submit">
+                        <i class="fas fa-save me-2"></i>保存する
                     </button>
                 </div>
             </form>

@@ -22,6 +22,7 @@ class AdminController extends Controller
             'image_url' => 'nullable|string',
             'content_url' => 'required',
             'tag' => 'nullable|string',
+            'status' => 'required|in:published,draft', // ★ ステータスのバリデーションを追加
         ]);
     }
 
@@ -65,13 +66,14 @@ class AdminController extends Controller
             $validatedData['image_url'] = \Storage::url($path);
         }
 
-        // bodyが確実に含まれるように明示的に配列を作成
+        // bodyとstatusが確実に含まれるように明示的に配列を作成
         $content = Content::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'body' => $request->input('body'), // 確実に入力値を取得
             'image_url' => $validatedData['image_url'] ?? null,
             'content_url' => $validatedData['content_url'],
+            'status' => $validatedData['status'], // ★ ステータスを追加
         ]);
 
         $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
@@ -82,6 +84,7 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+        // 管理画面では下書き（draft）も含めてすべて表示する
         $contents = Content::latest()->with('tags')->paginate(10);
         $inquiries_count = Inquiry::where('is_read', false)->count();
         $inquiries = Inquiry::latest()->limit(10)->get();
@@ -110,6 +113,7 @@ class AdminController extends Controller
             'body' => $request->input('body'),
             'image_url' => $validatedData['image_url'] ?? $content->image_url,
             'content_url' => $validatedData['content_url'],
+            'status' => $validatedData['status'], // ★ ステータスを追加
         ]);
 
         $tagsArray = $this->parseTags($validatedData['tag'] ?? '');

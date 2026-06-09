@@ -1,10 +1,9 @@
-@extends('layouts.app') {{-- 共通のappレイアウトを使用 --}}
+@extends('layouts.admin')
 
 @section('title', '管理者ログイン')
 
-@section("css")
+@push('css')
     <style>
-        /* クリーン・エメラルド・ログインカスタム */
         :root {
             --login-bg: #f8fafc;
             --login-card: #ffffff;
@@ -14,29 +13,24 @@
             --login-secondary: #64748b;
         }
 
-        /* 画面中央配置 */
-        .center-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            width: 100%;
+        /* 背景と上下中央配置のベース（Bootstrapのクラスと喧嘩しないように最小限に） */
+        .login-page-wrapper {
             background-color: var(--login-bg);
+            width: 100%;
         }
 
-        .login-container {
-            max-width: 420px;
-            width: 100%;
-            padding: 3.5rem 2.5rem;
+        /* ログインカード単体のデザイン */
+        .login-card {
             background-color: var(--login-card);
             border-radius: 1.5rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
             border: 1px solid var(--login-border);
             position: relative;
+            overflow: hidden; /* 内部の要素が角丸からはみ出るのを防ぐ */
         }
 
-        /* 上部のアクセントライン */
-        .login-container::before {
+        /* 上部のエメラルドグリーンのアクセントライン */
+        .login-card::before {
             content: "";
             position: absolute;
             top: 0;
@@ -44,12 +38,6 @@
             width: 100%;
             height: 5px;
             background: var(--login-primary);
-            border-radius: 1.5rem 1.5rem 0 0;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
         }
 
         .login-icon {
@@ -70,7 +58,6 @@
             font-weight: 800;
             font-size: 1.5rem;
             letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
         }
 
         .login-subtitle {
@@ -78,11 +65,9 @@
             font-size: 0.875rem;
         }
 
-        /* ラベルと入力欄 */
         .form-label {
             font-weight: 700;
             color: var(--login-text);
-            margin-bottom: 0.5rem;
             font-size: 0.85rem;
         }
 
@@ -102,43 +87,31 @@
             color: var(--login-text);
         }
 
-        /* ★ログインボタンの劇的改善★ */
+        /* ログインボタン（Bootstrapのデフォルトを綺麗に上書き） */
         .btn-login {
-            display: block;
-            width: 100%;
             padding: 1rem;
-            margin-top: 2rem;
-            /* 背景色をグラデーションにして「押しボタン」感を出す */
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            /* 境界線を少し暗い緑で縁取り、輪郭をはっきりさせる */
             border: 2px solid #047857 !important;
             color: #ffffff !important;
             font-weight: 800 !important;
             border-radius: 0.75rem;
             font-size: 1.1rem;
-            /* 背景から浮かせるための強い影 */
             box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        /* ホバー時はさらに明るく、浮かび上がるように */
         .btn-login:hover {
             background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
             transform: translateY(-3px);
             box-shadow: 0 20px 25px -5px rgba(5, 150, 105, 0.4) !important;
-            filter: brightness(1.1);
         }
 
-        /* クリックした瞬間の沈み込み演出 */
         .btn-login:active {
             transform: translateY(0px);
             box-shadow: 0 5px 10px -3px rgba(5, 150, 105, 0.4) !important;
         }
 
-        /* エラーメッセージ */
         .error-message {
             color: #ef4444;
             font-size: 0.75rem;
@@ -150,11 +123,6 @@
             border-color: #ef4444 !important;
         }
 
-        .back-to-site {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
         .back-to-site a {
             color: var(--login-secondary);
             text-decoration: none;
@@ -163,56 +131,62 @@
         }
 
         .back-to-site a:hover {
-            color: var(--login-primary);
+            color: var(--primary-color);
         }
     </style>
-@endsection
+@endpush
 
 @section("content")
-    <div class="center-wrapper">
-        <div class="login-container">
-            <div class="login-header">
-                <div class="login-icon">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <h2 class="login-title">ADMIN LOGIN</h2>
-                <p class="login-subtitle">管理者アカウントでログイン</p>
-            </div>
+    <div class="login-page-wrapper d-flex align-items-center justify-content-center min-vh-100 py-5">
+        <div class="container">
+            <div class="row justify-content-center w-100 m-0">
+                <div class="col-12 col-sm-10 col-md-6 col-lg-4" style="max-width: 440px;">
+                    
+                    <div class="login-card p-4 p-sm-5">
+                        <div class="login-header text-center mb-4">
+                            <div class="login-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h2 class="login-title mb-2">ADMIN LOGIN</h2>
+                            <p class="login-subtitle mb-0">管理者アカウントでログイン</p>
+                        </div>
 
-            <form method="post" action="{{ route("admin.authenticate") }}" class="login-form">
-                @csrf
+                        <form method="post" action="{{ route("admin.authenticate") }}" class="login-form">
+                            @csrf
 
-                <div class="mb-4">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                        value="{{ old('email') }}" placeholder="admin@example.com" autocomplete="email" autofocus required>
-                    @error('email')
-                        <span class="error-message">
-                            <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
-                        </span>
-                    @enderror
-                </div>
+                            <div class="mb-4">
+                                <label for="email" class="form-label mb-2">Email Address</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                                    value="{{ old('email') }}" placeholder="admin@example.com" autocomplete="email" autofocus required>
+                                @error('email')
+                                    <span class="error-message">
+                                        <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
 
-                <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" placeholder="••••••••" autocomplete="current-password" required>
-                    @error('password')
-                        <span class="error-message">
-                            <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
-                        </span>
-                    @enderror
-                </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label mb-2">Password</label>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                                    name="password" placeholder="••••••••" autocomplete="current-password" required>
+                                @error('password')
+                                    <span class="error-message">
+                                        <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
 
-                <button type="submit" class="btn btn-primary btn-login">
-                    <i class="fas fa-sign-in-alt me-2"></i>ログイン
-                </button>
-            </form>
+                            <button type="submit" class="btn btn-login w-100 mt-2">
+                                <i class="fas fa-sign-in-alt me-2"></i>ログイン
+                            </button>
+                        </form>
 
-            <div class="back-to-site">
-                <a href="{{ route('top.index') }}">
-                    <i class="fas fa-arrow-left me-1"></i> サイトに戻る
-                </a>
+                        <div class="back-to-site text-center mt-4">
+                            <a href="{{ route('top.index') }}">
+                                <i class="fas fa-arrow-left me-1"></i> サイトに戻る
+                            </a>
+                        </div>
+                    </div> </div>
             </div>
         </div>
     </div>

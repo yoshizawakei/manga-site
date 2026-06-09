@@ -14,31 +14,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    {{-- 既存のCSS（適宜パスを調整してください） --}}
+    {{-- 既存のCSS --}}
     <link rel="stylesheet" href="{{ asset("css/layouts/sanitize.css") }}">
 
-    <title>@yield('title') | KEI BLOG</title>
+    <title>@yield('title') | 管理パネル</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}?v={{ time() }}">
 
     <style>
         :root {
             --bg-light: #f8fafc;
-            /* サイト全体の背景色 */
             --primary-color: #10b981;
-            /* メインカラー（エメラルド） */
             --primary-dark: #059669;
-            /* ホバー時の濃い色 */
             --text-main: #1e293b;
-            /* メイン文字色（深い紺色） */
             --text-secondary: #64748b;
-            /* サブ文字色（グレー） */
             --border-color: #e2e8f0;
-            /* 境界線 */
             --card-bg: #ffffff;
-            /* カードの背景 */
         }
 
+        /* 横揺れ・はみ出しバグを完全にシャットアウト */
+        html,
         body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             background-color: var(--bg-light);
             color: var(--text-main);
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
@@ -47,9 +46,10 @@
 
         /* ヘッダー・ナビゲーション */
         .navbar {
-            background-color: rgba(255, 255, 255, 0.9) !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
+            z-index: 1050;
         }
 
         .navbar-brand {
@@ -69,19 +69,23 @@
             color: var(--primary-color) !important;
         }
 
-        /* 共通コンテナ */
-        .main-content-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            overflow: hidden;
+        /* 【最重要修正】
+          メインコンテンツが子ビューのBootstrapグリッド（rowやcol）を破壊しないよう、
+          ブロック要素として素直に幅100%を維持させます。
+        */
+        main {
+            width: 100%;
+            display: block;
         }
 
         /* フッター */
         footer {
             background-color: #f1f5f9;
             border-top: 1px solid var(--border-color);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            /* コンテンツとの適度なディスタンス */
+            width: 100%;
         }
 
         .footer-link {
@@ -95,7 +99,6 @@
             color: var(--primary-color);
         }
 
-        /* 汎用クラス */
         .smaller {
             font-size: 0.75rem;
         }
@@ -104,73 +107,69 @@
             background-color: #f0fdf4;
         }
 
-        @yield('css')
+        /* モバイル用のメニュー調整 */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background-color: #ffffff;
+                margin: 0.5rem -1rem -0.5rem -1rem;
+                padding: 1rem;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .nav-item {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+        }
     </style>
+    @stack('css')
 </head>
 
 <body>
-    {{-- ヘッダー：ロゴと主要ナビ --}}
+    {{-- 管理者用のナビゲーションバー（Keiの副業ログ） --}}
     <header>
         <nav class="navbar navbar-expand-lg sticky-top">
             <div class="container-xxl">
-                <a class="navbar-brand d-flex align-items-center" href="{{ route('top.index') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-seedling me-2"></i>Keiの副業ログ
                 </a>
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#main-nav">
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-nav">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item px-2">
-                            <a class="nav-link" href="{{ route('top.index') }}">ホーム</a>
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}">管理パネルホーム</a>
                         </li>
-
-                        {{-- ログインしている場合 --}}
-                        @auth
-                                <li class="nav-item px-2">
-                                    <a class="nav-link text-primary fw-bold" href="{{ route('admin.dashboard') }}">
-                                        <i class="fas fa-tachometer-alt me-1"></i>管理パネル
-                                    </a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt me-1"></i>ログアウト
-                                    </a>
-                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            {{-- ログインしていない場合 --}}
-                        @else
-                            <li class="nav-item px-2">
-                                <a class="nav-link" href="{{ route('top.profile') }}">プロフィール</a>
-                            </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link" href="{{ route('tags.index') }}">カテゴリー</a>
-                            </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link" href="{{ route('top.contact') }}">お問い合わせ</a>
-                            </li>
-                        @endauth
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt me-1"></i>ログアウト
+                            </a>
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    {{-- メインコンテンツ --}}
+    {{-- メインコンテンツ：ここに対象の管理者画面がはめ込まれます --}}
     <main>
         @yield('content')
     </main>
 
-    {{-- フッター：法的リンクと著作権 --}}
+    {{-- 管理者用フッター --}}
     <footer>
         <div class="container-xxl">
-            <div class="row g-4 mb-4">
+            <div class="row g-4 mb-4 align-items-center">
                 <div class="col-12 col-md-4 text-center text-md-start">
-                    <h5 class="fw-bold mb-3">Keiの副業ログ</h5>
-                    <p class="text-secondary small">Webエンジニアが挑む<br>アフィリエイト・副業の実践記録。</p>
+                    <h5 class="fw-bold mb-2">Keiの副業ログ</h5>
+                    <p class="text-secondary small mb-0">Webエンジニアが挑む<br>アフィリエイト・副業の実践記録。</p>
                 </div>
                 <div class="col-12 col-md-8 text-center text-md-end">
                     <ul class="list-inline mb-0">
@@ -184,16 +183,13 @@
                 </div>
             </div>
             <div class="border-top pt-4 text-center">
-                <p class="text-secondary smaller">&copy; {{ date('Y') }} Keiの副業ログ All Rights Reserved.</p>
+                <p class="text-secondary smaller mb-0">&copy; {{ date('Y') }} Keiの副業ログ All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
-    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
-    @yield('scripts')
-    @yield('script')
 </body>
 
 </html>

@@ -1,53 +1,84 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', '新規ログ作成')
 
-@section("css")
+@push('css')
     <style>
-        /* 1. 全体レイアウト */
-        body {
-            background-color: #f1f5f9 !important;
+        /* クリーン・エメラルド・エディターカスタム */
+        :root {
+            --editor-card: #ffffff;
+            --editor-primary: #10b981;
+            --editor-border: #cbd5e1;
+            --editor-text: #1e293b;
+            --editor-secondary: #64748b;
+        }
+
+        .editor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .editor-card {
-            background-color: #ffffff !important;
-            border: 1px solid #cbd5e1 !important;
-            padding: 40px;
-            border-radius: 20px;
+            background-color: var(--editor-card);
+            border: 1px solid var(--editor-border);
+            border-radius: 1.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
 
-        /* 2. 入力フィールド */
-        input[type="text"],
-        input[type="file"],
-        textarea {
-            display: block !important;
-            width: 100% !important;
-            border: 2px solid #334155 !important;
-            background-color: #ffffff !important;
-            padding: 15px !important;
-            margin-bottom: 20px !important;
-            border-radius: 8px !important;
-            font-size: 1rem !important;
-            color: #000000 !important;
-        }
-
-        input:focus,
-        textarea:focus {
-            border-color: #10b981 !important;
-            outline: none !important;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2) !important;
+        .editor-header {
+            background-color: #f0fdf4;
+            /* 薄いエメラルド */
+            padding: 2rem;
+            border-bottom: 1px solid var(--editor-border);
         }
 
         .label-text {
-            font-weight: 800;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-            color: #1e293b;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--editor-text);
         }
 
-        /* 3. 本番(show.blade.php)と同期したプレビューデザイン */
+        /* 【重要修正】!importantを排除し、Bootstrapのレスポンシブ幅に従わせます */
+        .form-control,
+        .form-select {
+            background-color: #ffffff;
+            border: 1.5px solid #334155;
+            color: #000000;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: #ffffff;
+            border-color: var(--editor-primary);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+            color: #000000;
+        }
+
+        /* 本文とプレビューの高さを統一し、レイアウトを安定化 */
+        .body-textarea {
+            font-size: 1rem;
+            line-height: 1.8;
+            height: 600px;
+            resize: vertical;
+        }
+
+        .preview-box {
+            height: 600px;
+            overflow-y: auto;
+            border: 1.5px solid #334155;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+        }
+
+        /* 本番サイトと同期したプレビューデザイン */
         .markdown-body {
             font-size: 1.05rem;
             line-height: 2;
@@ -55,40 +86,41 @@
         }
 
         .markdown-body h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            margin-top: 2.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 10px;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 8px;
             border-bottom: 2px solid #111;
             color: #111;
         }
 
         .markdown-body h3 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 900;
-            margin-top: 2rem;
-            margin-bottom: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
             color: #111;
         }
 
-        /* 4. 目次(TOC)のプレビューデザイン */
+        /* 目次(TOC)のプレビューデザイン */
         .toc-preview {
-            background: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 2px;
-            margin-bottom: 2rem;
-            border: 1px solid #eee;
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--editor-border);
         }
 
         .toc-title {
             font-weight: 900;
             font-size: 0.8rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             border-bottom: 1px solid #ddd;
             padding-bottom: 5px;
+            color: var(--editor-text);
         }
 
         .toc-list {
@@ -98,76 +130,112 @@
         }
 
         .toc-list li {
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #666;
+            margin-bottom: 0.4rem;
+            font-size: 0.875rem;
+            color: #475569;
         }
 
         .toc-list .toc-h3 {
             padding-left: 1.2rem;
-            font-size: 0.85rem;
+            font-size: 0.825rem;
         }
 
-        /* 5. 送信ボタン */
-        .btn-submit-action {
-            display: block !important;
-            width: 100% !important;
-            background-color: #059669 !important;
+        /* 【重要修正】Bootstrapのグリッドシステムと喧嘩しない立体的な登録ボタン */
+        .btn-admin-submit-action {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff !important;
-            font-weight: 800 !important;
-            font-size: 1.25rem !important;
-            padding: 20px !important;
-            border: none !important;
-            border-radius: 12px !important;
-            cursor: pointer !important;
-            box-shadow: 0 8px 0 #047857 !important;
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 0 #047857;
             text-align: center;
-            margin-top: 30px;
             text-decoration: none;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.1s ease-in-out;
         }
 
-        .btn-submit-action:active {
-            transform: translateY(4px) !important;
-            box-shadow: 0 4px 0 #047857 !important;
+        .btn-admin-submit-action:hover {
+            filter: brightness(1.05);
+        }
+
+        .btn-admin-submit-action:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #047857;
+        }
+
+        .back-link {
+            color: var(--editor-secondary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-link:hover {
+            color: var(--editor-primary);
         }
     </style>
-@endsection
+@endpush
 
 @section("content")
-    <div class="container" style="max-width: 1200px; padding-top: 50px; padding-bottom: 100px;">
+    <div class="editor-container">
         <div class="mb-4">
-            <a href="{{ route('admin.dashboard') }}" style="text-decoration: none; color: #64748b; font-weight: bold;">
-                ← ダッシュボードへ戻る
+            <a href="{{ route('admin.dashboard') }}" class="back-link">
+                <i class="fas fa-arrow-left me-2"></i>ダッシュボードへ戻る
             </a>
         </div>
 
         <div class="editor-card">
-            <h2 class="fw-bold mb-4">📝 新規記事投稿</h2>
+            <div class="editor-header">
+                <h2 class="fw-bold h4 mb-0"><i class="fas fa-edit me-2 text-success"></i>新規記事投稿</h2>
+                <p class="text-secondary small mb-0 mt-1">新しい副業実践記やレビューを執筆・公開しましょう</p>
+            </div>
 
-            <form action="{{ route('admin.contents.store') }}" method="POST" enctype="multipart/form-data">
+            {{-- バリデーションエラー表示エリアを追加 --}}
+            @if ($errors->any())
+                <div class="alert alert-danger mx-4 mt-4 border-0 shadow-sm"
+                    style="background-color: #fef2f2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                    <ul class="mb-0 fw-bold small" style="list-style: none; padding-left: 0;">
+                        @foreach ($errors->all() as $error)
+                            <li><i class="fas fa-exclamation-triangle me-2"></i>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('admin.contents.store') }}" method="POST" enctype="multipart/form-data"
+                class="p-4 p-md-5">
                 @csrf
                 <div class="mb-4">
                     <label for="title" class="label-text">記事タイトル</label>
-                    <input type="text" name="title" id="title" placeholder="タイトルを入力" required value="{{ old('title') }}">
+                    <input type="text" name="title" id="title" class="form-control" placeholder="タイトルを入力" required
+                        value="{{ old('title') }}">
                 </div>
 
                 <div class="mb-4">
                     <label for="description" class="label-text">リード文</label>
-                    <textarea name="description" id="description" rows="2">{{ old('description') }}</textarea>
+                    <textarea name="description" id="description" class="form-control" rows="2"
+                        placeholder="記事の一覧などに表示される簡単な概要説明を入力してください。">{{ old('description') }}</textarea>
                 </div>
 
                 <div class="row">
                     {{-- 入力エリア --}}
-                    <div class="col-md-6 mb-4">
+                    <div class="col-12 col-lg-6 mb-4">
                         <label for="body" class="label-text">記事本文（Markdown対応）</label>
-                        <textarea name="body" id="body" rows="25" placeholder="## 見出しを書く">{{ old('body') }}</textarea>
+                        <textarea name="body" id="body" class="form-control body-textarea" rows="25"
+                            placeholder="## 見出しを書く">{{ old('body') }}</textarea>
                     </div>
 
-                    {{-- プレビューエリア：ここに見出し用の「箱」を追加しました --}}
-                    <div class="col-md-6 mb-4">
-                        <label class="label-text text-primary">リアルタイムプレビュー（目次自動生成）</label>
-                        <div id="preview-container" class="border rounded p-4 bg-white"
-                            style="height: 635px; overflow-y: auto; border: 2px solid #334155 !important;">
+                    {{-- プレビューエリア --}}
+                    <div class="col-12 col-lg-6 mb-4">
+                        <label class="label-text text-success">リアルタイムプレビュー（目次自動生成）</label>
+                        <div id="preview-container" class="preview-box p-4">
                             <div id="toc-preview-area" class="toc-preview" style="display:none;">
                                 <div class="toc-title">Index</div>
                                 <ul id="toc-preview-list" class="toc-list"></ul>
@@ -178,27 +246,30 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-4">
+                    <div class="col-12 col-md-6 mb-4">
                         <label for="image" class="label-text">アイキャッチ画像</label>
-                        <input type="file" name="image" id="image" accept="image/*">
+                        <input type="file" name="image" id="image" class="form-control" accept="image/*">
                     </div>
-                    <div class="col-md-6 mb-4">
+                    <div class="col-12 col-md-6 mb-4">
                         <label for="content_url" class="label-text">アフィリエイトURL</label>
-                        <input type="text" name="content_url" id="content_url" placeholder="https://..."
-                            value="{{ old('content_url') }}">
+                        <input type="text" name="content_url" id="content_url" class="form-control"
+                            placeholder="https://..." value="{{ old('content_url') }}">
                     </div>
                 </div>
 
                 <div class="mb-4">
                     <label for="tag" class="label-text">タグ（カンマ区切り）</label>
-                    <input type="text" name="tag" id="tag" placeholder="Laravel, 副業" value="{{ old('tag') }}">
+                    <input type="text" name="tag" id="tag" class="form-control" placeholder="Laravel, 副業"
+                        value="{{ old('tag') }}">
                 </div>
 
-                <button type="submit" class="btn-submit-action">🚀 この内容で公開する</button>
+                <button type="submit" class="btn-admin-submit-action">🚀 この内容で公開する</button>
             </form>
         </div>
     </div>
+@endsection
 
+@push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script>
         window.addEventListener('load', function () {
@@ -209,14 +280,22 @@
 
             if (!textarea || !previewArea) return;
 
+            // XSS対策：markedのオプションでサニタイズ（プレビュー用）
+            if (typeof marked !== 'undefined') {
+                marked.setOptions({
+                    mangle: false,
+                    headerIds: false
+                });
+            }
+
             function updatePreview() {
                 if (typeof marked !== 'undefined') {
                     const rawValue = textarea.value;
 
-                    // 1. 本文のレンダリング
+                    // 本文のレンダリング
                     previewArea.innerHTML = rawValue ? marked.parse(rawValue) : '<p class="text-secondary small">ここにプレビューが表示されます</p>';
 
-                    // 2. 目次の自動生成
+                    // 目次の自動生成
                     const headings = previewArea.querySelectorAll('h2, h3');
                     tocList.innerHTML = '';
 
@@ -238,4 +317,4 @@
             updatePreview();
         });
     </script>
-@endsection
+@endpush
