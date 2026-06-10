@@ -87,6 +87,15 @@ class Content extends Model
         // ここに static::updated(function ($content) { ... }) を追記できます。
     }
 
+    /**
+     * 公開記事のみに絞り込むスコープ
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('status', self::STATUS_PUBLISHED);
+    }
+    
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
