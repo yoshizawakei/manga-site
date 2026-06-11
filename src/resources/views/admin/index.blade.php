@@ -43,7 +43,6 @@
             color: var(--editor-text);
         }
 
-        /* 【重要修正】!importantを排除し、Bootstrapのレスポンシブ幅に従わせます */
         .form-control,
         .form-select {
             background-color: #ffffff;
@@ -140,7 +139,7 @@
             font-size: 0.825rem;
         }
 
-        /* 【重要修正】Bootstrapのグリッドシステムと喧嘩しない立体的な登録ボタン */
+        /* 立体的な登録ボタン */
         .btn-admin-submit-action {
             display: block;
             width: 100%;
@@ -197,7 +196,7 @@
                 <p class="text-secondary small mb-0 mt-1">新しい副業実践記やレビューを執筆・公開しましょう</p>
             </div>
 
-            {{-- バリデーションエラー表示エリアを追加 --}}
+            {{-- バリデーションエラー表示エリア --}}
             @if ($errors->any())
                 <div class="alert alert-danger mx-4 mt-4 border-0 shadow-sm"
                     style="background-color: #fef2f2; color: #991b1b; padding: 15px; border-radius: 8px;">
@@ -212,6 +211,10 @@
             <form action="{{ route('admin.contents.store') }}" method="POST" enctype="multipart/form-data"
                 class="p-4 p-md-5">
                 @csrf
+
+                {{-- ★【追加】ステータスを隠しデータとして送信。初期値はモデルの定数に合わせて 'published' (公開) に設定 --}}
+                <input type="hidden" name="status" id="content-status" value="{{ \App\Models\Content::STATUS_PUBLISHED }}">
+
                 <div class="mb-4">
                     <label for="title" class="label-text">記事タイトル</label>
                     <input type="text" name="title" id="title" class="form-control" placeholder="タイトルを入力" required
@@ -280,7 +283,6 @@
 
             if (!textarea || !previewArea) return;
 
-            // XSS対策：markedのオプションでサニタイズ（プレビュー用）
             if (typeof marked !== 'undefined') {
                 marked.setOptions({
                     mangle: false,
@@ -292,10 +294,8 @@
                 if (typeof marked !== 'undefined') {
                     const rawValue = textarea.value;
 
-                    // 本文のレンダリング
                     previewArea.innerHTML = rawValue ? marked.parse(rawValue) : '<p class="text-secondary small">ここにプレビューが表示されます</p>';
 
-                    // 目次の自動生成
                     const headings = previewArea.querySelectorAll('h2, h3');
                     tocList.innerHTML = '';
 
