@@ -37,7 +37,7 @@
                     @forelse($contents_all as $index => $manga_all)
                         <div class="col-12 mb-5">
                             <article class="post-item">
-                                <a href="{{ route('post.show', $manga_all->encrypted_id) }}"
+                                <a href="{{ route('post.show', $manga_all->slug) }}"
                                     class="text-decoration-none row g-4 align-items-start">
                                     <div class="col-md-4">
                                         {{-- 画像はカラー。hoverで少し薄くして「押せる感」を出します --}}

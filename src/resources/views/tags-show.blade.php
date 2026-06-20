@@ -20,7 +20,7 @@
                     <div class="post-list">
                         @foreach ($contents as $content)
                             <div class="mb-5">
-                                <a href="{{ route('post.show', $content->encrypted_id) }}"
+                                <a href="{{ route('post.show', $content->slug) }}"
                                     class="text-decoration-none d-flex align-items-start shadow-none">
                                     {{-- サムネイル：140x95pxで固定 --}}
                                     <div class="me-4"

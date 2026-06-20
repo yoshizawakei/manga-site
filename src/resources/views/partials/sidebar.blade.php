@@ -29,7 +29,7 @@
         <div class="sidebar-latest">
             @isset($contents_latest)
                 @foreach($contents_latest->take(5) as $latest)
-                    <a href="{{ route('post.show', $latest->encrypted_id) }}" class="latest-item">
+                    <a href="{{ route('post.show', $latest->slug) }}" class="latest-item">
                         <img src="{{ $latest->image_url }}" alt="">
                         <span class="latest-title">{{ $latest->title }}</span>
                     </a>

@@ -8,7 +8,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-JNLK32N9JG');
     </script>
 
@@ -17,7 +16,29 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>@yield('title', 'ホーム') | KEI BLOG</title>
+
+    {{-- SEO: メタディスクリプション --}}
+    <meta name="description" content="@yield('meta_description', 'KEI BLOGはフリーランスエンジニアKEIが運営するブログです。公務員からエンジニアへの転身記、AI活用、フリーランスのリアルを発信しています。')">
+
+    {{-- SEO: canonical URL --}}
+    <link rel="canonical" href="@yield('canonical_url', request()->url())">
+
+    {{-- OGP (Open Graph Protocol) --}}
+    <meta property="og:site_name" content="KEI BLOG">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical_url', request()->url())">
+    <meta property="og:title" content="@yield('title', 'ホーム') | KEI BLOG">
+    <meta property="og:description" content="@yield('meta_description', 'KEI BLOGはフリーランスエンジニアKEIが運営するブログです。公務員からエンジニアへの転身記、AI活用、フリーランスのリアルを発信しています。')">
+    <meta property="og:image" content="@yield('og_image', asset('img/profile.png'))">
+    <meta property="og:locale" content="ja_JP">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'ホーム') | KEI BLOG">
+    <meta name="twitter:description" content="@yield('meta_description', 'KEI BLOGはフリーランスエンジニアKEIが運営するブログです。公務員からエンジニアへの転身記、AI活用、フリーランスのリアルを発信しています。')">
+    <meta name="twitter:image" content="@yield('og_image', asset('img/profile.png'))">
 
     <link rel="icon" href="{{ asset('favicon.ico') }}?v={{ time() }}">
 
@@ -79,10 +100,10 @@
         }
 
         footer {
-            background-color: #fafafa;
-            border-top: 1px solid var(--border-color);
-            padding: 4rem 0;
-            margin-top: 5rem;
+            background-color: #fff;
+            border-top: 1px solid #f0f0f0;
+            padding: 80px 0;
+            margin-top: 100px;
         }
 
         /* サイドバー崩れ防止 */
@@ -106,14 +127,6 @@
             }
         }
 
-        /* --- Footer Design --- */
-        footer {
-            background-color: #fff; /* 背景は白のまま、清潔感を重視 */
-            border-top: 1px solid #f0f0f0;
-            padding: 80px 0; /* 圧倒的な余白で「抜き」を作る */
-            margin-top: 100px;
-        }
-
         .footer-logo a {
             font-size: 1.1rem;
             letter-spacing: 0.2em;
@@ -125,20 +138,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* リンク間の距離 */
+            gap: 20px;
         }
 
         .footer-nav a {
-            font-size: 0.65rem; /* あえて小さく */
+            font-size: 0.65rem;
             font-weight: 700;
-            color: #888; /* グレーにして情報の優先度を下げる */
+            color: #888;
             text-decoration: none;
             letter-spacing: 0.15em;
             transition: color 0.3s ease;
         }
 
         .footer-nav a:hover {
-            color: #111; /* ホバーした時だけ黒く光る */
+            color: #111;
         }
 
         .footer-nav .sep {
@@ -154,19 +167,21 @@
             margin-top: 20px;
         }
 
-        /* スマホ表示では縦に並べて美しく */
         @media (max-width: 576px) {
             .footer-nav {
                 flex-direction: column;
                 gap: 12px;
             }
             .footer-nav .sep {
-                display: none; /* スマホではスラッシュを消す */
+                display: none;
             }
         }
 
         @yield('css')
     </style>
+
+    {{-- JSON-LD 構造化データ（各ページが @section('json_ld') でセット） --}}
+    @yield('json_ld')
 </head>
 
 <body>

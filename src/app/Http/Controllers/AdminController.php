@@ -7,22 +7,23 @@ use App\Models\Tag;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage; // 画像保存に必須
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
-    // バリデーションの共通化
     private function validateContentData(Request $request, $id = null)
     {
         return $request->validate([
-            'title' => 'required|string|max:255|unique:contents,title,' . $id,
+            'title'       => 'required|string|max:255|unique:contents,title,' . $id,
+            'slug'        => 'nullable|string|max:255|regex:/^[a-z0-9-]+$/|unique:contents,slug,' . $id,
             'description' => 'required|string',
-            'body' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ファイルバリデーション
-            'image_url' => 'nullable|string',
+            'body'        => 'nullable|string',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url'   => 'nullable|string',
             'content_url' => 'required',
-            'tag' => 'nullable|string',
-            'status' => 'required|in:published,draft', // ★ ステータスのバリデーションを追加
+            'tag'         => 'nullable|string',
+            'status'      => 'required|in:published,draft',
         ]);
     }
 
@@ -34,7 +35,7 @@ class AdminController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
         if (Auth::attempt($credentials, true)) {
@@ -63,17 +64,17 @@ class AdminController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('contents', 'public');
-            $validatedData['image_url'] = \Storage::url($path);
+            $validatedData['image_url'] = Storage::url($path);
         }
 
-        // bodyとstatusが確実に含まれるように明示的に配列を作成
         $content = Content::create([
-            'title' => $validatedData['title'],
+            'title'       => $validatedData['title'],
+            'slug'        => $validatedData['slug'] ?? null,
             'description' => $validatedData['description'],
-            'body' => $request->input('body'), // 確実に入力値を取得
-            'image_url' => $validatedData['image_url'] ?? null,
+            'body'        => $request->input('body'),
+            'image_url'   => $validatedData['image_url'] ?? null,
             'content_url' => $validatedData['content_url'],
-            'status' => $validatedData['status'], // ★ ステータスを追加
+            'status'      => $validatedData['status'],
         ]);
 
         $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
@@ -84,7 +85,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        // 管理画面では下書き（draft）も含めてすべて表示する
         $contents = Content::latest()->with('tags')->paginate(10);
         $inquiries_count = Inquiry::where('is_read', false)->count();
         $inquiries = Inquiry::latest()->limit(10)->get();
@@ -103,17 +103,17 @@ class AdminController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('contents', 'public');
-            $validatedData['image_url'] = \Storage::url($path);
+            $validatedData['image_url'] = Storage::url($path);
         }
 
-        // 更新時も明示的に指定
         $content->update([
-            'title' => $validatedData['title'],
+            'title'       => $validatedData['title'],
+            'slug'        => !empty($validatedData['slug']) ? $validatedData['slug'] : $content->slug,
             'description' => $validatedData['description'],
-            'body' => $request->input('body'),
-            'image_url' => $validatedData['image_url'] ?? $content->image_url,
+            'body'        => $request->input('body'),
+            'image_url'   => $validatedData['image_url'] ?? $content->image_url,
             'content_url' => $validatedData['content_url'],
-            'status' => $validatedData['status'], // ★ ステータスを追加
+            'status'      => $validatedData['status'],
         ]);
 
         $tagsArray = $this->parseTags($validatedData['tag'] ?? '');
@@ -149,5 +149,4 @@ class AdminController extends Controller
         }
         $content->tags()->sync($tagIds);
     }
-
 }

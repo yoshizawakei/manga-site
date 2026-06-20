@@ -60,7 +60,7 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])
 
 
 // 記事詳細
-Route::get('/post/{id}', [MangaController::class, 'show'])
+Route::get('/post/{slug}', [MangaController::class, 'show'])
     ->name('post.show');
 
 

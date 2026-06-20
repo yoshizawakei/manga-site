@@ -217,12 +217,18 @@ Bootstrapと競合していた !important まみれの独自フォームスタ�
                 @method('PUT')
 
                 <div class="row">
-                    <div class="col-12 col-md-8 mb-4">
+                    <div class="col-12 col-md-6 mb-4">
                         <label for="title" class="label-text">記事タイトル</label>
                         <input type="text" name="title" id="title" class="form-control" required
                             value="{{ old('title', $content->title) }}">
                     </div>
-                    <div class="col-12 col-md-4 mb-4">
+                    <div class="col-12 col-md-3 mb-4">
+                        <label for="slug" class="label-text">URLスラッグ</label>
+                        <input type="text" name="slug" id="slug" class="form-control"
+                            placeholder="例: laravel-tips" value="{{ old('slug', $content->slug) }}">
+                        <div class="form-text text-secondary" style="font-size:0.75rem;">半角英数字とハイフンのみ。空欄で現在値を維持。</div>
+                    </div>
+                    <div class="col-12 col-md-3 mb-4">
                         <label for="status" class="label-text">公開設定</label>
                         <select name="status" id="status" class="form-select" required>
                             <option value="published" {{ old('status', $content->status) == 'published' ? 'selected' : '' }}>

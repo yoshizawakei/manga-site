@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Content;
 use App\Models\Tag;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Crypt;
 
 class SitemapController extends Controller
 {
@@ -13,85 +12,62 @@ class SitemapController extends Controller
     {
         $xml = [];
 
-        // XML開始
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-
-        /*
-        |--------------------------------------------------------------------------
-        | TOPページ
-        |--------------------------------------------------------------------------
-        */
 
         $xml[] = '
         <url>
             <loc>' . url('/') . '</loc>
             <lastmod>' . now()->toAtomString() . '</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.0</priority>
         </url>';
 
-        /*
-        |--------------------------------------------------------------------------
-        | 固定ページ
-        |--------------------------------------------------------------------------
-        */
-
         $staticPages = [
-            'top.profile',
-            'top.contact',
-            'top.sitePolicy',
-            'top.privacyPolicy',
-            'top.disclaimer',
+            ['route' => 'top.profile',      'priority' => '0.8'],
+            ['route' => 'tags.index',        'priority' => '0.8'],
+            ['route' => 'top.contact',       'priority' => '0.5'],
+            ['route' => 'top.sitePolicy',    'priority' => '0.3'],
+            ['route' => 'top.privacyPolicy', 'priority' => '0.3'],
+            ['route' => 'top.disclaimer',    'priority' => '0.3'],
         ];
 
-        foreach ($staticPages as $routeName) {
-
+        foreach ($staticPages as $page) {
             $xml[] = '
             <url>
-                <loc>' . route($routeName) . '</loc>
+                <loc>' . route($page['route']) . '</loc>
                 <lastmod>' . now()->subMonth()->toAtomString() . '</lastmod>
+                <changefreq>monthly</changefreq>
+                <priority>' . $page['priority'] . '</priority>
             </url>';
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | 記事ページ
-        |--------------------------------------------------------------------------
-        */
-
-        Content::select('id', 'updated_at')
+        Content::select('slug', 'updated_at')
+            ->published()
             ->orderByDesc('updated_at')
             ->chunk(500, function ($contents) use (&$xml) {
-
                 foreach ($contents as $content) {
-
-                    $encryptedId = Crypt::encryptString($content->id);
-
                     $xml[] = '
                     <url>
-                        <loc>' . route('post.show', $encryptedId) . '</loc>
+                        <loc>' . route('post.show', $content->slug) . '</loc>
                         <lastmod>' . $content->updated_at->toAtomString() . '</lastmod>
+                        <changefreq>monthly</changefreq>
+                        <priority>0.7</priority>
                     </url>';
                 }
             });
 
-        /*
-        |--------------------------------------------------------------------------
-        | タグページ
-        |--------------------------------------------------------------------------
-        */
-
-        $tags = Tag::all();
-
+        $tags = Tag::has('contents')->get();
         foreach ($tags as $tag) {
-
             $xml[] = '
             <url>
                 <loc>' . route('tags.show', $tag->name) . '</loc>
                 <lastmod>' . now()->subWeek()->toAtomString() . '</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.6</priority>
             </url>';
         }
 
-        // XML終了
         $xml[] = '</urlset>';
 
         return response(

@@ -215,10 +215,18 @@
                 {{-- ★【追加】ステータスを隠しデータとして送信。初期値はモデルの定数に合わせて 'published' (公開) に設定 --}}
                 <input type="hidden" name="status" id="content-status" value="{{ \App\Models\Content::STATUS_PUBLISHED }}">
 
-                <div class="mb-4">
-                    <label for="title" class="label-text">記事タイトル</label>
-                    <input type="text" name="title" id="title" class="form-control" placeholder="タイトルを入力" required
-                        value="{{ old('title') }}">
+                <div class="row">
+                    <div class="col-12 col-md-8 mb-4">
+                        <label for="title" class="label-text">記事タイトル</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="タイトルを入力" required
+                            value="{{ old('title') }}">
+                    </div>
+                    <div class="col-12 col-md-4 mb-4">
+                        <label for="slug" class="label-text">URLスラッグ <span class="text-secondary fw-normal" style="font-size:0.8rem;">（空欄で自動生成）</span></label>
+                        <input type="text" name="slug" id="slug" class="form-control"
+                            placeholder="例: laravel-tips" value="{{ old('slug') }}">
+                        <div class="form-text text-secondary" style="font-size:0.75rem;">半角英数字とハイフンのみ。日本語タイトルは post-ID で自動生成されます。</div>
+                    </div>
                 </div>
 
                 <div class="mb-4">

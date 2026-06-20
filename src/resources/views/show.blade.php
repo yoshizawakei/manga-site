@@ -1,7 +1,38 @@
 @extends('layouts.app')
 
 @section('title', $content->title)
-@section('description', Str::limit(strip_tags($content->body), 120))
+@section('meta_description', Str::limit(strip_tags($content->description), 120))
+@section('canonical_url', route('post.show', $content->slug))
+@section('og_type', 'article')
+@section('og_image', $content->image_url ? asset(ltrim($content->image_url, '/')) : asset('img/profile.png'))
+
+@section('json_ld')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ json_encode($content->title) }},
+  "description": {{ json_encode(Str::limit(strip_tags($content->description), 200)) }},
+  "url": {{ json_encode(route('post.show', $content->slug)) }},
+  "datePublished": {{ json_encode($content->created_at->toIso8601String()) }},
+  "dateModified": {{ json_encode($content->updated_at->toIso8601String()) }},
+  "author": {
+    "@type": "Person",
+    "name": "KEI",
+    "url": {{ json_encode(route('top.profile')) }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KEI BLOG",
+    "url": {{ json_encode(url('/')) }}
+  }@if($content->image_url),
+  "image": {
+    "@type": "ImageObject",
+    "url": {{ json_encode(asset(ltrim($content->image_url, '/'))) }}
+  }@endif
+}
+</script>
+@endsection
 
 @section('content')
     <div class="container py-4 py-lg-5 mt-lg-5">
