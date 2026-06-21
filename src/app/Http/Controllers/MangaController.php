@@ -38,6 +38,16 @@ class MangaController extends Controller
 
         $tags = Tag::has('contents')->withCount('contents')->orderBy('contents_count', 'desc')->take(30)->get();
 
-        return view('show', compact('content', 'contents_latest', 'tags'));
+        $tagIds = $content->tags->pluck('id');
+        $related_contents = Content::where('status', Content::STATUS_PUBLISHED)
+            ->where('id', '!=', $content->id)
+            ->whereHas('tags', fn($q) => $q->whereIn('tags.id', $tagIds))
+            ->withCount(['tags as shared_tags_count' => fn($q) => $q->whereIn('tags.id', $tagIds)])
+            ->orderByDesc('shared_tags_count')
+            ->orderByDesc('created_at')
+            ->take(4)
+            ->get();
+
+        return view('show', compact('content', 'contents_latest', 'tags', 'related_contents'));
     }
 }

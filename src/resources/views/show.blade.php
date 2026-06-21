@@ -107,7 +107,36 @@
                     @endif
                 </div>
 
-                <div class="mt-5 pt-5 border-top text-center">
+                {{-- 関連記事 --}}
+                @if($related_contents->isNotEmpty())
+                <div class="mt-5 pt-5 border-top">
+                    <h2 class="related-title mb-4">RELATED ARTICLES</h2>
+                    <div class="row g-4">
+                        @foreach($related_contents as $related)
+                        <div class="col-sm-6">
+                            <a href="{{ route('post.show', $related->slug) }}" class="text-decoration-none related-card">
+                                @if($related->image_url)
+                                    <img src="{{ asset(ltrim($related->image_url, '/')) }}"
+                                         alt="{{ $related->title }}"
+                                         class="related-card-img mb-2">
+                                @else
+                                    <div class="related-card-img-placeholder mb-2"></div>
+                                @endif
+                                <div class="related-card-tags mb-1">
+                                    @foreach($related->tags->take(2) as $tag)
+                                        <span class="related-tag">#{{ $tag->name }}</span>
+                                    @endforeach
+                                </div>
+                                <p class="related-card-title">{{ $related->title }}</p>
+                                <p class="related-card-date">{{ $related->created_at->format('Y.m.d') }}</p>
+                            </a>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <div class="mt-5 pt-4 border-top text-center">
                     <a href="{{ route('top.index') }}" class="sidebar-link">BACK TO TOP →</a>
                 </div>
             </article>
@@ -342,6 +371,67 @@
                 top: 100px;
                 padding-left: 3rem;
             }
+        }
+
+        /* 関連記事 */
+        .related-title {
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            border-bottom: 1px solid #111;
+            padding-bottom: 8px;
+            color: #111;
+            text-transform: uppercase;
+        }
+
+        .related-card {
+            display: block;
+            color: inherit;
+        }
+
+        .related-card-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+        }
+
+        .related-card-img-placeholder {
+            width: 100%;
+            height: 140px;
+            background: #f0f0f0;
+            border-radius: 2px;
+        }
+
+        .related-card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .related-tag {
+            font-size: 0.7rem;
+            color: #888;
+            font-weight: bold;
+        }
+
+        .related-card-title {
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: #111;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+
+        .related-card-date {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin: 0;
+        }
+
+        .related-card:hover .related-card-title {
+            opacity: 0.7;
         }
     </style>
 @endsection
