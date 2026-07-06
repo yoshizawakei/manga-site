@@ -11,25 +11,22 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": {{ json_encode($content->title) }},
-  "description": {{ json_encode(Str::limit(strip_tags($content->description), 200)) }},
-  "url": {{ json_encode(route('post.show', $content->slug)) }},
-  "datePublished": {{ json_encode($content->created_at->toIso8601String()) }},
-  "dateModified": {{ json_encode($content->updated_at->toIso8601String()) }},
+  "headline": {!! json_encode($content->title) !!},
+  "description": {!! json_encode(Str::limit(strip_tags($content->description), 200)) !!},
+  "url": {!! json_encode(route('post.show', $content->slug)) !!},
+  "datePublished": {!! json_encode($content->created_at->toIso8601String()) !!},
+  "dateModified": {!! json_encode($content->updated_at->toIso8601String()) !!},
   "author": {
     "@type": "Person",
     "name": "KEI",
-    "url": {{ json_encode(route('top.profile')) }}
+    "url": {!! json_encode(route('top.profile')) !!}
   },
   "publisher": {
     "@type": "Organization",
     "name": "KEI BLOG",
-    "url": {{ json_encode(url('/')) }}
-  }@if($content->image_url),
-  "image": {
-    "@type": "ImageObject",
-    "url": {{ json_encode(asset(ltrim($content->image_url, '/'))) }}
-  }@endif
+    "url": {!! json_encode(url('/')) !!}
+  },
+  "image": {!! json_encode($content->image_url ? asset(ltrim($content->image_url, '/')) : asset('img/profile.png')) !!}
 }
 </script>
 @endsection
@@ -89,7 +86,7 @@
                         {!! Str::markdown($content->body) !!}
                     </div>
 
-                    @if($content->content_url)
+                    <!-- @if($content->content_url)
                         <div class="my-5 p-4 border rounded-2 bg-light">
                             <p class="fw-bold mb-3 small text-uppercase" style="letter-spacing: 0.1em;">おすすめのサービス</p>
                             <div class="row align-items-center g-3">
@@ -104,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    @endif -->
                 </div>
 
                 {{-- 関連記事 --}}
