@@ -71,7 +71,7 @@
                     </div>
                 @endif
 
-                <p class="article-body">
+                <p class="lead-text">
                     {{ $content->description }}
                 </p>
 
@@ -107,7 +107,7 @@
                 {{-- 関連記事 --}}
                 @if($related_contents->isNotEmpty())
                 <div class="mt-5 pt-5 border-top">
-                    <h2 class="related-title mb-4">RELATED ARTICLES</h2>
+                    <h2 class="related-title mb-4">関連記事</h2>
                     <div class="row g-4">
                         @foreach($related_contents as $related)
                         <div class="col-sm-6">
@@ -331,6 +331,14 @@
         .toc-toggle.is-active {
             transform: rotate(90deg);
             color: #111;
+        }
+
+        /* リード文（本文冒頭の説明文） */
+        .lead-text {
+            white-space: pre-line;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #333;
         }
 
         /* 本文スタイル */
