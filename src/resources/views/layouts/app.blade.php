@@ -177,6 +177,14 @@
             }
         }
 
+        .sidebar-ad-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
         @yield('css')
     </style>
 
@@ -203,6 +211,22 @@
             </div>
         </nav>
     </header>
+
+    <div class="container px-4 d-none d-lg-block text-center my-4">
+        <div class="sidebar-ad-label">広告</div>
+        <div id="im-d1ddaa8aeaa84e82830f83243e1e1b73">
+            <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+            <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937397,type:"banner",display:"inline",elementid:"im-d1ddaa8aeaa84e82830f83243e1e1b73"})</script>
+        </div>
+    </div>
+
+    <div class="container px-4 d-lg-none text-center my-4">
+        <div class="sidebar-ad-label">広告</div>
+        <div id="im-c293c8b0bdb840fe86787f8b2d01ab1a">
+            <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+            <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937398,type:"banner",display:"inline",elementid:"im-c293c8b0bdb840fe86787f8b2d01ab1a"})</script>
+        </div>
+    </div>
 
     <main>@yield('content')</main>
 

@@ -65,6 +65,24 @@
                                 </a>
                             </article>
                         </div>
+
+                        @if ($loop->iteration == 3)
+                            <div class="col-12 mb-5 d-none d-lg-block">
+                                <div class="sidebar-ad-label">広告</div>
+                                <div id="im-2328624e5ed24df799f3a7ffa68b8e1c">
+                                    <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+                                    <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937395,type:"banner",display:"inline",elementid:"im-2328624e5ed24df799f3a7ffa68b8e1c"})</script>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-5 d-lg-none">
+                                <div class="sidebar-ad-label">広告</div>
+                                <div id="im-b5fe98230af2443bb6e250c1dbb94a65">
+                                    <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+                                    <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937396,type:"banner",display:"inline",elementid:"im-b5fe98230af2443bb6e250c1dbb94a65"})</script>
+                                </div>
+                            </div>
+                        @endif
                     @empty
                         <div class="col-12 py-5 text-muted">No articles found.</div>
                     @endforelse

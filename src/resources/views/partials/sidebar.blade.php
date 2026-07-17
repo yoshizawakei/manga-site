@@ -11,6 +11,15 @@
         <a href="{{ route('top.profile') }}" class="sidebar-link">プロフィール詳細 →</a>
     </div>
 
+    {{-- 広告（i-mobile / サイドバー） --}}
+    <div class="sidebar-section">
+        <div class="sidebar-ad-label">広告</div>
+        <div id="im-e2b65fc20ce945419f3a7c10f62dbf09">
+            <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+            <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937394,type:"banner",display:"inline",elementid:"im-e2b65fc20ce945419f3a7c10f62dbf09"})</script>
+        </div>
+    </div>
+
     {{-- カテゴリー --}}
     <div class="sidebar-section">
         <h2 class="sidebar-title">CATEGORIES</h2>
