@@ -104,6 +104,23 @@
                     @endif -->
                 </div>
 
+                {{-- 広告（i-mobile / 記事本文と関連記事の間） --}}
+                <div class="mt-5 text-center d-none d-lg-block">
+                    <div class="sidebar-ad-label">広告</div>
+                    <div id="im-ab454caca223489fb034cb5ccfbfb025">
+                        <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+                        <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937570,type:"banner",display:"inline",elementid:"im-ab454caca223489fb034cb5ccfbfb025"})</script>
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center d-lg-none">
+                    <div class="sidebar-ad-label">広告</div>
+                    <div id="im-47ea80ee6f324d7f94dc68f8511ea637">
+                        <script async src="https://imp-adedge.i-mobile.co.jp/script/v1/spot.js?20220104"></script>
+                        <script>(window.adsbyimobile=window.adsbyimobile||[]).push({pid:85164,mid:594598,asid:1937571,type:"banner",display:"inline",elementid:"im-47ea80ee6f324d7f94dc68f8511ea637"})</script>
+                    </div>
+                </div>
+
                 {{-- 関連記事 --}}
                 @if($related_contents->isNotEmpty())
                 <div class="mt-5 pt-5 border-top">
