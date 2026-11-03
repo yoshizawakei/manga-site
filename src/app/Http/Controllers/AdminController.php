@@ -35,7 +35,7 @@ class AdminController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+            'email'    => ['required', 'email', 'not_regex:/[\r\n]/'],
             'password' => ['required'],
         ]);
         if (Auth::attempt($credentials, true)) {
