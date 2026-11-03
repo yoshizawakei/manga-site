@@ -9,7 +9,7 @@
 @section('json_ld')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
+  "@@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": {!! json_encode($content->title) !!},
   "description": {!! json_encode(Str::limit(strip_tags($content->description), 200)) !!},
