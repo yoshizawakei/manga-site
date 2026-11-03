@@ -1,5 +1,5 @@
-# AlpineベースのPHP 8.4イメージを指定
-FROM php:8.4-fpm-alpine
+# AlpineベースのPHP 8.2イメージ（本番に合わせる）を指定
+FROM php:8.2-fpm-alpine
 
 # php.iniのコピー
 COPY php.ini /usr/local/etc/php/
